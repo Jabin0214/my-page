@@ -23,11 +23,10 @@ const Projects = () => {
   ];
 
   return (
-    <section className="min-h-screen bg-white px-6 py-20">
-      <div className="max-w-6xl mx-auto text-center mt-20">
-        {/* Page Title */}
-        <h2 className="text-4xl font-bold mb-12 bg-gradient-to-r text-neutral-900 bg-clip-text text-transparent">
-          My Projects
+    <section className="min-h-screen px-6 py-32 bg-[#0f0f0f]">
+      <div className="max-w-6xl mx-auto">
+        <h2 className="text-4xl font-bold text-center mb-16 text-neutral-200">
+          Projects
         </h2>
 
         {/* Projects Grid */}

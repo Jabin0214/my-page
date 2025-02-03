@@ -2,11 +2,10 @@ import React from 'react';
 
 const Contact = () => {
   return (
-    <section className="min-h-screen flex items-center justify-center bg-white px-6 py-20">
+    <section className="min-h-screen flex items-center justify-center px-6 py-32 bg-[#0f0f0f]">
       <div className="max-w-4xl mx-auto text-center">
-        {/* Heading */}
-        <h2 className="text-4xl font-bold mb-12 bg-gradient-to-r text-neutral-900 bg-clip-text text-transparent">
-          Contact Me
+        <h2 className="text-4xl font-bold mb-12 text-neutral-200">
+          Contact
         </h2>
 
         {/* Contact Card */}
