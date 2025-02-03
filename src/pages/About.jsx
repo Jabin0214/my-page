@@ -5,7 +5,7 @@ const About = () => {
     <section className="min-h-screen flex items-center justify-center bg-white px-6 py-20">
       <div className="max-w-4xl mx-auto space-y-12 text-center">
         {/* Section Title */}
-        <h2 className="text-4xl font-bold bg-gradient-to-r text-neutral-900 bg-clip-text text-transparent">
+        <h2 className="text-4xl font-bold text-neutral-900 bg-clip-text">
           About Me
         </h2>
 
