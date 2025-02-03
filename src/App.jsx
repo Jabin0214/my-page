@@ -9,7 +9,7 @@ import Footer from './components/Footer'
 
 function App() {
   return (
-    <Router>
+    <Router  basename="/my-page/">
       <div className="min-h-screen bg-[#ffffff] text-neutral-200">
         <Navbar />
         <Routes>
