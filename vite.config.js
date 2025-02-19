@@ -3,6 +3,6 @@ import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/',  // 添加这一行
+  base: "/my-page/", // 这里要和你的仓库名一致
   plugins: [react()],
 })
