@@ -5,7 +5,8 @@ const Home = () => {
   return (
     <section className="min-h-screen flex items-center justify-center px-4 bg-[#ffffff]">
       <div className="text-center animate-in fade-in slide-in-from-bottom duration-1000">
-        <h1 className="text-6xl font-bold mb-6 bg-gradient-to-r from-neutral-500 to-neutral-900 bg-clip-text text-transparent">
+        <h1 className="text-8xl font-bold mb-6 bg-gradient-to-r from-neutral-200 via-neutral-500 to-neutral-900 bg-clip-text text-transparent animate-text-gradient "
+                    style={{ backgroundSize: "300% 300%" }}>
           Hi, I'm Jabin
         </h1>
         <p className="text-xl text-neutral-400 mb-8">Full Stack Developer / UI Designer / Creator</p>

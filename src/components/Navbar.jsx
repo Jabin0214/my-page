@@ -1,4 +1,5 @@
 import React from 'react'
+import { useState } from 'react';
 import { Link } from 'react-router-dom'
 
 const Navbar = () => {
@@ -9,6 +10,11 @@ const Navbar = () => {
     { path: "/contact", label: "Contact" }
   ];
 
+  const [isSelect, setIsSelect] = useState("");
+  const handleSelect = (lable) => {
+    setIsSelect(lable);
+  }
+  
   return (
     <div className="fixed top-8 left-0 right-0 flex justify-center z-50">
       <nav className="fixed w-1/2 bg-[#0f0f0f]/80 backdrop-blur-lg z-50 rounded-full px-6">
@@ -21,7 +27,10 @@ const Navbar = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className="text-neutral-400 hover:text-neutral-200 transition-colors"
+                onClick={() => handleSelect(link.label)}
+                className={`hover:text-black transition-colors 
+                hover:bg-white px-4 py-2 rounded-full
+                ${isSelect==link.label ? "bg-white text-black" : "bg-transparent"}`}
               >
                 {link.label}
               </Link>
