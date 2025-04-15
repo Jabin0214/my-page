@@ -1,0 +1,53 @@
+{
+  "navLinks":[
+    { "path": "/", "label": "Home" },
+    { "path": "/about", "label": "About" },
+    { "path": "/projects", "label": "Projects" },
+    { "path": "/contact", "label": "Contact" }
+  ],
+    "Home": {
+      "title": "Hello, I am Jabin",
+      "description": "Full Stack Developer / UI Designer / Creator",
+      "link": ["Projects", "Contact"]
+    },
+    "About": {
+      "title": "About Me",
+      "intro1": "I'm a Software Engineer with 2 years of full-stack development experience, passionate about scalable web and mobile applications. I specialize in React.js, C#, Node.js, and Swift, with expertise in Docker-based deployments, AWS cloud services, and RESTful API design.",
+      "intro2": "I have worked on innovative projects, such as developing a medication automation app using AI-powered image recognition, and contributed to MERN Stack applications integrating Spotify & OpenAI APIs. I thrive in agile environments, ensuring CI/CD optimization, clean code, and performance-driven solutions.",
+      "subtitle1": "Technical Skills",
+      "skill": ["React.js", "Node.js", "C#", "Swift", "Docker", "AWS", "ASP.NET", "TypeScript", "Machine Learning", "UI/UX Design"],
+      "subtitle2": "Current focuses",
+      "curent": "Currently, I am focused on enhancing my skills in machine learning and cloud computing, with a keen interest in exploring the latest advancements in AI and their applications in software development."
+    },
+    "Projects": {
+      "sectionTitle": "My Projects",
+      "list": [
+        {
+          "id": 1,
+          "title": "Medimate - AI-powered Medication Assistance",
+          "description": "Developed an innovative application that automates medication purchases by extracting data from product images using AI-driven image recognition.",
+          "tags": ["React", "Swift", "ASP.NET", "Docker", "OpenAI API", "AWS"]
+        },
+        {
+          "id": 2,
+          "title": "MusicChat - AI-Enhanced Social Music Platform",
+          "description": "Built a full-stack web application integrating Spotify and OpenAI APIs, allowing users to review, chat, and discover music interactively.",
+          "tags": ["MERN Stack", "React", "Node.js", "MongoDB", "Express", "OpenAI API"]
+        },
+        {
+          "id": 3,
+          "title": "COVID-19 Impact Analysis with Machine Learning",
+          "description": "Conducted data mining on COVID-19's effect on education in Venezuela using CRISP-DM methodology, building ML models to predict school dropout rates.",
+          "tags": ["Python", "Pandas", "NumPy", "Scikit-Learn", "R", "IBM SPSS"]
+        }
+      ]
+    },
+    "Contact": {
+      "sectionTitle": "Contact Me",
+      "description": "I am always open to discussing new projects, creative ideas, or opportunities to be part of your vision. Feel free to reach out!",
+      "form": {
+        "email": "Email",
+        "Github": "Github"
+      }
+    }
+  }
