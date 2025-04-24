@@ -26,19 +26,23 @@
           "id": 1,
           "title": "Medimate - AI-powered Medication Assistance",
           "description": "Developed an innovative application that automates medication purchases by extracting data from product images using AI-driven image recognition.",
-          "tags": ["React", "Swift", "ASP.NET", "Docker", "OpenAI API", "AWS"]
+          "tags": ["React", "Swift", "ASP.NET", "Docker", "OpenAI API", "AWS"],
+          "github": "https://github.com/Jabin0214/Medimate"
         },
         {
           "id": 2,
           "title": "MusicChat - AI-Enhanced Social Music Platform",
           "description": "Built a full-stack web application integrating Spotify and OpenAI APIs, allowing users to review, chat, and discover music interactively.",
-          "tags": ["MERN Stack", "React", "Node.js", "MongoDB", "Express", "OpenAI API"]
+          "tags": ["MERN Stack", "React", "Node.js", "MongoDB", "Express", "OpenAI API"],
+          "github": "https://github.com/Jabin0214/Music-Chat"
+
         },
         {
           "id": 3,
           "title": "COVID-19 Impact Analysis with Machine Learning",
           "description": "Conducted data mining on COVID-19's effect on education in Venezuela using CRISP-DM methodology, building ML models to predict school dropout rates.",
-          "tags": ["Python", "Pandas", "NumPy", "Scikit-Learn", "R", "IBM SPSS"]
+          "tags": ["Python", "Pandas", "NumPy", "Scikit-Learn", "R", "IBM SPSS"],
+          "github": "https://github.com/Jabin0214/DM722"
         }
       ]
     },

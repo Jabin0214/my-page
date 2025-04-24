@@ -26,19 +26,24 @@
         "id": 1,
         "title": "Medimate - AI 药品识别助手",
         "description": "开发了一款创新应用，利用 AI 图像识别从产品图片中提取数据，实现药品购买流程自动化。",
-        "tags": ["React", "Swift", "ASP.NET", "Docker", "OpenAI API", "AWS"]
+        "tags": ["React", "Swift", "ASP.NET", "Docker", "OpenAI API", "AWS"],
+        "github": "https://github.com/Jabin0214/Medimate"
+
       },
       {
         "id": 2,
         "title": "MusicChat - AI 加持的社交音乐平台",
         "description": "构建了一个集成 Spotify 与 OpenAI API 的全栈应用，用户可在其中进行音乐交流、评论与探索。",
-        "tags": ["MERN Stack", "React", "Node.js", "MongoDB", "Express", "OpenAI API"]
+        "tags": ["MERN Stack", "React", "Node.js", "MongoDB", "Express", "OpenAI API"],
+        "github": "https://github.com/Jabin0214/Music-Chat"
+
       },
       {
         "id": 3,
         "title": "COVID-19 教育影响分析与机器学习建模",
         "description": "基于 CRISP-DM 流程，对新冠疫情对委内瑞拉教育系统的影响进行数据挖掘，并构建机器学习模型预测辍学率。",
-        "tags": ["Python", "Pandas", "NumPy", "Scikit-Learn", "R", "IBM SPSS"]
+        "tags": ["Python", "Pandas", "NumPy", "Scikit-Learn", "R", "IBM SPSS"],
+        "github": "https://github.com/Jabin0214/DM722"
       }
     ]
   },
