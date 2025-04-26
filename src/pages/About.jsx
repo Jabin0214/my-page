@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import DownloadButton from '../components/DownloadButton';
 
 const About = () => {
   const {t} = useTranslation();
@@ -118,6 +119,9 @@ ture of technology.
             <p>Exploring • Hiking • GitHub mini-projects</p>
           </div>
         </div>
+      </div>
+      <div className='fixed right-10 bottom-20'>
+            <DownloadButton />
       </div>
     </section>
   );
