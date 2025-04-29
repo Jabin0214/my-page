@@ -1,57 +1,128 @@
 {
-  "navLinks":[
+  "navLinks": [
     { "path": "/", "label": "Home" },
     { "path": "/about", "label": "About" },
     { "path": "/projects", "label": "Projects" },
     { "path": "/contact", "label": "Contact" }
   ],
-    "Home": {
-      "title": "Hello, I am Jabin",
-      "description": "Full Stack Developer / UI Designer / Creator",
-      "link": ["Projects", "Contact"]
+  "Home": {
+    "title": "Hello, I am Jabin",
+    "description": "Full Stack Developer / Tech Enthusiast / Creator",
+    "link": ["Projects", "Contact"]
+  },
+  "About": {
+    "title": "Jabin Chen",
+    "subtitle": "Software Engineer - Auckland City, NZ",
+    "contact": {
+      "email": "jabinchen0214@gmail",
+      "github": "https://github.com/Jabin0214"
     },
-    "About": {
-      "title": "About Me",
-      "intro1": "I'm a Software Engineer with 2 years of full-stack development experience, passionate about scalable web and mobile applications. I specialize in React.js, C#, Node.js, and Swift, with expertise in Docker-based deployments, AWS cloud services, and RESTful API design.",
-      "intro2": "I have worked on innovative projects, such as developing a medication automation app using AI-powered image recognition, and contributed to MERN Stack applications integrating Spotify & OpenAI APIs. I thrive in agile environments, ensuring CI/CD optimization, clean code, and performance-driven solutions.",
-      "subtitle1": "Technical Skills",
-      "skill": ["React.js", "Node.js", "C#", "Swift", "Docker", "AWS", "ASP.NET", "TypeScript", "Machine Learning", "UI/UX Design"],
-      "subtitle2": "Current focuses",
-      "curent": "Currently, I am focused on enhancing my skills in machine learning and cloud computing, with a keen interest in exploring the latest advancements in AI and their applications in software development."
+    "whoAmI": {
+      "title": "Who Am I",
+      "paragraph1": "Hi, I’m Jabin Chen — a Master’s graduate from the University of Auckland and a passionate developer who enjoys building impactful tech solutions. With hands-on experience in JavaScript, C#, and Python, I’ve developed full-stack applications using frameworks such as React, ASP.NET Core, and Node.js.",
+      "paragraph2": "Driven by creativity and curiosity, I’m especially interested in how emerging technologies — particularly AI and cloud computing — can enhance user experiences and address real-world challenges. I’m always open to meaningful conversations about innovation and the future of technology."
     },
-    "Projects": {
-      "sectionTitle": "My Projects",
+    "skills": {
+      "title": "Skills",
       "list": [
-        {
-          "id": 1,
-          "title": "Medimate - AI-powered Medication Assistance",
-          "description": "Developed an innovative application that automates medication purchases by extracting data from product images using AI-driven image recognition.",
-          "tags": ["React", "Swift", "ASP.NET", "Docker", "OpenAI API", "AWS"],
-          "github": "https://github.com/Jabin0214/Medimate"
-        },
-        {
-          "id": 2,
-          "title": "MusicChat - AI-Enhanced Social Music Platform",
-          "description": "Built a full-stack web application integrating Spotify and OpenAI APIs, allowing users to review, chat, and discover music interactively.",
-          "tags": ["MERN Stack", "React", "Node.js", "MongoDB", "Express", "OpenAI API"],
-          "github": "https://github.com/Jabin0214/Music-Chat"
-
-        },
-        {
-          "id": 3,
-          "title": "COVID-19 Impact Analysis with Machine Learning",
-          "description": "Conducted data mining on COVID-19's effect on education in Venezuela using CRISP-DM methodology, building ML models to predict school dropout rates.",
-          "tags": ["Python", "Pandas", "NumPy", "Scikit-Learn", "R", "IBM SPSS"],
-          "github": "https://github.com/Jabin0214/DM722"
-        }
+        "React.js",
+        "Node.js",
+        "C#",
+        "Swift",
+        "Docker",
+        "AWS",
+        "ASP.NET",
+        "TypeScript",
+        "Machine Learning",
+        "UI/UX Design"
       ]
     },
-    "Contact": {
-      "sectionTitle": "Contact Me",
-      "description": "I am always open to discussing new projects, creative ideas, or opportunities to be part of your vision. Feel free to reach out!",
-      "form": {
-        "email": "Email",
-        "Github": "Github"
+    "experience": {
+      "title": "Experience",
+      "item1": {
+        "company": "FRW Healthcare Limited & ICT Graduate School",
+        "duration": "07/2024–12/2024",
+        "description": "AI-powered medication purchasing platform.",
+        "point1": "Developed cross-platform UI with Swift (iOS) and React.js (Web); scalable RESTful APIs using Spring Boot.",
+        "point2": "Containerized applications with Docker, deployed on AWS with Nginx, and implemented CI/CD pipelines.",
+        "point3": "Enhanced pharmacy workflow efficiency by 40% through AI-driven automation and system performance tuning."
+      },
+      "item2": {
+        "company": "The University of Auckland",
+        "duration": "02/2023–12/2024",
+        "description": "Teaching Assistant for Computer Science courses.",
+        "point1": "Evaluated and graded assignments for Principles of Programming, Software Fundamentals, and Computer Organisation.",
+        "point2": "Provided feedback and additional learning support to students, improving academic performance and understanding."
+      },
+      "item3": {
+        "company": "Musichat",
+        "duration": "07/2023–11/2023",
+        "description": "Full Stack Developer for AI-integrated music web application.",
+        "point1": "Built full-stack app using MERN stack, integrating Spotify API for music playback and OpenAI API for conversational AI.",
+        "point2": "Implemented real-time chat with Socket.IO; optimized MongoDB for high concurrency in an Agile environment."
+      },
+      "item4": {
+        "company": "AI Financial Platform (Personal Project)",
+        "duration": "01/2025–Present",
+        "description": "Stock portfolio and AI news podcast system.",
+        "point1": "Developed responsive frontend with React and Tailwind; secure routing via context-based authentication.",
+        "point2": "Designed layered RESTful APIs with ASP.NET Core and EF Core; integrated DeepSeek and NewsAPI for financial summaries.",
+        "point3": "Converted summaries into podcasts using Azure TTS; deployed services via Docker and Azure App Service with CI/CD."
+      },
+      "item5": {
+        "company": "Danone Nutricia (Virtual Internship)",
+        "duration": "06/2023",
+        "description": "Display-only productivity web app.",
+        "point1": "Built a responsive frontend using React.js and designed user flows in Figma.",
+        "point2": "Developed RESTful APIs with Python Flask to retrieve and serve production order documents."
       }
+    },
+    "education": {
+      "title": "Education",
+      "degree1": "Master of Information Technology – University of Auckland",
+      "degree2": "Bachelor of Science in Computer Science – University of Auckland"
+    },
+    "languages": {
+      "title": "Languages",
+      "list": "English, Mandarin-Chinese"
+    },
+    "hobbies": {
+      "title": "Hobbies",
+      "list": "Exploring • Hiking • GitHub mini-projects"
+    }
+  },
+  "Projects": {
+    "sectionTitle": "My Projects",
+    "list": [
+      {
+        "id": 1,
+        "title": "Medimate - AI-powered Medication Assistance",
+        "description": "Developed an innovative application that automates medication purchases by extracting data from product images using AI-driven image recognition.",
+        "tags": ["React", "Swift", "ASP.NET", "Docker", "OpenAI API", "AWS"],
+        "github": "https://github.com/Jabin0214/Medimate"
+      },
+      {
+        "id": 2,
+        "title": "MusicChat - AI-Enhanced Social Music Platform",
+        "description": "Built a full-stack web application integrating Spotify and OpenAI APIs, allowing users to review, chat, and discover music interactively.",
+        "tags": ["MERN Stack", "React", "Node.js", "MongoDB", "Express", "OpenAI API"],
+        "github": "https://github.com/Jabin0214/Music-Chat"
+      },
+      {
+        "id": 3,
+        "title": "COVID-19 Impact Analysis with Machine Learning",
+        "description": "Conducted data mining on COVID-19's effect on education in Venezuela using CRISP-DM methodology, building ML models to predict school dropout rates.",
+        "tags": ["Python", "Pandas", "NumPy", "Scikit-Learn", "R", "IBM SPSS"],
+        "github": "https://github.com/Jabin0214/DM722"
+      }
+    ]
+  },
+  "Contact": {
+    "sectionTitle": "Contact Me",
+    "description": "I am always open to discussing new projects, creative ideas, or opportunities to be part of your vision. Feel free to reach out!",
+    "form": {
+      "email": "Email",
+      "Github": "Github"
     }
   }
+}

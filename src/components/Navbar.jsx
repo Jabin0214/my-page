@@ -4,10 +4,9 @@ import { useTranslation } from 'react-i18next';
 
 const Navbar = () => {
   const { t, i18n } = useTranslation();
-  const [lang, setLang] = useState(i18n.language); // 当前语言
+  const [lang, setLang] = useState(i18n.language);
   const location = useLocation();
   const currentPath = location.pathname;
-
 
   const toggleLanguage = () => {
     const newLang = i18n.language === 'en' ? 'zh' : 'en';
@@ -15,35 +14,41 @@ const Navbar = () => {
     setLang(newLang);
   };
 
+  const navLinks = t("navLinks", { returnObjects: true });
+
   return (
-    <div className="fixed top-8 left-0 right-0 flex justify-center z-50">
-      <nav className="fixed w-11/12 md:w-2/3 lg:w-1/2 bg-black backdrop-blur-lg z-50 rounded-full px-6">
-        <div className="flex justify-between items-center h-16">
-          <Link to="/" className="text-xl font-bold text-neutral-200">
-            Jabin's Portfolio
-          </Link>
+    <div className="fixed top-6 left-0 right-0 z-50 flex justify-center">
+      <nav className="w-11/12 md:w-3/4 lg:w-2/3 xl:w-1/2 px-6 py-2 
+                      bg-gray-500 backdrop-blur-md border border-white/10 
+                      shadow-md rounded-full flex justify-between items-center">
+        {/* Logo */}
+        <Link to="/" className="text-lg sm:text-xl font-semibold text-white tracking-tight">
+          Jabin<span className="opacity-60">'s Portfolio</span>
+        </Link>
 
-          <div className="flex items-center space-x-4">
-          {t("navLinks", { returnObjects: true }).map((link) => (
-  <Link
-    key={link.path}
-    to={link.path}
-    className={`hover:text-black transition-colors hover:bg-white px-4 py-2 rounded-full ${
-      currentPath === link.path ? "bg-white text-black" : "bg-transparent text-white"
-    }`}
-  >
-    {link.label}
-  </Link>
-))}
-
-            {/* Language Switch Button */}
-            <button
-              onClick={toggleLanguage}
-              className="px-4 py-2 text-sm rounded-full border border-white text-white hover:bg-white hover:text-black transition-all"
+        {/* Links + Language */}
+        <div className="flex items-center space-x-2 sm:space-x-4">
+          {navLinks.map((link) => (
+            <Link
+              key={link.path}
+              to={link.path}
+              className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all
+                ${
+                  currentPath === link.path
+                    ? "bg-white text-black shadow"
+                    : "text-white hover:bg-white/20"
+                }`}
             >
-              {lang === 'en' ? '中文' : 'EN'}
-            </button>
-          </div>
+              {link.label}
+            </Link>
+          ))}
+
+          <button
+            onClick={toggleLanguage}
+            className="px-3 py-1.5 text-sm rounded-full border border-white text-white hover:bg-white hover:text-black transition-all"
+          >
+            {lang === 'en' ? '中文' : 'EN'}
+          </button>
         </div>
       </nav>
     </div>
