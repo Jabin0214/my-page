@@ -99,7 +99,7 @@
         "title": "Medimate - AI-powered Medication Assistance",
         "description": "Developed an innovative application that automates medication purchases by extracting data from product images using AI-driven image recognition.",
         "tags": ["React", "Swift", "ASP.NET", "Docker", "OpenAI API", "AWS"],
-        "cover": "public/covers/medimate.png",
+        "cover": "covers/medimate.png",
         "github": "https://github.com/Jabin0214/Medimate"
       },
       {
@@ -107,7 +107,7 @@
         "title": "MusicChat - AI-Enhanced Social Music Platform",
         "description": "Built a full-stack web application integrating Spotify and OpenAI APIs, allowing users to review, chat, and discover music interactively.",
         "tags": ["MERN Stack", "React", "Node.js", "MongoDB", "Express", "OpenAI API"],
-        "cover": "public/covers/musichat.png",
+        "cover": "covers/musichat.png",
         "github": "https://github.com/Jabin0214/Music-Chat"
       },
       {
@@ -115,7 +115,7 @@
         "title": "Financial Podcast System",
         "description": "Developed a stock portfolio and AI news podcast system, integrating financial summaries and podcasts using Azure TTS.",
         "tags": ["React", "ASP.NET Core", "Azure", "Docker", "DeepSeek", "NewsAPI"],
-        "cover": "public/covers/aipodcast.png",
+        "cover": "covers/aipodcast.png",
         "github": "https://github.com/Jabin0214/DM722"
       },
       {
@@ -123,7 +123,7 @@
         "title": "COVID-19 Impact Analysis with Machine Learning",
         "description": "Conducted data mining on COVID-19's effect on education in Venezuela using CRISP-DM methodology, building ML models to predict school dropout rates.",
         "tags": ["Python", "Pandas", "NumPy", "Scikit-Learn", "R", "IBM SPSS"],
-        "cover": "public/covers/covid.png",
+        "cover": "covers/covid.png",
         "github": "https://github.com/Jabin0214/DM722"
       }
     ]
