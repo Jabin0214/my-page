@@ -1,27 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import ProjectCard from '../components/ProjectCard'; // 路径根据实际位置调整
+import BackgroundVisual from '../components/BackgroundVisual';
+import ThreeJSGallery from '../components/ThreeJSGallery';
 
 const Projects = () => {
   const { t } = useTranslation();
   const projects = t("Projects.list", { returnObjects: true });
+  const [activeProject, setActiveProject] = useState(null);
+  
+  // 处理选择项目事件
+  const handleSelectProject = (projectId) => {
+    setActiveProject(projectId);
+  };
+
+  // 获取当前选中的项目数据
+  const selectedProject = activeProject 
+    ? projects.find(p => p.id === activeProject) 
+    : null;
 
   return (
-    <section className="min-h-screen bg-white px-6 py-20">
-      <div className="max-w-6xl mx-auto text-center mt-20">
-        <h2 className="text-4xl font-bold mb-12 bg-gradient-to-r text-neutral-900 bg-clip-text">
+    <section className="min-h-screen bg-white px-6 py-20 relative">
+      <BackgroundVisual />
+      
+      <div className="max-w-6xl mx-auto mt-20">
+        <h2 className="text-5xl font-bold mb-16 text-center bg-gradient-to-r from-indigo-600 to-purple-600 text-transparent bg-clip-text">
           {t("Projects.sectionTitle")}
         </h2>
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-20">
-          {projects.map((project) => (
-            <ProjectCard
-            key={project.id}
-            title={project.title}
-            description={project.description}
-            github={project.github}
-          />
-          ))}
-        </div>
+        
+        <div className="relative">
+          {/* 虚拟画廊 */}
+            <ThreeJSGallery 
+              projects={projects} 
+              onSelectProject={handleSelectProject} 
+            />
+          </div>
       </div>
     </section>
   );
