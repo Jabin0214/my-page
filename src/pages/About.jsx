@@ -1,14 +1,12 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import DownloadButton from '../components/DownloadButton';
-import BackgroundVisual from '../components/BackgroundVisual';
 
 const About = () => {
   const { t } = useTranslation();
 
   return (
-    <section className="min-h-screen px-6 py-20 bg-gradient-to-br from-neutral-100 to-white flex justify-center items-start">
-      <BackgroundVisual />
+    <section className="min-h-screen px-6 py-20 flex justify-center items-start">
 
       <div className="w-full max-w-4xl bg-white border-4 border-black shadow-[8px_8px_0_#000] rounded-xl p-8 space-y-10 mt-10">
         {/* Header */}

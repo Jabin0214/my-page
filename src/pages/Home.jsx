@@ -2,14 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Button from '../components/Button';
-import BackgroundVisual from '../components/BackgroundVisual';
 
 const Home = () => {
   const { t } = useTranslation();
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-4 sm:px-8 overflow-hidden bg-neutral-200">
-      <BackgroundVisual />
+    <section className="relative min-h-screen flex items-center justify-center px-4 sm:px-8 overflow-hidden">
 
       <div className="relative z-10 max-w-3xl w-full text-center
                       bg-white/10 backdrop-blur-lg border border-white/20

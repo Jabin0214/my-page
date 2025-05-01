@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import BackgroundVisual from '../components/BackgroundVisual';
 import ThreeJSGallery from '../components/ThreeJSGallery';
 
 const Projects = () => {
@@ -14,8 +13,7 @@ const Projects = () => {
   };
 
   return (
-    <section className="min-h-screen bg-white px-6 py-20 relative">
-      <BackgroundVisual />    
+    <section className="min-h-screen px-6 py-20 relative">
       <div className="max-w-6xl mx-auto">
         <div className="relative">
           {/* 虚拟画廊 */}

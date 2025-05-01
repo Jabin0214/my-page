@@ -6,11 +6,13 @@ import About from './pages/About'
 import Projects from './pages/Projects'
 import Contact from './pages/Contact'
 import Footer from './components/Footer'
+import BackgroundVisual from './components/BackgroundVisual'
 
 function App() {
   return (
     <Router  basename="/my-page/">
-      <div className="min-h-screen bg-[#ffffff] text-neutral-200">
+      <div className="min-h-screen bg-neutral-900 text-white relative overflow-hidden">
+      <BackgroundVisual />
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
