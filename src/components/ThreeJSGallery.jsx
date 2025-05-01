@@ -51,9 +51,9 @@ const ThreeJSGallery = ({ sectionTitle, projects, onSelectProject }) => {
     if (!projects?.length) return;
 
     const texturesToLoad = [
-      "public/textures/wall.jpg",
-      "public/textures/floor.jpg",
-      "public/textures/github-mark.png",
+      import.meta.env.BASE_URL + "textures/wall.jpg",
+      import.meta.env.BASE_URL + "textures/floor.jpg",
+      import.meta.env.BASE_URL + "textures/github-mark.png",
       ...projects.map((project) => project.cover),
     ];
 
@@ -130,10 +130,9 @@ const ThreeJSGallery = ({ sectionTitle, projects, onSelectProject }) => {
     const height = mount.clientHeight;
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xf4f4f4);
 
     const loader = new RGBELoader();
-    loader.load("public/hdri/small_empty_room_2_4k.hdr", (texture) => {
+    loader.load(import.meta.env.BASE_URL + "hdri/small_empty_room_2_4k.hdr", (texture) => {
       texture.mapping = THREE.EquirectangularReflectionMapping;
       scene.background = texture;
       scene.environment = texture;
@@ -193,7 +192,7 @@ const ThreeJSGallery = ({ sectionTitle, projects, onSelectProject }) => {
     if (!scene || !texturesLoaded) return;
 
     // 创建墙壁
-    const wallTexture = texturesRef.current["public/textures/wall.jpg"];
+    const wallTexture = texturesRef.current[import.meta.env.BASE_URL + "textures/wall.jpg"];
     if (wallTexture) {
       const wallMaterial = new THREE.MeshPhysicalMaterial({
         map: wallTexture,
@@ -225,7 +224,7 @@ const ThreeJSGallery = ({ sectionTitle, projects, onSelectProject }) => {
     scene.add(wallTitleMesh);
 
     // 创建地板
-    const floorTexture = texturesRef.current["public/textures/floor.jpg"];
+    const floorTexture = texturesRef.current[import.meta.env.BASE_URL + "textures/floor.jpg"];
     if (floorTexture) {
       const floorMaterial = new THREE.MeshStandardMaterial({
         map: floorTexture,
@@ -302,7 +301,7 @@ const ThreeJSGallery = ({ sectionTitle, projects, onSelectProject }) => {
 
       // GitHub 图标 - 使用预加载的纹理
       const githubTexture =
-        texturesRef.current["public/textures/github-mark.png"];
+        texturesRef.current[import.meta.env.BASE_URL + "textures/github-mark.png"];
       if (githubTexture) {
         const iconSize = 0.25;
         const githubIconMaterial = new THREE.MeshBasicMaterial({
