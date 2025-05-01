@@ -1,58 +1,139 @@
 {
   "navLinks": [
     { "path": "/", "label": "首页" },
-    { "path": "/about", "label": "关于" },
+    { "path": "/about", "label": "关于我" },
     { "path": "/projects", "label": "项目" },
-    { "path": "/contact", "label": "联系" }
+    { "path": "/contact", "label": "联系我" }
   ],
   "Home": {
     "title": "你好，我是 Jabin",
-    "description": "全栈开发者 / 技术迷 / 创作者",
+    "description": "全栈开发工程师 / 技术爱好者 / 创造者",
     "link": ["项目", "联系我"]
   },
   "About": {
-    "title": "关于我",
-    "intro1": "我是一名软件工程师，拥有两年的全栈开发经验，热衷于构建可扩展的 Web 和移动应用。我擅长使用 React.js、C#、Node.js 和 Swift，并精通基于 Docker 的部署、AWS 云服务以及 RESTful API 设计。",
-    "intro2": "我曾参与多个创新项目，如利用 AI 图像识别开发药品自动识别应用，并参与开发整合 Spotify 和 OpenAI API 的 MERN 全栈项目。我适应敏捷开发流程，注重 CI/CD 优化、代码整洁和高性能解决方案。",
-    "subtitle1": "技术技能",
-    "skill": ["React.js", "Node.js", "C#", "Swift", "Docker", "AWS", "ASP.NET", "TypeScript", "机器学习", "UI/UX 设计"],
-    "subtitle2": "当前关注方向",
-    "current": "目前我专注于提升在机器学习和云计算方面的技能，积极探索人工智能的最新发展及其在软件开发中的实际应用。"
+    "title": "Jabin Chen",
+    "subtitle": "软件工程师 - 奥克兰市，新西兰",
+    "contact": {
+      "email": "jabinchen0214@gmail",
+      "github": "https://github.com/Jabin0214"
+    },
+    "whoAmI": {
+      "title": "我是谁",
+      "paragraph1": "嗨，我是 Jabin Chen — 一位奥克兰大学的硕士毕业生，也是一位热衷于构建有影响力的技术解决方案的热情开发者。凭借在 JavaScript、C# 和 Python 方面的实践经验，我使用 React、ASP.NET Core 和 Node.js 等框架开发了全栈应用程序。",
+      "paragraph2": "在创造力和好奇心的驱动下，我对新兴技术（尤其是人工智能和云计算）如何增强用户体验和解决现实世界的挑战特别感兴趣。我总是乐于就创新和技术的未来进行有意义的对话。"
+    },
+    "skills": {
+      "title": "技能",
+      "list": [
+        "React.js",
+        "Node.js",
+        "C#",
+        "Swift",
+        "Docker",
+        "AWS",
+        "ASP.NET",
+        "TypeScript",
+        "机器学习",
+        "UI/UX 设计"
+      ]
+    },
+    "experience": {
+      "title": "工作经历",
+      "item1": {
+        "company": "FRW Healthcare Limited & ICT Graduate School",
+        "duration": "2024年7月–2024年12月",
+        "description": "AI 驱动的药物购买平台。",
+        "point1": "使用 Swift (iOS) 和 React.js (Web) 开发跨平台用户界面；使用 Spring Boot 开发可扩展的 RESTful API。",
+        "point2": "使用 Docker 对应用程序进行容器化，在 AWS 上使用 Nginx 部署，并实施 CI/CD 管道。",
+        "point3": "通过 AI 驱动的自动化和系统性能调优，将药房工作流程效率提高了 40%。"
+      },
+      "item2": {
+        "company": "奥克兰大学",
+        "duration": "2023年2月–2024年12月",
+        "description": "计算机科学课程助教。",
+        "point1": "评估和批改了《编程原理》、《软件基础》和《计算机组成》的作业。",
+        "point2": "为学生提供反馈和额外的学习支持，提高了他们的学业成绩和理解能力。"
+      },
+      "item3": {
+        "company": "Musichat",
+        "duration": "2023年7月–2023年11月",
+        "description": "AI 集成音乐 Web 应用程序全栈开发工程师。",
+        "point1": "使用 MERN 栈构建全栈应用程序，集成 Spotify API 进行音乐播放和 OpenAI API 进行对话式 AI。",
+        "point2": "使用 Socket.IO 实现实时聊天；在敏捷环境中优化 MongoDB 以实现高并发。"
+      },
+      "item4": {
+        "company": "AI 金融平台 (个人项目)",
+        "duration": "2025年1月–至今",
+        "description": "股票投资组合和 AI 新闻播客系统。",
+        "point1": "使用 React 和 Tailwind 开发响应式前端；通过基于上下文的身份验证实现安全路由。",
+        "point2": "使用 ASP.NET Core 和 EF Core 设计分层 RESTful API；集成 DeepSeek 和 NewsAPI 以获取金融摘要。",
+        "point3": "使用 Azure TTS 将摘要转换为播客；通过 Docker 和 Azure App Service 部署服务，并使用 CI/CD。"
+      },
+      "item5": {
+        "company": "达能纽迪希亚 (虚拟实习)",
+        "duration": "2023年6月",
+        "description": "展示型生产力 Web 应用程序。",
+        "point1": "使用 React.js 构建响应式前端，并在 Figma 中设计用户流程。",
+        "point2": "使用 Python Flask 开发 RESTful API，以检索和提供生产订单文档。"
+      }
+    },
+    "education": {
+      "title": "教育背景",
+      "degree1": "信息技术硕士 – 奥克兰大学",
+      "degree2": "计算机科学学士 – 奥克兰大学"
+    },
+    "languages": {
+      "title": "语言",
+      "list": "英语, 汉语"
+    },
+    "hobbies": {
+      "title": "爱好",
+      "list": "探索 • 徒步旅行 • GitHub 迷你项目"
+    }
   },
   "Projects": {
     "sectionTitle": "我的项目",
     "list": [
       {
         "id": 1,
-        "title": "Medimate - AI 药品识别助手",
-        "description": "开发了一款创新应用，利用 AI 图像识别从产品图片中提取数据，实现药品购买流程自动化。",
+        "title": "Medimate - AI 驱动的药物辅助",
+        "description": "开发了一款创新的应用程序，通过使用 AI 驱动的图像识别技术从产品图像中提取数据，从而实现药物购买的自动化。",
         "tags": ["React", "Swift", "ASP.NET", "Docker", "OpenAI API", "AWS"],
+        "cover": "covers/medimate.png",
         "github": "https://github.com/Jabin0214/Medimate"
-
       },
       {
         "id": 2,
-        "title": "MusicChat - AI 加持的社交音乐平台",
-        "description": "构建了一个集成 Spotify 与 OpenAI API 的全栈应用，用户可在其中进行音乐交流、评论与探索。",
+        "title": "MusicChat - AI 增强的社交音乐平台",
+        "description": "构建了一个集成 Spotify 和 OpenAI API 的全栈 Web 应用程序，允许用户以交互方式评论、聊天和发现音乐。",
         "tags": ["MERN Stack", "React", "Node.js", "MongoDB", "Express", "OpenAI API"],
+        "cover": "covers/musichat.png",
         "github": "https://github.com/Jabin0214/Music-Chat"
-
       },
       {
         "id": 3,
-        "title": "COVID-19 教育影响分析与机器学习建模",
-        "description": "基于 CRISP-DM 流程，对新冠疫情对委内瑞拉教育系统的影响进行数据挖掘，并构建机器学习模型预测辍学率。",
+        "title": "金融播客系统",
+        "description": "开发了一个股票投资组合和 AI 新闻播客系统，集成了金融摘要和使用 Azure TTS 生成的播客。",
+        "tags": ["React", "ASP.NET Core", "Azure", "Docker", "DeepSeek", "NewsAPI"],
+        "cover": "covers/aipodcast.png",
+        "github": "https://github.com/Jabin0214/Finmate-Backend"
+      },
+      {
+        "id": 4,
+        "title": "基于机器学习的 COVID-19 影响分析",
+        "description": "使用 CRISP-DM 方法对 COVID-19 对委内瑞拉教育的影响进行数据挖掘，构建机器学习模型以预测学校辍学率。",
         "tags": ["Python", "Pandas", "NumPy", "Scikit-Learn", "R", "IBM SPSS"],
+        "cover": "covers/covid.png",
         "github": "https://github.com/Jabin0214/DM722"
       }
     ]
   },
   "Contact": {
     "sectionTitle": "联系我",
-    "description": "我始终乐意交流新项目、创意想法，或参与您的愿景。如果您有任何问题或合作意向，欢迎随时联系我！",
+    "description": "我总是乐于讨论新的项目、创意想法或参与您愿景的机会。欢迎随时与我联系！",
     "form": {
       "email": "邮箱",
-      "github": "GitHub"
+      "Github": "Github"
     }
   }
 }

@@ -14,14 +14,14 @@ const Home = () => {
                       rounded-2xl shadow-2xl px-8 py-16 sm:px-12 sm:py-20">
         <h1
           className="text-5xl sm:text-7xl lg:text-8xl font-extrabold mb-6
-                     bg-gradient-to-r from-neutral-400 to-gray-500
-                     bg-clip-text text-transparent animate-text-gradient drop-shadow-md"
-          style={{ backgroundSize: '300% 300%' }}
+                     bg-gradient-to-r from-neutral-100 to-gray-500
+                     bg-clip-text text-transparent animate-text-gradient"
+                     style={{ backgroundSize: '300% 300%' }}
         >
           {t('Home.title')}
         </h1>
 
-        <p className="text-lg sm:text-xl text-gray-500 drop-shadow-sm mb-10">
+        <p className="text-lg sm:text-xl text-neutral-100 drop-shadow-sm mb-10">
           {t('Home.description')}
         </p>
 

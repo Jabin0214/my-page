@@ -116,7 +116,7 @@
         "description": "Developed a stock portfolio and AI news podcast system, integrating financial summaries and podcasts using Azure TTS.",
         "tags": ["React", "ASP.NET Core", "Azure", "Docker", "DeepSeek", "NewsAPI"],
         "cover": "covers/aipodcast.png",
-        "github": "https://github.com/Jabin0214/DM722"
+        "github": "https://github.com/Jabin0214/Finmate-Backend"
       },
       {
         "id": 4,

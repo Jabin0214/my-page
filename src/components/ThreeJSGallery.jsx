@@ -139,7 +139,7 @@ const ThreeJSGallery = ({ sectionTitle, projects, onSelectProject }) => {
     });
 
     const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000);
-    camera.position.set(0, 1.6, 6);
+    camera.position.set(0, 1, 7);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(width, height);
