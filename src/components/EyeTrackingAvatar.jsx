@@ -51,13 +51,16 @@ const EyeTrackingAvatar = ({ containerRef }) => {
 
   return (
     <div className="relative w-64 h-64 mx-auto">
+      
       {/* 从右侧冒出的对话泡泡 */}
       {showBubble && (
         <div className="absolute z-10 p-3 rounded-lg shadow-md max-w-xs top-3 -right-48 bg-black">
           {/* 左侧指向头像的三角形 */}
-          <p className="text-sm">Feeling bored? Click me — let’s have a chat! (Coming soon…)</p>
+          <p className="text-sm">Feeling bored? Click me — let’s have a chat!</p>
         </div>
       )}
+
+      <a href='https://cyber-jabin.vercel.app/' target="_blank" rel="noopener noreferrer">
 
       {/* 头像和眼睛 */}
       <div 
@@ -85,7 +88,9 @@ const EyeTrackingAvatar = ({ containerRef }) => {
           ref={rightEyeRef}
           className="w-5 h-5 absolute top-[95px] left-[112px]"
         />
-      </div>
+        </div>
+        
+      </a>
     </div>
   );
 };
