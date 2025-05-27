@@ -1,14 +1,25 @@
 {
   "navLinks": [
-    { "path": "/", "label": "首页" },
-    { "path": "/about", "label": "关于我" },
-    { "path": "/projects", "label": "项目" },
-    { "path": "/contact", "label": "联系我" }
+    {
+      "path": "/",
+      "label": "首页"
+    },
+    {
+      "path": "/projects",
+      "label": "项目"
+    },
+    {
+      "path": "/contact",
+      "label": "联系我"
+    }
   ],
   "Home": {
     "title": "你好，我是 Jabin",
     "description": "全栈开发工程师 / 技术爱好者 / 创造者",
-    "link": ["项目", "联系我"]
+    "link": [
+      "项目",
+      "联系我"
+    ]
   },
   "About": {
     "title": "Jabin Chen",
@@ -98,7 +109,14 @@
         "id": 1,
         "title": "Medimate - AI 驱动的药物辅助",
         "description": "开发了一款创新的应用程序，通过使用 AI 驱动的图像识别技术从产品图像中提取数据，从而实现药物购买的自动化。",
-        "tags": ["React", "Swift", "ASP.NET", "Docker", "OpenAI API", "AWS"],
+        "tags": [
+          "React",
+          "Swift",
+          "ASP.NET",
+          "Docker",
+          "OpenAI API",
+          "AWS"
+        ],
         "cover": "covers/medimate.png",
         "github": "https://github.com/Jabin0214/Medimate"
       },
@@ -106,7 +124,14 @@
         "id": 2,
         "title": "MusicChat - AI 增强的社交音乐平台",
         "description": "构建了一个集成 Spotify 和 OpenAI API 的全栈 Web 应用程序，允许用户以交互方式评论、聊天和发现音乐。",
-        "tags": ["MERN Stack", "React", "Node.js", "MongoDB", "Express", "OpenAI API"],
+        "tags": [
+          "MERN Stack",
+          "React",
+          "Node.js",
+          "MongoDB",
+          "Express",
+          "OpenAI API"
+        ],
         "cover": "covers/musichat.png",
         "github": "https://github.com/Jabin0214/Music-Chat"
       },
@@ -114,7 +139,14 @@
         "id": 3,
         "title": "金融播客系统",
         "description": "开发了一个股票投资组合和 AI 新闻播客系统，集成了金融摘要和使用 Azure TTS 生成的播客。",
-        "tags": ["React", "ASP.NET Core", "Azure", "Docker", "DeepSeek", "NewsAPI"],
+        "tags": [
+          "React",
+          "ASP.NET Core",
+          "Azure",
+          "Docker",
+          "DeepSeek",
+          "NewsAPI"
+        ],
         "cover": "covers/aipodcast.png",
         "github": "https://github.com/Jabin0214/Finmate-Backend"
       },
@@ -122,7 +154,14 @@
         "id": 4,
         "title": "基于机器学习的 COVID-19 影响分析",
         "description": "使用 CRISP-DM 方法对 COVID-19 对委内瑞拉教育的影响进行数据挖掘，构建机器学习模型以预测学校辍学率。",
-        "tags": ["Python", "Pandas", "NumPy", "Scikit-Learn", "R", "IBM SPSS"],
+        "tags": [
+          "Python",
+          "Pandas",
+          "NumPy",
+          "Scikit-Learn",
+          "R",
+          "IBM SPSS"
+        ],
         "cover": "covers/covid.png",
         "github": "https://github.com/Jabin0214/DM722"
       }

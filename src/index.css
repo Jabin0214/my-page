@@ -3,10 +3,28 @@
 @tailwind utilities;
 
 .scrollbar-hide {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-  }
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
 
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* 减少动画的媒体查询 */
+@media (prefers-reduced-motion) {
+
+  .animate-fade-in,
+  .animate-blob,
+  .delay-200,
+  .delay-300,
+  .delay-400,
+  .delay-2000,
+  .delay-4000 {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
+}

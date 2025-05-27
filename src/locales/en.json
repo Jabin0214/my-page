@@ -1,14 +1,25 @@
 {
   "navLinks": [
-    { "path": "/", "label": "Home" },
-    { "path": "/about", "label": "About" },
-    { "path": "/projects", "label": "Projects" },
-    { "path": "/contact", "label": "Contact" }
+    {
+      "path": "/",
+      "label": "Home"
+    },
+    {
+      "path": "/projects",
+      "label": "Projects"
+    },
+    {
+      "path": "/contact",
+      "label": "Contact"
+    }
   ],
   "Home": {
     "title": "Hello, I am Jabin",
-    "description": "Full Stack Developer / Tech Enthusiast / Creator",
-    "link": ["Projects", "Contact"]
+    "description": "Full Stack Developer / Tech Enthusiast / Lifelong learner",
+    "link": [
+      "Projects",
+      "Contact"
+    ]
   },
   "About": {
     "title": "Jabin Chen",
@@ -19,8 +30,8 @@
     },
     "whoAmI": {
       "title": "Who Am I",
-      "paragraph1": "Hi, I’m Jabin Chen — a Master’s graduate from the University of Auckland and a passionate developer who enjoys building impactful tech solutions. With hands-on experience in JavaScript, C#, and Python, I’ve developed full-stack applications using frameworks such as React, ASP.NET Core, and Node.js.",
-      "paragraph2": "Driven by creativity and curiosity, I’m especially interested in how emerging technologies — particularly AI and cloud computing — can enhance user experiences and address real-world challenges. I’m always open to meaningful conversations about innovation and the future of technology."
+      "paragraph1": "Hi, I'm Jabin Chen — a Master's graduate from the University of Auckland and a passionate developer who enjoys building impactful tech solutions. With hands-on experience in JavaScript, C#, and Python, I've developed full-stack applications using frameworks such as React, ASP.NET Core, and Node.js.",
+      "paragraph2": "Driven by creativity and curiosity, I'm especially interested in how emerging technologies — particularly AI and cloud computing — can enhance user experiences and address real-world challenges. I'm always open to meaningful conversations about innovation and the future of technology."
     },
     "skills": {
       "title": "Skills",
@@ -98,7 +109,14 @@
         "id": 1,
         "title": "Medimate - AI-powered Medication Assistance",
         "description": "Developed an innovative application that automates medication purchases by extracting data from product images using AI-driven image recognition.",
-        "tags": ["React", "Swift", "ASP.NET", "Docker", "OpenAI API", "AWS"],
+        "tags": [
+          "React",
+          "Swift",
+          "ASP.NET",
+          "Docker",
+          "OpenAI API",
+          "AWS"
+        ],
         "cover": "covers/medimate.png",
         "github": "https://github.com/Jabin0214/Medimate"
       },
@@ -106,7 +124,14 @@
         "id": 2,
         "title": "MusicChat - AI-Enhanced Social Music Platform",
         "description": "Built a full-stack web application integrating Spotify and OpenAI APIs, allowing users to review, chat, and discover music interactively.",
-        "tags": ["MERN Stack", "React", "Node.js", "MongoDB", "Express", "OpenAI API"],
+        "tags": [
+          "MERN Stack",
+          "React",
+          "Node.js",
+          "MongoDB",
+          "Express",
+          "OpenAI API"
+        ],
         "cover": "covers/musichat.png",
         "github": "https://github.com/Jabin0214/Music-Chat"
       },
@@ -114,7 +139,14 @@
         "id": 3,
         "title": "Financial Podcast System",
         "description": "Developed a stock portfolio and AI news podcast system, integrating financial summaries and podcasts using Azure TTS.",
-        "tags": ["React", "ASP.NET Core", "Azure", "Docker", "DeepSeek", "NewsAPI"],
+        "tags": [
+          "React",
+          "ASP.NET Core",
+          "Azure",
+          "Docker",
+          "DeepSeek",
+          "NewsAPI"
+        ],
         "cover": "covers/aipodcast.png",
         "github": "https://github.com/Jabin0214/Finmate-Backend"
       },
@@ -122,7 +154,14 @@
         "id": 4,
         "title": "COVID-19 Impact Analysis with Machine Learning",
         "description": "Conducted data mining on COVID-19's effect on education in Venezuela using CRISP-DM methodology, building ML models to predict school dropout rates.",
-        "tags": ["Python", "Pandas", "NumPy", "Scikit-Learn", "R", "IBM SPSS"],
+        "tags": [
+          "Python",
+          "Pandas",
+          "NumPy",
+          "Scikit-Learn",
+          "R",
+          "IBM SPSS"
+        ],
         "cover": "covers/covid.png",
         "github": "https://github.com/Jabin0214/DM722"
       }
