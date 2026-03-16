@@ -1,20 +1,22 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react'; 
+import { SITE_CONFIG } from '../../config/site';
+import { setStoredLanguage } from '../../lib/language';
 
 const Navbar = () => {
   const { t, i18n } = useTranslation();
-  const [lang, setLang] = useState(i18n.language);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const currentPath = location.pathname;
+  const currentLang = i18n.resolvedLanguage || i18n.language;
 
   const toggleLanguage = () => {
     const newLang = i18n.language === 'en' ? 'zh' : 'en';
     i18n.changeLanguage(newLang);
-    setLang(newLang);
+    setStoredLanguage(newLang);
   };
 
   const navLinks = t("navLinks", { returnObjects: true });
@@ -30,7 +32,7 @@ const Navbar = () => {
           className="text-lg sm:text-xl font-bold tracking-tight"
           onClick={() => setIsMenuOpen(false)}
         >
-          Jabin<span className="opacity-60">'s Portfolio</span>
+          {SITE_CONFIG.owner}<span className="opacity-60">&apos;s Portfolio</span>
         </Link>
 
         {/* Desktop Nav */}
@@ -52,7 +54,7 @@ const Navbar = () => {
             onClick={toggleLanguage}
             className="px-3 py-1.5 text-sm rounded-full border border-white text-white hover:bg-white hover:text-black transition-all"
           >
-            {lang === 'en' ? '中文' : 'EN'}
+            {currentLang === 'en' ? '中文' : 'EN'}
           </button>
         </div>
 
@@ -96,7 +98,7 @@ const Navbar = () => {
               }}
               className="w-full text-left px-3 py-2 text-sm rounded-full border border-white text-white hover:bg-white hover:text-black transition-all"
             >
-              {lang === 'en' ? '中文' : 'EN'}
+              {currentLang === 'en' ? '中文' : 'EN'}
             </button>
           </motion.div>
         )}

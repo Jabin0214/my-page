@@ -1,8 +1,8 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import EyeTrackingAvatar from '../ui/EyeTrackingAvatar';
 import Button from '../functionalComponents/Button';
+import { SITE_CONFIG } from '../../config/site';
 
 const AvatarHeader = ({ containerRef }) => {
     const { t } = useTranslation();
@@ -23,7 +23,7 @@ const AvatarHeader = ({ containerRef }) => {
                 <div className="mb-5 relative">
                     <div className="absolute -top-2 -left-2 w-32 h-32 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full blur-xl"></div>
                     <div className="absolute -bottom-2 -right-2 w-32 h-32 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full blur-xl"></div>
-                    <EyeTrackingAvatar containerRef={containerRef} />
+                    <EyeTrackingAvatar containerRef={containerRef} chatUrl={SITE_CONFIG.contact.chat} />
                 </div>
 
                 <h1 className="text-5xl font-bold mb-4 animate-fade-in text-white">

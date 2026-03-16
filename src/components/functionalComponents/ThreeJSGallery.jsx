@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
@@ -17,10 +17,12 @@ const ThreeJSGallery = ({ sectionTitle, projects, onSelectProject }) => {
   const mouse = useRef(new THREE.Vector2()).current;
   const controlsRef = useRef(null);
   const initialPositionsRef = useRef({});
+  const paintingsRef = useRef([]);
   const [texturesLoaded, setTexturesLoaded] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const textureLoaderRef = useRef(new THREE.TextureLoader());
   const texturesRef = useRef({});
+  const environmentRef = useRef(null);
 
   const createTextTexture = (
     text,
@@ -93,9 +95,7 @@ const ThreeJSGallery = ({ sectionTitle, projects, onSelectProject }) => {
           }
         },
         // 进度回调
-        (xhr) => {
-          // 可以在这里实现更详细的进度显示
-        },
+        undefined,
         // 错误回调
         (error) => {
           console.error(`Error loading texture ${url}:`, error);
@@ -136,6 +136,7 @@ const ThreeJSGallery = ({ sectionTitle, projects, onSelectProject }) => {
       texture.mapping = THREE.EquirectangularReflectionMapping;
       scene.background = texture;
       scene.environment = texture;
+      environmentRef.current = texture;
     });
 
     const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000);
@@ -143,7 +144,7 @@ const ThreeJSGallery = ({ sectionTitle, projects, onSelectProject }) => {
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     renderer.shadowMap.enabled = true;
     mount.appendChild(renderer.domElement);
 
@@ -180,6 +181,23 @@ const ThreeJSGallery = ({ sectionTitle, projects, onSelectProject }) => {
 
     return () => {
       window.removeEventListener("resize", handleResize);
+      controls.dispose();
+      scene.traverse((object) => {
+        if (object.geometry) {
+          object.geometry.dispose();
+        }
+
+        if (object.material) {
+          const materials = Array.isArray(object.material)
+            ? object.material
+            : [object.material];
+          materials.forEach((material) => material?.dispose?.());
+        }
+      });
+      if (environmentRef.current) {
+        environmentRef.current.dispose();
+      }
+      renderer.dispose();
       if (mount.contains(renderer.domElement)) {
         mount.removeChild(renderer.domElement);
       }
@@ -241,14 +259,14 @@ const ThreeJSGallery = ({ sectionTitle, projects, onSelectProject }) => {
       floor.receiveShadow = true;
       scene.add(floor);
     }
-  }, [scene, texturesLoaded]);
+  }, [scene, sectionTitle, texturesLoaded]);
 
   // 创建画作，仅在纹理加载完成后执行
   useEffect(() => {
     if (!scene || !projects?.length || !texturesLoaded) return;
 
     // 清除旧画作
-    paintings.forEach((p) => {
+    paintingsRef.current.forEach((p) => {
       if (p.parent) {
         p.parent.remove(p);
       }
@@ -351,6 +369,7 @@ const ThreeJSGallery = ({ sectionTitle, projects, onSelectProject }) => {
     });
 
     setPaintings(newPaintings);
+    paintingsRef.current = newPaintings;
     initialPositionsRef.current = initialPositions;
   }, [scene, projects, texturesLoaded]);
 

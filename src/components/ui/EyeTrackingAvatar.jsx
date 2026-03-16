@@ -1,6 +1,7 @@
-import React, { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
+import { getAssetPath } from '../../lib/assets';
 
-const EyeTrackingAvatar = ({ containerRef }) => {
+const EyeTrackingAvatar = ({ containerRef, chatUrl }) => {
   const leftEyeRef = useRef(null);
   const rightEyeRef = useRef(null);
   const [showBubble, setShowBubble] = useState(false);
@@ -60,7 +61,7 @@ const EyeTrackingAvatar = ({ containerRef }) => {
         </div>
       )}
 
-      <a href='https://cyber-jabin.vercel.app/' target="_blank" rel="noopener noreferrer">
+      <a href={chatUrl} target="_blank" rel="noopener noreferrer">
 
       {/* 头像和眼睛 */}
       <div 
@@ -71,19 +72,19 @@ const EyeTrackingAvatar = ({ containerRef }) => {
         style={{ pointerEvents: 'auto', cursor: 'pointer' }}
       >
         <img
-          src={import.meta.env.BASE_URL + "avatar/face.png"}
+          src={getAssetPath('avatar/face.png')}
           alt="avatar"
           className="w-full h-full"
         />
 
         <img
-            src={import.meta.env.BASE_URL + "avatar/eye.png"}
+            src={getAssetPath('avatar/eye.png')}
           alt="eye"
           ref={leftEyeRef}
           className="w-5 h-5 absolute top-[95px] left-[62px]"
         />
         <img
-          src={import.meta.env.BASE_URL + "avatar/eye.png"}
+          src={getAssetPath('avatar/eye.png')}
           alt="eye"
           ref={rightEyeRef}
           className="w-5 h-5 absolute top-[95px] left-[112px]"
