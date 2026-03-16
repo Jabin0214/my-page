@@ -1,5 +1,8 @@
+'use client';
+
 import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react'; 
@@ -9,8 +12,7 @@ import { setStoredLanguage } from '../../lib/language';
 const Navbar = () => {
   const { t, i18n } = useTranslation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const location = useLocation();
-  const currentPath = location.pathname;
+  const currentPath = usePathname();
   const currentLang = i18n.resolvedLanguage || i18n.language;
 
   const toggleLanguage = () => {
@@ -28,7 +30,7 @@ const Navbar = () => {
         
         {/* Logo */}
         <Link
-          to="/"
+          href="/"
           className="text-lg sm:text-xl font-bold tracking-tight"
           onClick={() => setIsMenuOpen(false)}
         >
@@ -40,7 +42,7 @@ const Navbar = () => {
           {navLinks.map((link) => (
             <Link
               key={link.path}
-              to={link.path}
+              href={link.path}
               className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
                 currentPath === link.path
                   ? 'bg-white text-black shadow'
@@ -80,7 +82,7 @@ const Navbar = () => {
             {navLinks.map((link) => (
               <Link
                 key={link.path}
-                to={link.path}
+                href={link.path}
                 className={`block px-3 py-2 rounded-full text-sm font-medium transition-all ${
                   currentPath === link.path
                     ? 'bg-white text-black shadow'

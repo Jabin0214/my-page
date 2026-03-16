@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+'use client';
+
+import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import EyeTrackingAvatar from '../ui/EyeTrackingAvatar';
 import Button from '../functionalComponents/Button';
@@ -35,10 +37,10 @@ const AvatarHeader = ({ containerRef }) => {
                 </p>
 
                 <div className="flex justify-center gap-4 animate-fade-in delay-300 mb-10">
-                    <Link to="/projects">
+                    <Link href="/projects">
                         <Button text={t('Home.link.0')} />
                     </Link>
-                    <Link to="/contact">
+                    <Link href="/contact">
                         <Button text={t('Home.link.1')} />
                     </Link>
                 </div>

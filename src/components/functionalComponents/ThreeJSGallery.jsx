@@ -1,6 +1,9 @@
+'use client';
+
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { getAssetPath } from "../../lib/assets";
 
 //HDRI
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader";
@@ -53,9 +56,9 @@ const ThreeJSGallery = ({ sectionTitle, projects, onSelectProject }) => {
     if (!projects?.length) return;
 
     const texturesToLoad = [
-      import.meta.env.BASE_URL + "textures/wall.jpg",
-      import.meta.env.BASE_URL + "textures/floor.jpg",
-      import.meta.env.BASE_URL + "textures/github-mark.png",
+      getAssetPath("textures/wall.jpg"),
+      getAssetPath("textures/floor.jpg"),
+      getAssetPath("textures/github-mark.png"),
       ...projects.map((project) => project.cover),
     ];
 
@@ -132,7 +135,7 @@ const ThreeJSGallery = ({ sectionTitle, projects, onSelectProject }) => {
     const scene = new THREE.Scene();
 
     const loader = new RGBELoader();
-    loader.load(import.meta.env.BASE_URL + "hdri/small_empty_room_2_4k.hdr", (texture) => {
+    loader.load(getAssetPath("hdri/small_empty_room_2_4k.hdr"), (texture) => {
       texture.mapping = THREE.EquirectangularReflectionMapping;
       scene.background = texture;
       scene.environment = texture;
@@ -210,7 +213,7 @@ const ThreeJSGallery = ({ sectionTitle, projects, onSelectProject }) => {
     if (!scene || !texturesLoaded) return;
 
     // 创建墙壁
-    const wallTexture = texturesRef.current[import.meta.env.BASE_URL + "textures/wall.jpg"];
+    const wallTexture = texturesRef.current[getAssetPath("textures/wall.jpg")];
     if (wallTexture) {
       const wallMaterial = new THREE.MeshPhysicalMaterial({
         map: wallTexture,
@@ -242,7 +245,7 @@ const ThreeJSGallery = ({ sectionTitle, projects, onSelectProject }) => {
     scene.add(wallTitleMesh);
 
     // 创建地板
-    const floorTexture = texturesRef.current[import.meta.env.BASE_URL + "textures/floor.jpg"];
+    const floorTexture = texturesRef.current[getAssetPath("textures/floor.jpg")];
     if (floorTexture) {
       const floorMaterial = new THREE.MeshStandardMaterial({
         map: floorTexture,
@@ -318,8 +321,8 @@ const ThreeJSGallery = ({ sectionTitle, projects, onSelectProject }) => {
       );
 
       // GitHub 图标 - 使用预加载的纹理
-      const githubTexture =
-        texturesRef.current[import.meta.env.BASE_URL + "textures/github-mark.png"];
+        const githubTexture =
+        texturesRef.current[getAssetPath("textures/github-mark.png")];
       if (githubTexture) {
         const iconSize = 0.25;
         const githubIconMaterial = new THREE.MeshBasicMaterial({

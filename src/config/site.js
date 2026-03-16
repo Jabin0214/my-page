@@ -1,6 +1,7 @@
 export const SITE_CONFIG = {
   owner: 'Jabin',
   title: 'Jabin | Portfolio',
+  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.jabinchen.com',
   description:
     "Jabin Chen's portfolio featuring full-stack projects, experience, and contact information.",
   contact: {

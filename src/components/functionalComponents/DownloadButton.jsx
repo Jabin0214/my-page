@@ -1,3 +1,5 @@
+'use client';
+
 import { motion } from 'framer-motion';
 import { FiDownload } from 'react-icons/fi';
 import { SITE_CONFIG } from '../../config/site';

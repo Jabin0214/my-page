@@ -1,3 +1,5 @@
+'use client';
+
 import { useTranslation } from 'react-i18next';
 import { Github, Mail } from 'lucide-react';
 import { SITE_CONFIG } from '../config/site';
