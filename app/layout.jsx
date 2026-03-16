@@ -9,21 +9,51 @@ export const metadata = {
   metadataBase: new URL(SITE_CONFIG.siteUrl),
   title: {
     default: SITE_CONFIG.title,
-    template: `%s | ${SITE_CONFIG.owner}`,
+    template: `%s | Jabin Chen`,
   },
   description: SITE_CONFIG.description,
+  keywords: SITE_CONFIG.keywords,
+  authors: [{ name: SITE_CONFIG.owner, url: SITE_CONFIG.siteUrl }],
+  creator: SITE_CONFIG.owner,
+  publisher: SITE_CONFIG.owner,
+  applicationName: SITE_CONFIG.title,
+  alternates: {
+    canonical: SITE_CONFIG.siteUrl,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
   openGraph: {
     title: SITE_CONFIG.title,
     description: SITE_CONFIG.description,
     type: 'website',
     url: SITE_CONFIG.siteUrl,
     siteName: SITE_CONFIG.owner,
+    locale: 'en_NZ',
+    images: [
+      {
+        url: SITE_CONFIG.contact.ogImage,
+        width: 1200,
+        height: 1200,
+        alt: `${SITE_CONFIG.owner} portfolio`,
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: SITE_CONFIG.title,
     description: SITE_CONFIG.description,
+    images: [SITE_CONFIG.contact.ogImage],
   },
+  category: 'technology',
 }
 
 export default function RootLayout({ children }) {
