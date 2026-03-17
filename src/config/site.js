@@ -22,7 +22,7 @@ export const SITE_CONFIG = {
   contact: {
     email: 'jabinchen0214@outlook.com',
     github: 'https://github.com/Jabin0214',
-    chat: 'https://cyber-jabin.vercel.app/',
+    chat: '/chat',
     resumeFileName: 'resume.pdf',
     ogImage: '/favicon.png',
   },

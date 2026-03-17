@@ -28,7 +28,6 @@ export default function Page() {
     },
     sameAs: [
       SITE_CONFIG.social.github,
-      SITE_CONFIG.contact.chat,
     ],
     email: `mailto:${SITE_CONFIG.contact.email}`,
   }

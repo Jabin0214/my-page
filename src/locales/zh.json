@@ -11,6 +11,10 @@
     {
       "path": "/contact",
       "label": "联系我"
+    },
+    {
+      "path": "/chat",
+      "label": "聊天"
     }
   ],
   "Home": {

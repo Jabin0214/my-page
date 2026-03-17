@@ -11,6 +11,10 @@
     {
       "path": "/contact",
       "label": "Contact"
+    },
+    {
+      "path": "/chat",
+      "label": "Chat"
     }
   ],
   "Home": {

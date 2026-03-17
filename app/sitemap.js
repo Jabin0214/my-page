@@ -5,6 +5,7 @@ export default function sitemap() {
 
   return [
     '',
+    '/chat',
     '/projects',
     '/contact',
   ].map((path) => ({
