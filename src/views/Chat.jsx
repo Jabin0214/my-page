@@ -6,12 +6,12 @@ import { Bot, Loader2, Send, User } from 'lucide-react'
 import { sendChatMessage } from '../lib/chat-api'
 
 const suggestedQuestions = [
-  'What projects has Jabin worked on?',
-  'Tell me about Jabin Chen’s internship experience.',
-  'What technologies does Jabin use most?',
-  'What is Jabin Chen’s background in AI?',
-  'Has Jabin deployed projects to the cloud?',
-  'What kind of roles is Jabin Chen a fit for?',
+  'Tell me about yourself.',
+  'What are the strongest projects you would highlight in an interview?',
+  'How would you describe your experience with cloud deployment?',
+  'What is your background in AI-related projects?',
+  'Why are you a strong fit for a full-stack role?',
+  'Can you walk me through Medimate and your impact there?',
 ]
 
 export default function Chat() {
@@ -92,13 +92,13 @@ export default function Chat() {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="mb-2 text-sm uppercase tracking-[0.25em] text-cyan-200/70">
-              AI Resume Assistant
+              Interview Mode
             </p>
             <h1 className="text-3xl font-bold text-white">Chat with Jabin Chen</h1>
             <p className="mt-2 max-w-2xl text-sm text-white/70">
-              Ask about projects, experience, technical strengths, cloud deployments, or
-              AI work. The assistant searches Jabin&apos;s uploaded knowledge base before
-              answering.
+              Ask interview-style questions and get answers written as if Jabin is
+              responding directly. The assistant still grounds answers in uploaded career
+              materials, but it speaks like a strong candidate rather than a search tool.
             </p>
           </div>
 
@@ -111,10 +111,10 @@ export default function Chat() {
         </div>
         <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-white/50">
           <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
-            Knowledge-grounded answers
+            First-person answers
           </span>
           <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
-            Multi-turn conversation
+            Interview-ready responses
           </span>
           <button
             type="button"
@@ -135,8 +135,9 @@ export default function Chat() {
               </div>
               <h2 className="mb-2 text-xl font-semibold text-white">Ask anything about Jabin</h2>
               <p className="max-w-xl text-sm text-white/60">
-                This assistant is designed to answer questions about Jabin Chen&apos;s work,
-                projects, skills, and professional experience.
+                Ask the kinds of questions a recruiter, interviewer, or hiring manager would
+                ask. The reply is optimized to present Jabin clearly, credibly, and with
+                evidence from his actual experience.
               </p>
             </div>
           ) : (
@@ -169,20 +170,20 @@ export default function Chat() {
                       <div className="min-w-0">
                         <p className="whitespace-pre-wrap leading-6">{message.content}</p>
                         {message.role === 'assistant' && Array.isArray(message.sources) && message.sources.length > 0 && (
-                          <div className="mt-3 space-y-2">
-                            <p className="text-[11px] uppercase tracking-[0.2em] text-white/40">
-                              Sources
-                            </p>
-                            <div className="space-y-2">
+                          <details className="mt-3 rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-xs text-white/55">
+                            <summary className="cursor-pointer list-none font-medium text-white/70">
+                              Retrieved support
+                            </summary>
+                            <div className="mt-2 space-y-2">
                               {message.sources.map((source, sourceIndex) => (
                                 <div
                                   key={`${source.filename}-${sourceIndex}`}
-                                  className="rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-xs text-white/60"
+                                  className="rounded-lg border border-white/8 bg-white/[0.03] px-3 py-2"
                                 >
                                   <div className="mb-1 flex items-center justify-between gap-3">
-                                    <span className="font-medium text-white/80">{source.filename}</span>
+                                    <span className="font-medium text-white/75">{source.filename}</span>
                                     {typeof source.score === 'number' && (
-                                      <span className="text-white/40">
+                                      <span className="text-white/35">
                                         {Math.round(source.score * 100)}% match
                                       </span>
                                     )}
@@ -195,7 +196,7 @@ export default function Chat() {
                                 </div>
                               ))}
                             </div>
-                          </div>
+                          </details>
                         )}
                       </div>
 
@@ -250,7 +251,7 @@ export default function Chat() {
               onKeyDown={handleKeyDown}
               rows={1}
               disabled={loading}
-              placeholder="Ask about Jabin Chen’s projects, stack, AI work, or experience..."
+              placeholder="Ask an interview-style question about Jabin Chen..."
               className="min-h-12 max-h-32 flex-1 resize-none rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white outline-none transition focus:border-cyan-300/40"
             />
 
