@@ -27,12 +27,39 @@ npm run lint
 npm run build
 ```
 
+## AI Knowledge Base
+
+The chat assistant uses OpenAI `file_search` with a hosted vector store.
+
+Required environment variables:
+
+```bash
+OPENAI_API_KEY=...
+OPENAI_CHAT_MODEL=gpt-4o-mini
+OPENAI_VECTOR_STORE_ID=vs_...
+```
+
+To upload one or more files into the knowledge base:
+
+```bash
+npm run upload:knowledge -- ./path/to/resume.pdf ./path/to/projects.md
+```
+
+To upload the single combined profile file in this repo:
+
+```bash
+npm run upload:profile
+```
+
+If `OPENAI_VECTOR_STORE_ID` is empty, the script creates a new vector store and prints the ID you should save into `.env.local` and Vercel.
+
 ## Deploy To Vercel
 
 1. Import this repository into Vercel.
 2. Keep the framework preset as `Next.js`.
 3. Set `NEXT_PUBLIC_SITE_URL` to your production domain, for example `https://www.yourdomain.com`.
-4. Add your custom domain in the Vercel dashboard.
+4. Add `OPENAI_API_KEY`, `OPENAI_CHAT_MODEL`, and `OPENAI_VECTOR_STORE_ID` in Vercel environment variables.
+5. Add your custom domain in the Vercel dashboard.
 
 ## SEO Notes
 

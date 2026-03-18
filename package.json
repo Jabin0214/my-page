@@ -8,10 +8,11 @@
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint .",
-    "check": "npm run lint && npm run build"
+    "check": "npm run lint && npm run build",
+    "upload:knowledge": "node scripts/upload-to-vector-store.mjs",
+    "upload:profile": "node scripts/upload-to-vector-store.mjs ./knowledge/jabin-profile.md"
   },
   "dependencies": {
-    "@pinecone-database/pinecone": "^7.1.0",
     "eslint-config-next": "^16.1.6",
     "framer-motion": "^12.9.2",
     "i18next": "^25.0.0",

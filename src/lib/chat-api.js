@@ -1,10 +1,10 @@
-export async function sendChatMessage(message) {
+export async function sendChatMessage(message, history = []) {
   const response = await fetch('/api/chat', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ message }),
+    body: JSON.stringify({ message, history }),
   })
 
   if (!response.ok) {
@@ -12,5 +12,5 @@ export async function sendChatMessage(message) {
   }
 
   const data = await response.json()
-  return data.reply
+  return data
 }

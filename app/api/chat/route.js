@@ -1,58 +1,109 @@
 import { NextResponse } from 'next/server'
 import OpenAI from 'openai'
-import { Pinecone } from '@pinecone-database/pinecone'
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-})
+export const dynamic = 'force-dynamic'
 
-const pinecone = new Pinecone({
-  apiKey: process.env.PINECONE_API_KEY,
-})
+function getEnv() {
+  const openAiApiKey = process.env.OPENAI_API_KEY
+  const vectorStoreId = process.env.OPENAI_VECTOR_STORE_ID
+  const chatModel = process.env.OPENAI_CHAT_MODEL || 'gpt-4o-mini'
 
-const indexName = process.env.PINECONE_INDEX_NAME
-const chatModel = process.env.OPENAI_CHAT_MODEL || 'gpt-4o-mini'
-
-function getIndex() {
-  if (!indexName) {
-    throw new Error('PINECONE_INDEX_NAME is not configured')
+  if (!openAiApiKey) {
+    throw new Error('OPENAI_API_KEY is not configured')
   }
 
-  return pinecone.Index(indexName)
+  if (!vectorStoreId) {
+    throw new Error('OPENAI_VECTOR_STORE_ID is not configured')
+  }
+
+  return {
+    openAiApiKey,
+    vectorStoreId,
+    chatModel,
+  }
+}
+
+function getClients() {
+  const { openAiApiKey, vectorStoreId, chatModel } = getEnv()
+  const openai = new OpenAI({ apiKey: openAiApiKey })
+
+  return {
+    openai,
+    vectorStoreId,
+    chatModel,
+  }
+}
+
+function normalizeHistory(history) {
+  if (!Array.isArray(history)) {
+    return []
+  }
+
+  return history
+    .filter(
+      (item) =>
+        item &&
+        (item.role === 'user' || item.role === 'assistant') &&
+        typeof item.content === 'string' &&
+        item.content.trim()
+    )
+    .slice(-8)
+    .map((item) => ({
+      role: item.role,
+      content: [
+        {
+          type: 'input_text',
+          text: item.content.trim(),
+        },
+      ],
+    }))
+}
+
+function extractSources(response) {
+  const fileSearchCalls = Array.isArray(response.output)
+    ? response.output.filter((item) => item?.type === 'file_search_call')
+    : []
+
+  const uniqueSources = new Map()
+
+  for (const call of fileSearchCalls) {
+    for (const result of call.results || []) {
+      const key = `${result.file_id || result.filename || result.text}`
+
+      if (!key || uniqueSources.has(key)) {
+        continue
+      }
+
+      uniqueSources.set(key, {
+        filename: result.filename || 'Knowledge base file',
+        score: typeof result.score === 'number' ? result.score : null,
+        snippet: result.text ? result.text.slice(0, 220) : '',
+      })
+    }
+  }
+
+  return Array.from(uniqueSources.values()).slice(0, 3)
 }
 
 export async function POST(request) {
   try {
-    const { message } = await request.json()
+    const { openai, vectorStoreId, chatModel } = getClients()
+    const { message, history } = await request.json()
 
     if (!message || typeof message !== 'string') {
       return NextResponse.json({ reply: 'Please ask a question.' }, { status: 400 })
     }
 
-    const embeddingResponse = await openai.embeddings.create({
-      model: 'text-embedding-3-small',
-      input: message,
-    })
-
-    const embedding = embeddingResponse.data[0]?.embedding
-
-    if (!embedding) {
-      throw new Error('Failed to generate embedding')
-    }
-
-    const queryResult = await getIndex().query({
-      vector: embedding,
-      topK: 6,
-      includeMetadata: true,
-    })
-
-    const context = (queryResult.matches || [])
-      .map((match) => match.metadata?.text)
-      .filter(Boolean)
-      .join('\n---\n')
-
     const response = await openai.responses.create({
       model: chatModel,
+      tools: [
+        {
+          type: 'file_search',
+          vector_store_ids: [vectorStoreId],
+          max_num_results: 4,
+        },
+      ],
+      include: ['file_search_call.results'],
       input: [
         {
           role: 'system',
@@ -60,12 +111,19 @@ export async function POST(request) {
             {
               type: 'input_text',
               text:
-                `You are Jabin Chen's portfolio assistant. Answer questions about Jabin Chen using the provided context whenever possible. ` +
-                `Be concise, accurate, and professional. If the context is insufficient, say so clearly and avoid inventing facts.\n\n` +
-                `Context:\n${context || 'No supporting context was found in the knowledge base.'}`,
+                `You are Jabin Chen's portfolio assistant. Use file search to answer questions about Jabin Chen's resume, projects, experience, skills, certifications, and technical background.\n` +
+                `Follow these rules:\n` +
+                `- Represent Jabin professionally and naturally, as if you are his digital profile assistant.\n` +
+                `- Prefer a first-person voice when the user asks about Jabin directly, for example "I worked on..." or "I have experience with...".\n` +
+                `- Be specific. Mention project names, technologies, outcomes, and dates when the knowledge base supports them.\n` +
+                `- Keep answers concise and useful. Use short paragraphs or short bullet points when appropriate.\n` +
+                `- If the knowledge base does not contain enough information, say clearly: "I don't have enough information in Jabin's knowledge base to answer that yet."\n` +
+                `- Do not invent facts, employers, dates, or skills that are not supported by the knowledge base.\n` +
+                `- If asked for contact details, share the portfolio-safe contact details contained in the knowledge base.`,
             },
           ],
         },
+        ...normalizeHistory(history),
         {
           role: 'user',
           content: [
@@ -79,8 +137,9 @@ export async function POST(request) {
     })
 
     const reply = response.output_text?.trim() || 'Sorry, I could not generate a response.'
+    const sources = extractSources(response)
 
-    return NextResponse.json({ reply })
+    return NextResponse.json({ reply, sources })
   } catch (error) {
     console.error('[chat-route]', error)
     return NextResponse.json(

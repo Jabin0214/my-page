@@ -20,11 +20,22 @@ export default function Chat() {
   const [chatLog, setChatLog] = useState([])
   const chatEndRef = useRef(null)
   const inputRef = useRef(null)
+  const textareaRef = useRef(null)
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' })
     inputRef.current?.focus()
   }, [chatLog, loading])
+
+  useEffect(() => {
+    const textarea = textareaRef.current
+    if (!textarea) {
+      return
+    }
+
+    textarea.style.height = '0px'
+    textarea.style.height = `${Math.min(textarea.scrollHeight, 160)}px`
+  }, [input])
 
   async function handleSendMessage() {
     const trimmedInput = input.trim()
@@ -32,13 +43,23 @@ export default function Chat() {
       return
     }
 
+    const history = chatLog
+      .filter((item) => item.role === 'user' || item.role === 'assistant')
+      .map((item) => ({
+        role: item.role,
+        content: item.content,
+      }))
+
     setLoading(true)
     setChatLog((previous) => [...previous, { role: 'user', content: trimmedInput }])
     setInput('')
 
     try {
-      const reply = await sendChatMessage(trimmedInput)
-      setChatLog((previous) => [...previous, { role: 'assistant', content: reply }])
+      const result = await sendChatMessage(trimmedInput, history)
+      setChatLog((previous) => [
+        ...previous,
+        { role: 'assistant', content: result.reply, sources: result.sources || [] },
+      ])
     } catch {
       setChatLog((previous) => [
         ...previous,
@@ -59,6 +80,12 @@ export default function Chat() {
     }
   }
 
+  function handleClearChat() {
+    setChatLog([])
+    setInput('')
+    inputRef.current?.focus()
+  }
+
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-5xl flex-col px-4 pb-10 pt-24">
       <section className="mb-4 rounded-[2rem] border border-white/10 bg-white/8 p-6 shadow-2xl backdrop-blur-xl">
@@ -70,8 +97,8 @@ export default function Chat() {
             <h1 className="text-3xl font-bold text-white">Chat with Jabin Chen</h1>
             <p className="mt-2 max-w-2xl text-sm text-white/70">
               Ask about projects, experience, technical strengths, cloud deployments, or
-              AI work. The assistant retrieves relevant background from a Pinecone knowledge
-              base before answering.
+              AI work. The assistant searches Jabin&apos;s uploaded knowledge base before
+              answering.
             </p>
           </div>
 
@@ -81,6 +108,21 @@ export default function Chat() {
           >
             Back to Portfolio
           </Link>
+        </div>
+        <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-white/50">
+          <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
+            Knowledge-grounded answers
+          </span>
+          <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
+            Multi-turn conversation
+          </span>
+          <button
+            type="button"
+            onClick={handleClearChat}
+            className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+          >
+            Clear chat
+          </button>
         </div>
       </section>
 
@@ -124,7 +166,38 @@ export default function Chat() {
                         </div>
                       )}
 
-                      <p className="whitespace-pre-wrap leading-6">{message.content}</p>
+                      <div className="min-w-0">
+                        <p className="whitespace-pre-wrap leading-6">{message.content}</p>
+                        {message.role === 'assistant' && Array.isArray(message.sources) && message.sources.length > 0 && (
+                          <div className="mt-3 space-y-2">
+                            <p className="text-[11px] uppercase tracking-[0.2em] text-white/40">
+                              Sources
+                            </p>
+                            <div className="space-y-2">
+                              {message.sources.map((source, sourceIndex) => (
+                                <div
+                                  key={`${source.filename}-${sourceIndex}`}
+                                  className="rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-xs text-white/60"
+                                >
+                                  <div className="mb-1 flex items-center justify-between gap-3">
+                                    <span className="font-medium text-white/80">{source.filename}</span>
+                                    {typeof source.score === 'number' && (
+                                      <span className="text-white/40">
+                                        {Math.round(source.score * 100)}% match
+                                      </span>
+                                    )}
+                                  </div>
+                                  {source.snippet && (
+                                    <p className="line-clamp-3 whitespace-pre-wrap leading-5">
+                                      {source.snippet}
+                                    </p>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
 
                       {message.role === 'user' && (
                         <div className="mt-0.5 text-slate-950">
@@ -168,7 +241,10 @@ export default function Chat() {
 
           <div className="flex items-end gap-3">
             <textarea
-              ref={inputRef}
+              ref={(element) => {
+                textareaRef.current = element
+                inputRef.current = element
+              }}
               value={input}
               onChange={(event) => setInput(event.target.value)}
               onKeyDown={handleKeyDown}
