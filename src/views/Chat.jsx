@@ -56,10 +56,7 @@ export default function Chat() {
 
     try {
       const result = await sendChatMessage(trimmedInput, history)
-      setChatLog((previous) => [
-        ...previous,
-        { role: 'assistant', content: result.reply, sources: result.sources || [] },
-      ])
+      setChatLog((previous) => [...previous, { role: 'assistant', content: result.reply }])
     } catch {
       setChatLog((previous) => [
         ...previous,
@@ -97,8 +94,8 @@ export default function Chat() {
             <h1 className="text-3xl font-bold text-white">Chat with Jabin Chen</h1>
             <p className="mt-2 max-w-2xl text-sm text-white/70">
               Ask interview-style questions and get answers written as if Jabin is
-              responding directly. The assistant still grounds answers in uploaded career
-              materials, but it speaks like a strong candidate rather than a search tool.
+              responding directly in a real conversation. The focus is on clear, confident,
+              evidence-backed answers that feel natural rather than robotic.
             </p>
           </div>
 
@@ -136,8 +133,8 @@ export default function Chat() {
               <h2 className="mb-2 text-xl font-semibold text-white">Ask anything about Jabin</h2>
               <p className="max-w-xl text-sm text-white/60">
                 Ask the kinds of questions a recruiter, interviewer, or hiring manager would
-                ask. The reply is optimized to present Jabin clearly, credibly, and with
-                evidence from his actual experience.
+                ask. The reply is tuned to sound like a strong candidate speaking from real
+                experience, not like a resume search tool.
               </p>
             </div>
           ) : (
@@ -169,35 +166,6 @@ export default function Chat() {
 
                       <div className="min-w-0">
                         <p className="whitespace-pre-wrap leading-6">{message.content}</p>
-                        {message.role === 'assistant' && Array.isArray(message.sources) && message.sources.length > 0 && (
-                          <details className="mt-3 rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-xs text-white/55">
-                            <summary className="cursor-pointer list-none font-medium text-white/70">
-                              Retrieved support
-                            </summary>
-                            <div className="mt-2 space-y-2">
-                              {message.sources.map((source, sourceIndex) => (
-                                <div
-                                  key={`${source.filename}-${sourceIndex}`}
-                                  className="rounded-lg border border-white/8 bg-white/[0.03] px-3 py-2"
-                                >
-                                  <div className="mb-1 flex items-center justify-between gap-3">
-                                    <span className="font-medium text-white/75">{source.filename}</span>
-                                    {typeof source.score === 'number' && (
-                                      <span className="text-white/35">
-                                        {Math.round(source.score * 100)}% match
-                                      </span>
-                                    )}
-                                  </div>
-                                  {source.snippet && (
-                                    <p className="line-clamp-3 whitespace-pre-wrap leading-5">
-                                      {source.snippet}
-                                    </p>
-                                  )}
-                                </div>
-                              ))}
-                            </div>
-                          </details>
-                        )}
                       </div>
 
                       {message.role === 'user' && (

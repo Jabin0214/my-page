@@ -44,14 +44,16 @@ function getClient() {
 
 async function main() {
   loadLocalEnv()
-  const inputPaths = process.argv.slice(2)
+  const rawArgs = process.argv.slice(2)
+  const forceNewStore = rawArgs.includes('--new-store')
+  const inputPaths = rawArgs.filter((arg) => arg !== '--new-store')
 
   if (inputPaths.length === 0) {
     throw new Error('Pass one or more file paths. Example: node scripts/upload-to-vector-store.mjs ./knowledge/resume.pdf')
   }
 
   const client = getClient()
-  let vectorStoreId = process.env.OPENAI_VECTOR_STORE_ID
+  let vectorStoreId = forceNewStore ? '' : process.env.OPENAI_VECTOR_STORE_ID
 
   if (!vectorStoreId) {
     const vectorStore = await client.vectorStores.create({
@@ -72,6 +74,7 @@ async function main() {
   })
 
   console.log(`Upload finished for vector store: ${vectorStoreId}`)
+  console.log(`OPENAI_VECTOR_STORE_ID=${vectorStoreId}`)
   console.log(JSON.stringify(batch.file_counts, null, 2))
 }
 
