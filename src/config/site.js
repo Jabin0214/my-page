@@ -27,15 +27,3 @@ export const SITE_CONFIG = {
     ogImage: '/favicon.png',
   },
 }
-
-export const ROUTE_META = {
-  '/': {
-    title: 'Jabin | Portfolio',
-  },
-  '/projects': {
-    title: 'Jabin | Projects',
-  },
-  '/contact': {
-    title: 'Jabin | Contact',
-  },
-}

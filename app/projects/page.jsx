@@ -1,12 +1,11 @@
 import Projects from '../../src/views/Projects'
+import { createPageMetadata } from '../../src/lib/metadata'
 
-export const metadata = {
+export const metadata = createPageMetadata({
   title: 'Projects',
   description: 'Selected full-stack, AI, and product projects by Jabin Chen.',
-  alternates: {
-    canonical: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.jabinchen.com'}/projects`,
-  },
-}
+  path: '/projects',
+})
 
 export default function ProjectsPage() {
   return <Projects />

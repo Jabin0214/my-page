@@ -1,12 +1,12 @@
 'use client';
 
 import { useMemo, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import AvatarHeader from '../components/pageComponents/AvatarHeader';
 import DownloadButton from '../components/functionalComponents/DownloadButton';
 import SectionCard from '../components/shared/SectionCard';
 import { useScrollThreshold } from '../hooks/useScrollThreshold';
+import { usePortfolioContent } from '../hooks/usePortfolioContent';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -14,23 +14,14 @@ const fadeInUp = {
 };
 
 const Home = () => {
-  const { t } = useTranslation();
   const containerRef = useRef(null);
   const showScrollTop = useScrollThreshold(500);
+  const content = usePortfolioContent();
+  const about = content.home.about;
 
-  const skills = t('About.skills.list', { returnObjects: true });
   const experienceItems = useMemo(
-    () =>
-      [1, 2, 3, 4, 5].map((index) => ({
-        key: index,
-        company: t(`About.experience.item${index}.company`),
-        duration: t(`About.experience.item${index}.duration`),
-        description: t(`About.experience.item${index}.description`),
-        points: [1, 2, 3]
-          .map((point) => t(`About.experience.item${index}.point${point}`))
-          .filter((point) => point && !point.includes(`item${index}.point`)),
-      })),
-    [t]
+    () => about.experience.items.map((item, index) => ({ ...item, key: index + 1 })),
+    [about.experience.items]
   );
 
   return (
@@ -44,21 +35,24 @@ const Home = () => {
       <div className="w-full max-w-5xl space-y-10 px-4 pb-24">
         <SectionCard>
           <h2 className="mb-6 text-center text-2xl font-bold">
-            {t('About.whoAmI.title')}
+            {about.whoAmI.title}
           </h2>
           <div className="space-y-4 text-white/80">
-            <p className="leading-relaxed">{t('About.whoAmI.paragraph1')}</p>
-            <p className="leading-relaxed">{t('About.whoAmI.paragraph2')}</p>
+            {about.whoAmI.paragraphs.map((paragraph) => (
+              <p key={paragraph} className="leading-relaxed">
+                {paragraph}
+              </p>
+            ))}
           </div>
         </SectionCard>
 
         <SectionCard>
           <h2 className="mb-6 text-center text-2xl font-bold">
-            {t('About.skills.title')}
+            {about.skills.title}
           </h2>
 
           <div className="flex flex-wrap justify-center gap-3">
-            {skills.map((skill) => (
+            {about.skills.list.map((skill) => (
               <span
                 key={skill}
                 className="rounded-full border border-cyan-400/30 bg-cyan-400/10 px-4 py-2 text-sm font-medium text-cyan-50 transition-all hover:-translate-y-0.5 hover:bg-cyan-300/20"
@@ -71,7 +65,7 @@ const Home = () => {
 
         <SectionCard>
           <h2 className="mb-6 text-center text-2xl font-bold">
-            {t('About.experience.title')}
+            {about.experience.title}
           </h2>
 
           <div className="relative space-y-8">
@@ -108,34 +102,33 @@ const Home = () => {
         >
           <div className="rounded-3xl border border-white/10 bg-white/8 p-8 text-white shadow-2xl backdrop-blur-xl">
             <h2 className="mb-4 text-center text-2xl font-bold">
-              {t('About.education.title')}
+              {about.education.title}
             </h2>
             <div className="space-y-4">
-              <div className="rounded-2xl bg-black/20 p-4 backdrop-blur-sm">
-                <p className="text-white/80">{t('About.education.degree1')}</p>
-              </div>
-              <div className="rounded-2xl bg-black/20 p-4 backdrop-blur-sm">
-                <p className="text-white/80">{t('About.education.degree2')}</p>
-              </div>
+              {about.education.degrees.map((degree) => (
+                <div key={degree} className="rounded-2xl bg-black/20 p-4 backdrop-blur-sm">
+                  <p className="text-white/80">{degree}</p>
+                </div>
+              ))}
             </div>
           </div>
 
           <div className="rounded-3xl border border-white/10 bg-white/8 p-8 text-white shadow-2xl backdrop-blur-xl">
             <div className="mb-6">
               <h2 className="mb-4 text-center text-2xl font-bold">
-                {t('About.languages.title')}
+                {about.languages.title}
               </h2>
               <div className="rounded-2xl bg-black/20 p-4 backdrop-blur-sm">
-                <p className="text-white/80">{t('About.languages.list')}</p>
+                <p className="text-white/80">{about.languages.list}</p>
               </div>
             </div>
 
             <div>
               <h2 className="mb-4 text-center text-2xl font-bold">
-                {t('About.hobbies.title')}
+                {about.hobbies.title}
               </h2>
               <div className="rounded-2xl bg-black/20 p-4 backdrop-blur-sm">
-                <p className="text-white/80">{t('About.hobbies.list')}</p>
+                <p className="text-white/80">{about.hobbies.list}</p>
               </div>
             </div>
           </div>

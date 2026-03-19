@@ -1,11 +1,11 @@
 'use client';
 
-import { useTranslation } from 'react-i18next';
 import { Github, Mail } from 'lucide-react';
 import { SITE_CONFIG } from '../config/site';
+import { usePortfolioContent } from '../hooks/usePortfolioContent';
 
 const Contact = () => {
-  const { t } = useTranslation();
+  const { contact } = usePortfolioContent();
   return (
     <section className="flex items-center justify-center min-h-screen p-6">
       <div className="relative w-full max-w-xl overflow-hidden rounded-[2rem] border border-white/10 bg-black/60 shadow-2xl transition-all duration-500 hover:scale-[1.01]">
@@ -17,10 +17,10 @@ const Contact = () => {
           </div>
 
           <h2 className="mb-5 text-3xl font-extrabold tracking-[0.2em]">
-            {t('Contact.sectionTitle')}
+            {contact.sectionTitle}
           </h2>
           <p className="mb-8 text-lg text-gray-300">
-            {t('Contact.description')}
+            {contact.description}
           </p>
 
           <div className="flex flex-col gap-4">
@@ -29,7 +29,7 @@ const Contact = () => {
               className="inline-flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-lg text-gray-200 transition-colors hover:border-amber-300/40 hover:text-amber-300"
             >
               <Mail className="h-5 w-5" />
-              <span>Email</span>
+              <span>{contact.emailLabel}</span>
             </a>
             <a
               href={SITE_CONFIG.contact.github}
@@ -38,7 +38,7 @@ const Contact = () => {
               rel="noopener noreferrer"
             >
               <Github className="h-5 w-5" />
-              <span>GitHub</span>
+              <span>{contact.githubLabel}</span>
             </a>
           </div>
         </div>

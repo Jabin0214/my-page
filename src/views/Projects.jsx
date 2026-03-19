@@ -1,14 +1,14 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import ThreeJSGallery from '../components/functionalComponents/ThreeJSGallery';
 import ProjectSpotlight from '../features/projects/components/ProjectSpotlight';
+import { usePortfolioContent } from '../hooks/usePortfolioContent';
 
 const Projects = () => {
-  const { t } = useTranslation();
-  const projects = t('Projects.list', { returnObjects: true });
-  const sectionTitle = t('Projects.sectionTitle');
+  const { projects: projectsContent } = usePortfolioContent();
+  const projects = projectsContent.list;
+  const sectionTitle = projectsContent.sectionTitle;
   const [activeProjectId, setActiveProjectId] = useState(projects[0]?.id ?? null);
 
   const activeProject = useMemo(
@@ -31,7 +31,11 @@ const Projects = () => {
           />
         </div>
 
-        <ProjectSpotlight project={activeProject} />
+        <ProjectSpotlight
+          project={activeProject}
+          featuredLabel={projectsContent.featuredLabel}
+          viewSourceLabel={projectsContent.viewSourceLabel}
+        />
       </div>
     </section>
   );

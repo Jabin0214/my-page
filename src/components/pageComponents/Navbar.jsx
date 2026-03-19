@@ -7,21 +7,20 @@ import { useTranslation } from 'react-i18next';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react'; 
 import { SITE_CONFIG } from '../../config/site';
+import { usePortfolioContent } from '../../hooks/usePortfolioContent';
 import { setStoredLanguage } from '../../lib/language';
 
 const Navbar = () => {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const currentPath = usePathname();
-  const currentLang = i18n.resolvedLanguage || i18n.language;
+  const content = usePortfolioContent();
 
   const toggleLanguage = () => {
     const newLang = i18n.language === 'en' ? 'zh' : 'en';
     i18n.changeLanguage(newLang);
     setStoredLanguage(newLang);
   };
-
-  const navLinks = t("navLinks", { returnObjects: true });
 
   return (
     <header className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-[95%] sm:w-11/12 md:w-4/5 lg:w-2/3 xl:w-1/2">
@@ -34,12 +33,12 @@ const Navbar = () => {
           className="text-lg sm:text-xl font-bold tracking-tight"
           onClick={() => setIsMenuOpen(false)}
         >
-          {SITE_CONFIG.owner}<span className="opacity-60">&apos;s Portfolio</span>
+          {SITE_CONFIG.owner}<span className="opacity-60">{content.navigation.brandSuffix}</span>
         </Link>
 
         {/* Desktop Nav */}
         <div className="hidden sm:flex items-center space-x-4">
-          {navLinks.map((link) => (
+          {content.navigation.links.map((link) => (
             <Link
               key={link.path}
               href={link.path}
@@ -56,7 +55,7 @@ const Navbar = () => {
             onClick={toggleLanguage}
             className="px-3 py-1.5 text-sm rounded-full border border-white text-white hover:bg-white hover:text-black transition-all"
           >
-            {currentLang === 'en' ? '中文' : 'EN'}
+            {content.navigation.languageToggleLabel}
           </button>
         </div>
 
@@ -79,7 +78,7 @@ const Navbar = () => {
           transition={{ duration: 0.3, ease: "easeInOut", delayChildren: 0.15, staggerChildren: 0.05 }}
           className="sm:hidden origin-top mt-2 bg-white/10 backdrop-blur-md shadow-lg border border-white/10 rounded-xl px-5 py-3 space-y-2"
         >
-            {navLinks.map((link) => (
+            {content.navigation.links.map((link) => (
               <Link
                 key={link.path}
                 href={link.path}
@@ -100,7 +99,7 @@ const Navbar = () => {
               }}
               className="w-full text-left px-3 py-2 text-sm rounded-full border border-white text-white hover:bg-white hover:text-black transition-all"
             >
-              {currentLang === 'en' ? '中文' : 'EN'}
+              {content.navigation.languageToggleLabel}
             </button>
           </motion.div>
         )}

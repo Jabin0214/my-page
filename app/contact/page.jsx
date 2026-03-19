@@ -1,12 +1,11 @@
 import Contact from '../../src/views/Contact'
+import { createPageMetadata } from '../../src/lib/metadata'
 
-export const metadata = {
+export const metadata = createPageMetadata({
   title: 'Contact',
   description: 'Contact Jabin Chen for full-stack engineering opportunities and collaborations.',
-  alternates: {
-    canonical: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.jabinchen.com'}/contact`,
-  },
-}
+  path: '/contact',
+})
 
 export default function ContactPage() {
   return <Contact />

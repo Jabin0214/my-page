@@ -1,13 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import { useTranslation } from 'react-i18next';
 import EyeTrackingAvatar from '../ui/EyeTrackingAvatar';
 import Button from '../functionalComponents/Button';
 import { SITE_CONFIG } from '../../config/site';
+import { usePortfolioContent } from '../../hooks/usePortfolioContent';
 
 const AvatarHeader = ({ containerRef }) => {
-    const { t } = useTranslation();
+    const { home } = usePortfolioContent();
+    const hero = home.hero;
 
     const handleScrollDown = () => {
         window.scrollTo({
@@ -29,19 +30,19 @@ const AvatarHeader = ({ containerRef }) => {
                 </div>
 
                 <h1 className="text-5xl font-bold mb-4 animate-fade-in text-white">
-                    {t('Home.title')}
+                    {hero.title}
                 </h1>
 
                 <p className="text-xl max-w-2xl mx-auto mb-8 animate-fade-in delay-200 text-gray-200/80">
-                    {t('Home.description')}
+                    {hero.description}
                 </p>
 
                 <div className="flex justify-center gap-4 animate-fade-in delay-300 mb-10">
-                    <Link href="/projects">
-                        <Button text={t('Home.link.0')} />
+                    <Link href={hero.primaryLink.path}>
+                        <Button text={hero.primaryLink.label} />
                     </Link>
-                    <Link href="/contact">
-                        <Button text={t('Home.link.1')} />
+                    <Link href={hero.secondaryLink.path}>
+                        <Button text={hero.secondaryLink.label} />
                     </Link>
                 </div>
 

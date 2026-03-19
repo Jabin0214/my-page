@@ -1,18 +1,12 @@
 import Home from '../src/views/Home'
 import { SITE_CONFIG } from '../src/config/site'
+import { createPageMetadata } from '../src/lib/metadata'
 
-export const metadata = {
-  title: 'Jabin Chen',
+export const metadata = createPageMetadata({
+  absoluteTitle: SITE_CONFIG.title,
   description: SITE_CONFIG.description,
-  alternates: {
-    canonical: SITE_CONFIG.siteUrl,
-  },
-  openGraph: {
-    title: SITE_CONFIG.title,
-    description: SITE_CONFIG.description,
-    url: SITE_CONFIG.siteUrl,
-  },
-}
+  path: '/',
+})
 
 export default function Page() {
   const personJsonLd = {
