@@ -89,7 +89,7 @@ export default function Chat() {
   return (
     <main className="page-shell pb-16 pt-16">
       <div className="grid gap-6 xl:grid-cols-[1.12fr_0.88fr]">
-        <section className="surface-card-strong order-1 flex min-h-[72vh] flex-col overflow-hidden">
+        <section className="surface-card-strong order-1 flex h-[72svh] min-h-[34rem] flex-col overflow-hidden xl:h-[calc(100svh-8rem)]">
           <div className="border-b border-[var(--line)] px-6 py-5">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
               <div>
@@ -106,7 +106,7 @@ export default function Chat() {
             </div>
           </div>
 
-          <div className="flex-1 overflow-y-auto px-6 py-6">
+          <div className="min-h-0 flex-1 overflow-y-auto px-6 py-6">
             {chatLog.length === 0 ? (
               <div className="flex h-full min-h-[26rem] flex-col items-center justify-center text-center">
                 <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-[var(--accent-soft)] text-[var(--accent-strong)]">

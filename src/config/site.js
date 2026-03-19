@@ -1,7 +1,23 @@
+const DEFAULT_SITE_URL = 'https://jabinchen.com'
+
+function normalizeSiteUrl(siteUrl) {
+  try {
+    const url = new URL(siteUrl || DEFAULT_SITE_URL)
+
+    if (url.hostname === 'www.jabinchen.com') {
+      url.hostname = 'jabinchen.com'
+    }
+
+    return url.toString().replace(/\/$/, '')
+  } catch {
+    return DEFAULT_SITE_URL
+  }
+}
+
 export const SITE_CONFIG = {
   owner: 'Jabin Chen',
   title: 'Jabin Chen | Full Stack Developer Portfolio',
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.jabinchen.com',
+  siteUrl: normalizeSiteUrl(process.env.NEXT_PUBLIC_SITE_URL),
   description:
     "Jabin Chen is a full stack developer in Auckland building React, Next.js, .NET, AI, and cloud-powered products. Explore projects, experience, and contact details.",
   jobTitle: 'Full Stack Developer',
