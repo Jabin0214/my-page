@@ -1,18 +1,21 @@
 'use client';
 
+import Link from 'next/link';
 import { useRef, useEffect, useState } from 'react';
 import { getAssetPath } from '../../lib/assets';
 
-const EyeTrackingAvatar = ({ containerRef, chatUrl }) => {
+const EyeTrackingAvatar = ({ chatUrl, bubbleText }) => {
+  const frameRef = useRef(null);
   const leftEyeRef = useRef(null);
   const rightEyeRef = useRef(null);
   const [showBubble, setShowBubble] = useState(false);
 
   useEffect(() => {
-    if (!containerRef?.current) return;
+    const frameEl = frameRef.current;
+    if (!frameEl) return;
 
     const handleMouseMove = (e) => {
-      const rect = containerRef.current.getBoundingClientRect();
+      const rect = frameEl.getBoundingClientRect();
       const mouseX = e.clientX - rect.left;
       const mouseY = e.clientY - rect.top;
 
@@ -44,56 +47,48 @@ const EyeTrackingAvatar = ({ containerRef, chatUrl }) => {
       }
     };
 
-    const containerEl = containerRef.current;
-    containerEl.addEventListener('mousemove', handleMouseMove);
+    frameEl.addEventListener('mousemove', handleMouseMove);
 
     return () => {
-      containerEl.removeEventListener('mousemove', handleMouseMove);
+      frameEl.removeEventListener('mousemove', handleMouseMove);
     };
-  }, [containerRef]);
+  }, []);
 
   return (
-    <div className="relative w-64 h-64 mx-auto">
-      
-      {/* 从右侧冒出的对话泡泡 */}
+    <div className="relative mx-auto w-full max-w-[15rem]">
       {showBubble && (
-        <div className="absolute z-10 p-3 rounded-lg shadow-md max-w-xs top-3 -right-48 bg-black">
-          {/* 左侧指向头像的三角形 */}
-          <p className="text-sm">Feeling bored? Click me — let’s have a chat!</p>
+        <div className="absolute left-1/2 top-0 z-10 w-56 -translate-x-1/2 -translate-y-[calc(100%+0.75rem)] rounded-2xl border border-[var(--line)] bg-white p-3 text-sm leading-6 text-[#526072] shadow-[0_16px_34px_rgba(15,23,42,0.12)]">
+          <p className="text-sm leading-6">{bubbleText}</p>
         </div>
       )}
 
-      <a href={chatUrl} target="_blank" rel="noopener noreferrer">
+      <Link href={chatUrl} className="block">
+        <div
+          ref={frameRef}
+          className="relative mx-auto h-[15rem] w-[15rem] overflow-hidden rounded-[2rem] border border-[var(--line)] bg-white/80 p-5 shadow-[0_12px_32px_rgba(15,23,42,0.08)]"
+          onMouseEnter={() => setShowBubble(true)}
+          onMouseLeave={() => setShowBubble(false)}
+        >
+          <img
+            src={getAssetPath('avatar/face.png')}
+            alt="Jabin avatar"
+            className="h-full w-full select-none object-contain"
+          />
 
-      {/* 头像和眼睛 */}
-      <div 
-        className="relative w-[200px] h-[200px] mx-auto pointer-events-none select-none"
-        onMouseEnter={() => setShowBubble(true)}
-        onMouseLeave={() => setShowBubble(false)}
-        onClick={() => setShowBubble(!showBubble)}
-        style={{ pointerEvents: 'auto', cursor: 'pointer' }}
-      >
-        <img
-          src={getAssetPath('avatar/face.png')}
-          alt="avatar"
-          className="w-full h-full"
-        />
-
-        <img
+          <img
             src={getAssetPath('avatar/eye.png')}
-          alt="eye"
-          ref={leftEyeRef}
-          className="w-5 h-5 absolute top-[95px] left-[62px]"
-        />
-        <img
-          src={getAssetPath('avatar/eye.png')}
-          alt="eye"
-          ref={rightEyeRef}
-          className="w-5 h-5 absolute top-[95px] left-[112px]"
-        />
+            alt=""
+            ref={leftEyeRef}
+            className="absolute left-[4.55rem] top-[6.5rem] h-5 w-5"
+          />
+          <img
+            src={getAssetPath('avatar/eye.png')}
+            alt=""
+            ref={rightEyeRef}
+            className="absolute left-[7.7rem] top-[6.5rem] h-5 w-5"
+          />
         </div>
-        
-      </a>
+      </Link>
     </div>
   );
 };

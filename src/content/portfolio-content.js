@@ -9,13 +9,43 @@ const portfolioContent = {
         { path: '/chat', label: 'Chat' },
       ],
       languageToggleLabel: '中文',
+      mobileMenuLabel: 'Toggle navigation menu',
     },
     home: {
       hero: {
         title: 'Hello, I am Jabin',
         description: 'Full Stack Developer / Tech Enthusiast / Lifelong learner',
+        summary:
+          'I like building things that feel useful, a little thoughtful, and not painfully boring to use.',
         primaryLink: { path: '/projects', label: 'Projects' },
         secondaryLink: { path: '/contact', label: 'Contact' },
+        badge: 'software engineer, occasional tinkerer, definitely curious',
+        scrollLabel: 'scroll for the good stuff',
+        chatBubbleText: 'Curious? Click me and ask the AI version of me a few questions.',
+        notes: [
+          {
+            label: 'Right now',
+            text: 'Building a portfolio that feels more like a person and less like a template.',
+          },
+          {
+            label: 'What I gravitate toward',
+            text: 'Full-stack products, AI-flavored ideas, clean UX, and systems that actually ship.',
+          },
+        ],
+      },
+      ui: {
+        introTitle: 'A slightly more human intro',
+        signalsTitle: 'A few useful signals',
+        signals: [
+          'I enjoy building products where engineering and user experience have to work together, not compete.',
+          'I care a lot about shipping things that feel clean, useful, and well thought through under the hood.',
+          'When a project mixes full-stack work, AI, and practical product tradeoffs, I’m usually interested.',
+        ],
+        featuredWorkLabel: 'Selected work',
+        featuredWorkTitle: 'Projects with actual personality',
+        featuredWorkLink: 'see the full project page',
+        skillSectionTitle: 'Skills',
+        projectLabelPrefix: 'Project',
       },
       about: {
         whoAmI: {
@@ -111,8 +141,16 @@ const portfolioContent = {
     },
     projects: {
       sectionTitle: 'My Projects',
+      eyebrow: 'selected projects',
+      title: 'Things I built because they felt worth building.',
+      description:
+        'I like projects that combine engineering judgment, product thinking, and a little experimentation. This page is less “gallery wall” and more “here’s what I actually made, why I made it, and what’s interesting about it.”',
       featuredLabel: 'Featured project',
       viewSourceLabel: 'View on GitHub',
+      interestingLabel: 'What makes it interesting',
+      interestingText:
+        'This is the kind of project where I had to connect product intent with actual implementation choices, not just make a UI look passable.',
+      stackLabel: 'Stack highlights',
       list: [
         {
           id: 1,
@@ -158,6 +196,40 @@ const portfolioContent = {
         'I am always open to discussing new projects, creative ideas, or opportunities to be part of your vision. Feel free to reach out!',
       emailLabel: 'Email',
       githubLabel: 'GitHub',
+      noteLabel: 'quick note',
+      noteBody:
+        'If you want the short version: I like building thoughtful software, I’m easy to work with, and I enjoy conversations where someone actually wants to make something better.',
+      noteFooter: 'Recruiter, founder, hiring manager, curious human: all welcome.',
+    },
+    chat: {
+      eyebrow: 'talk to actual-jabin-ish',
+      title: 'This is the part where you can just ask me things.',
+      description:
+        'It is still AI, to be clear, but the goal is for it to sound like me explaining my work in a thoughtful, grounded way, not like a search engine wearing a blazer.',
+      goodPromptsLabel: 'good prompts',
+      goodPromptsText:
+        'Ask about projects, tradeoffs, AI work, cloud deployment, collaboration, or what kind of engineer I am to work with.',
+      bestUseLabel: 'best use',
+      bestUseText:
+        'Treat it like a recruiter screen, a curious hiring manager, or someone poking around trying to understand how I think.',
+      chipFirstPerson: 'first-person replies',
+      chipGrounded: 'evidence-backed answers',
+      clearChatLabel: 'clear chat',
+      startersLabel: 'Conversation starters',
+      startersDescription: 'If you are not sure where to start, steal one of these and see where it goes.',
+      backLabel: 'Back to Portfolio',
+      starterPrefix: 'prompt',
+      liveEyebrow: 'Live conversation',
+      liveTitle: 'Ask, dig deeper, push back a little',
+      liveChip: 'best with real questions',
+      emptyTitle: 'No awkward small talk required',
+      emptyDescription:
+        'Ask about projects, engineering choices, AI work, how I collaborate, what I learned from a project, or what kind of role I’m aiming for. This works best when you ask like a real person, not a dropdown menu.',
+      placeholder: 'Ask something real about Jabin, his work, or how he thinks...',
+      footerHintPrimary: 'Press Enter to send, Shift+Enter for a new line',
+      footerHintSecondary: 'Best results come from specific questions, not generic buzzwords.',
+      thinking: 'Thinking...',
+      unavailable: 'The assistant is temporarily unavailable. Please try again in a moment.',
     },
   },
   zh: {
@@ -170,13 +242,42 @@ const portfolioContent = {
         { path: '/chat', label: '聊天' },
       ],
       languageToggleLabel: 'EN',
+      mobileMenuLabel: '切换导航菜单',
     },
     home: {
       hero: {
         title: '你好，我是 Jabin',
         description: '全栈开发工程师 / 技术爱好者 / 创造者',
+        summary: '我喜欢做那些有用、有一点思考、而且不会让人用得很痛苦的东西。',
         primaryLink: { path: '/projects', label: '项目' },
         secondaryLink: { path: '/contact', label: '联系我' },
+        badge: '软件工程师，偶尔折腾东西，持续保持好奇',
+        scrollLabel: '往下看看更有意思的内容',
+        chatBubbleText: '好奇的话，点我一下，问问这个 AI 版的我。',
+        notes: [
+          {
+            label: '最近在做',
+            text: '把这个作品集做得更像一个真实的人，而不是一个模板站。',
+          },
+          {
+            label: '我偏爱的东西',
+            text: '全栈产品、带一点 AI 味道的想法、干净的体验，以及真正能落地的系统。',
+          },
+        ],
+      },
+      ui: {
+        introTitle: '一个稍微更像人的自我介绍',
+        signalsTitle: '几个有用的判断信号',
+        signals: [
+          '我喜欢做那种工程和用户体验必须一起成立，而不是互相拖后腿的产品。',
+          '我很在意把东西做得干净、好用，而且底层实现也讲得通。',
+          '如果一个项目同时涉及全栈、AI 和真实的产品取舍，我通常会很感兴趣。',
+        ],
+        featuredWorkLabel: '精选内容',
+        featuredWorkTitle: '几个比较有个性的项目',
+        featuredWorkLink: '去看完整项目页',
+        skillSectionTitle: '技能',
+        projectLabelPrefix: '项目',
       },
       about: {
         whoAmI: {
@@ -269,8 +370,16 @@ const portfolioContent = {
     },
     projects: {
       sectionTitle: '我的项目',
+      eyebrow: '精选项目',
+      title: '我做这些项目，是因为它们值得被做出来。',
+      description:
+        '我喜欢那种同时需要工程判断、产品思维和一点实验精神的项目。这一页不是“作品画廊”，而更像“我做了什么、为什么做、以及它为什么有意思”。',
       featuredLabel: '精选项目',
       viewSourceLabel: '查看 GitHub',
+      interestingLabel: '它有意思的地方',
+      interestingText:
+        '这类项目真正考验的不是把页面做出来，而是把产品意图和实际实现选择连在一起。',
+      stackLabel: '技术栈亮点',
       list: [
         {
           id: 1,
@@ -315,6 +424,40 @@ const portfolioContent = {
       description: '我总是乐于讨论新的项目、创意想法或参与您愿景的机会。欢迎随时与我联系。',
       emailLabel: '邮箱',
       githubLabel: 'GitHub',
+      noteLabel: '补充一句',
+      noteBody:
+        '如果你想听最短版本：我喜欢做有思考的软件，也比较好合作，而且我喜欢和真正想把事情做得更好的人聊天。',
+      noteFooter: '招聘者、创始人、经理，或者只是好奇的人，都欢迎。',
+    },
+    chat: {
+      eyebrow: '和一个挺像 Jabin 的版本聊天',
+      title: '这里的作用，就是你可以直接问我问题。',
+      description:
+        '当然它本质上还是 AI，但目标是让它更像我本人在解释自己的工作，而不是一个穿着西装的搜索框。',
+      goodPromptsLabel: '适合问什么',
+      goodPromptsText:
+        '可以问项目、技术取舍、AI 相关经历、云部署、协作方式，或者我属于什么类型的工程师。',
+      bestUseLabel: '最佳打开方式',
+      bestUseText:
+        '把它当成 recruiter 初筛、好奇的 hiring manager，或者一个想了解我怎么思考的人来用，会最自然。',
+      chipFirstPerson: '第一人称回答',
+      chipGrounded: '基于真实经历',
+      clearChatLabel: '清空对话',
+      startersLabel: '可以直接拿来用的问题',
+      startersDescription: '如果你一时不知道从哪开始，直接点一个也完全没问题。',
+      backLabel: '返回作品集',
+      starterPrefix: '问题',
+      liveEyebrow: '实时对话',
+      liveTitle: '可以追问，也可以较真一点',
+      liveChip: '越具体越好用',
+      emptyTitle: '不用尴尬开场白',
+      emptyDescription:
+        '你可以直接问项目、技术选择、AI 经历、合作方式、从项目里学到了什么，或者我想找什么样的角色。像真实聊天那样问，效果最好。',
+      placeholder: '直接问点真实的问题，比如项目、经历、技术选择或职业方向...',
+      footerHintPrimary: 'Enter 发送，Shift+Enter 换行',
+      footerHintSecondary: '问题越具体，回答通常越像真人。',
+      thinking: '正在思考...',
+      unavailable: '聊天服务暂时不可用，请稍后再试。',
     },
   },
 }

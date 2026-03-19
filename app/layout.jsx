@@ -61,7 +61,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <Providers>
-          <div className="relative min-h-screen overflow-hidden bg-neutral-900 text-white">
+          <div className="relative min-h-screen overflow-hidden text-[#101828]">
             <BackgroundVisual />
             <Navbar />
             {children}

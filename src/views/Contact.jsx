@@ -7,43 +7,57 @@ import { usePortfolioContent } from '../hooks/usePortfolioContent';
 const Contact = () => {
   const { contact } = usePortfolioContent();
   return (
-    <section className="flex items-center justify-center min-h-screen p-6">
-      <div className="relative w-full max-w-xl overflow-hidden rounded-[2rem] border border-white/10 bg-black/60 shadow-2xl transition-all duration-500 hover:scale-[1.01]">
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-400 via-slate-600 to-slate-400 bg-[length:400%_400%] animate-gradientBlur opacity-20 rounded-3xl pointer-events-none"></div>
-
-        <div className="relative z-10 flex min-h-[420px] flex-col justify-center px-8 py-10 text-white md:px-10">
-          <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10 text-white">
-            <Mail className="h-7 w-7" />
-          </div>
-
-          <h2 className="mb-5 text-3xl font-extrabold tracking-[0.2em]">
-            {contact.sectionTitle}
-          </h2>
-          <p className="mb-8 text-lg text-gray-300">
+    <main className="page-shell pb-20 pt-16">
+      <section className="surface-card-strong grid gap-6 px-6 py-8 md:grid-cols-[1.05fr_0.95fr] md:px-10 md:py-10">
+        <div className="flex flex-col justify-center">
+          <span className="eyebrow">{contact.sectionTitle}</span>
+          <h1 className="mt-5 text-4xl font-semibold md:text-5xl">Let&apos;s make it easy to reach me.</h1>
+          <p className="mt-5 max-w-xl text-lg leading-8 text-[#526072]">
             {contact.description}
           </p>
 
-          <div className="flex flex-col gap-4">
+          <div className="mt-8 flex flex-col gap-4">
             <a
               href={`mailto:${SITE_CONFIG.contact.email}`}
-              className="inline-flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-lg text-gray-200 transition-colors hover:border-amber-300/40 hover:text-amber-300"
+              className="surface-subtle flex items-center gap-3 px-4 py-4 text-base text-[#526072] hover:border-[rgba(15,118,110,0.24)] hover:text-[#101828]"
             >
-              <Mail className="h-5 w-5" />
-              <span>{contact.emailLabel}</span>
+              <Mail className="h-7 w-7" />
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#0f766e]">{contact.emailLabel}</p>
+                <p className="mt-1">{SITE_CONFIG.contact.email}</p>
+              </div>
             </a>
             <a
               href={SITE_CONFIG.contact.github}
-              className="inline-flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-lg text-gray-200 transition-colors hover:border-amber-300/40 hover:text-amber-300"
+              className="surface-subtle flex items-center gap-3 px-4 py-4 text-base text-[#526072] hover:border-[rgba(15,118,110,0.24)] hover:text-[#101828]"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Github className="h-5 w-5" />
-              <span>{contact.githubLabel}</span>
+              <Github className="h-7 w-7" />
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#0f766e]">{contact.githubLabel}</p>
+                <p className="mt-1">{SITE_CONFIG.contact.github}</p>
+              </div>
             </a>
           </div>
         </div>
-      </div>
-    </section>
+
+        <div className="grid gap-4">
+          <div className="surface-subtle px-5 py-5">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#0f766e]">{contact.noteLabel}</p>
+            <p className="mt-3 text-base leading-8 text-[#526072]">{contact.noteBody}</p>
+          </div>
+          <div className="surface-subtle px-5 py-5">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#0f766e]">Context</p>
+            <p className="mt-3 text-base leading-8 text-[#526072]">{contact.noteFooter}</p>
+          </div>
+          <div className="surface-subtle px-5 py-5">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#0f766e]">Based in</p>
+            <p className="mt-3 text-base leading-8 text-[#526072]">{SITE_CONFIG.location}</p>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 };
 

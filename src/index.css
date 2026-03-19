@@ -2,16 +2,153 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --bg: #f4f7fb;
+  --bg-soft: #edf2f7;
+  --surface: rgba(255, 255, 255, 0.82);
+  --surface-strong: rgba(255, 255, 255, 0.94);
+  --text: #101828;
+  --muted: #526072;
+  --line: rgba(15, 23, 42, 0.08);
+  --accent: #0f766e;
+  --accent-strong: #115e59;
+  --accent-soft: rgba(20, 184, 166, 0.12);
+  --warm-soft: rgba(249, 180, 45, 0.14);
+  --shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+  --shadow-soft: 0 12px 32px rgba(15, 23, 42, 0.06);
+}
+
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  @apply bg-slate-950 text-white antialiased;
+  min-height: 100vh;
+  background: radial-gradient(circle at top left, rgba(15, 118, 110, 0.08), transparent 28%),
+    radial-gradient(circle at 85% 12%, rgba(59, 130, 246, 0.08), transparent 26%),
+    linear-gradient(180deg, #f7f9fc 0%, #eef3f7 100%);
+  color: var(--text);
+  font-family: "Inter", "Avenir Next", "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: "Fraunces", "Iowan Old Style", "Georgia", serif;
+  letter-spacing: -0.03em;
+  color: var(--text);
+}
+
+::selection {
+  background: rgba(20, 184, 166, 0.18);
+  color: var(--text);
 }
 
 #root {
   min-height: 100vh;
+}
+
+.page-shell {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 72rem;
+  padding-inline: 1rem;
+}
+
+.surface-card {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 1.75rem;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(16px);
+}
+
+.surface-card-strong {
+  border: 1px solid var(--line);
+  background: var(--surface-strong);
+  border-radius: 1.75rem;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(16px);
+}
+
+.surface-subtle {
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 1.25rem;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.72);
+  padding: 0.45rem 0.9rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-strong);
+}
+
+.tag-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.74);
+  padding: 0.4rem 0.8rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.button-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  border-radius: 999px;
+  background: var(--text);
+  padding: 0.9rem 1.2rem;
+  font-size: 0.96rem;
+  font-weight: 600;
+  color: white;
+  box-shadow: var(--shadow-soft);
+}
+
+.button-primary:hover {
+  transform: translateY(-1px);
+}
+
+.button-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.76);
+  padding: 0.9rem 1.2rem;
+  font-size: 0.96rem;
+  font-weight: 600;
+  color: var(--text);
+  box-shadow: var(--shadow-soft);
+}
+
+.button-secondary:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.field-surface {
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  border-radius: 1.2rem;
+  background: rgba(255, 255, 255, 0.96);
 }
 
 .scrollbar-hide {
@@ -41,46 +178,9 @@ body {
   }
 }
 
-@keyframes bg-move-fast {
-  0%,
-  100% {
-    transform: translate(-48%, -50%) scale(1);
-  }
-  50% {
-    transform: translate(-40%, -42%) scale(1.08);
-  }
-}
-
-@keyframes bg-move-reverse {
-  0%,
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-  50% {
-    transform: translate(-58%, -55%) scale(0.92);
-  }
-}
-
-@keyframes gradientBlur {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-.animate-bg-move-fast {
-  animation: bg-move-fast 12s ease-in-out infinite;
-}
-
-.animate-bg-move-reverse {
-  animation: bg-move-reverse 15s ease-in-out infinite;
-}
-
-.animate-gradientBlur {
-  animation: gradientBlur 10s ease infinite;
+a,
+button,
+textarea {
+  transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease, color 160ms ease,
+    opacity 160ms ease, box-shadow 160ms ease;
 }

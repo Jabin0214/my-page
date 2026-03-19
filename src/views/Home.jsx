@@ -1,12 +1,13 @@
 'use client';
 
-import { useMemo, useRef } from 'react';
+import { useMemo } from 'react';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
 import AvatarHeader from '../components/pageComponents/AvatarHeader';
-import DownloadButton from '../components/functionalComponents/DownloadButton';
 import SectionCard from '../components/shared/SectionCard';
-import { useScrollThreshold } from '../hooks/useScrollThreshold';
 import { usePortfolioContent } from '../hooks/usePortfolioContent';
+import { getAssetPath } from '../lib/assets';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -14,10 +15,10 @@ const fadeInUp = {
 };
 
 const Home = () => {
-  const containerRef = useRef(null);
-  const showScrollTop = useScrollThreshold(500);
   const content = usePortfolioContent();
   const about = content.home.about;
+  const homeUi = content.home.ui;
+  const featuredProjects = useMemo(() => content.projects.list.slice(0, 3), [content.projects.list]);
 
   const experienceItems = useMemo(
     () => about.experience.items.map((item, index) => ({ ...item, key: index + 1 })),
@@ -25,132 +26,139 @@ const Home = () => {
   );
 
   return (
-    <div className="flex w-full flex-col items-center pt-16">
-      <div className="flex min-h-[calc(100vh-4rem)] w-full items-center justify-center px-4">
-        <div ref={containerRef} className="w-full max-w-4xl">
-          <AvatarHeader containerRef={containerRef} />
-        </div>
-      </div>
+    <main className="page-shell pb-24 pt-16">
+      <div className="space-y-8">
+        <AvatarHeader />
 
-      <div className="w-full max-w-5xl space-y-10 px-4 pb-24">
-        <SectionCard>
-          <h2 className="mb-6 text-center text-2xl font-bold">
-            {about.whoAmI.title}
-          </h2>
-          <div className="space-y-4 text-white/80">
-            {about.whoAmI.paragraphs.map((paragraph) => (
-              <p key={paragraph} className="leading-relaxed">
-                {paragraph}
-              </p>
-            ))}
-          </div>
-        </SectionCard>
-
-        <SectionCard>
-          <h2 className="mb-6 text-center text-2xl font-bold">
-            {about.skills.title}
-          </h2>
-
-          <div className="flex flex-wrap justify-center gap-3">
-            {about.skills.list.map((skill) => (
-              <span
-                key={skill}
-                className="rounded-full border border-cyan-400/30 bg-cyan-400/10 px-4 py-2 text-sm font-medium text-cyan-50 transition-all hover:-translate-y-0.5 hover:bg-cyan-300/20"
-              >
-                {skill}
-              </span>
-            ))}
-          </div>
-        </SectionCard>
-
-        <SectionCard>
-          <h2 className="mb-6 text-center text-2xl font-bold">
-            {about.experience.title}
-          </h2>
-
-          <div className="relative space-y-8">
-            <div className="absolute bottom-0 left-3.5 top-0 hidden w-0.5 bg-white/10 md:block"></div>
-
-            {experienceItems.map((item) => (
-              <div key={item.key} className="relative md:ml-12">
-                <div className="absolute left-[-40px] top-1.5 hidden h-4 w-4 rounded-full border-4 border-slate-900 bg-cyan-300 md:block"></div>
-
-                <div className="rounded-2xl border border-white/8 bg-black/20 p-5 backdrop-blur-sm">
-                  <h3 className="text-lg font-bold">{item.company}</h3>
-                  <p className="mb-2 text-sm italic text-cyan-100/70">{item.duration}</p>
-                  <p className="mb-3 text-white/80">{item.description}</p>
-                  <ul className="space-y-2 text-sm text-white/70">
-                    {item.points.map((point) => (
-                      <li key={point} className="flex items-start">
-                        <span className="mt-1.5 mr-2 inline-block h-1.5 w-1.5 rounded-full bg-cyan-300"></span>
-                        <span>{point}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            ))}
-          </div>
-        </SectionCard>
-
-        <motion.div
+        <motion.section
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
           variants={fadeInUp}
-          className="grid grid-cols-1 gap-6 md:grid-cols-2"
+          className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]"
         >
-          <div className="rounded-3xl border border-white/10 bg-white/8 p-8 text-white shadow-2xl backdrop-blur-xl">
-            <h2 className="mb-4 text-center text-2xl font-bold">
-              {about.education.title}
-            </h2>
-            <div className="space-y-4">
-              {about.education.degrees.map((degree) => (
-                <div key={degree} className="rounded-2xl bg-black/20 p-4 backdrop-blur-sm">
-                  <p className="text-white/80">{degree}</p>
+          <SectionCard>
+            <span className="eyebrow">{about.whoAmI.title}</span>
+            <h2 className="mt-5 text-3xl font-semibold md:text-4xl">A clear picture of how I work</h2>
+            <div className="mt-5 space-y-4 text-[1.02rem] leading-8 text-[#526072]">
+              {about.whoAmI.paragraphs.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+          </SectionCard>
+
+          <SectionCard>
+            <span className="eyebrow">{homeUi.signalsTitle}</span>
+            <div className="mt-5 grid gap-3">
+              {homeUi.signals.map((signal) => (
+                <div key={signal} className="surface-subtle px-4 py-4">
+                  <p className="text-sm leading-7 text-[#526072]">{signal}</p>
                 </div>
               ))}
             </div>
-          </div>
 
-          <div className="rounded-3xl border border-white/10 bg-white/8 p-8 text-white shadow-2xl backdrop-blur-xl">
-            <div className="mb-6">
-              <h2 className="mb-4 text-center text-2xl font-bold">
-                {about.languages.title}
-              </h2>
-              <div className="rounded-2xl bg-black/20 p-4 backdrop-blur-sm">
-                <p className="text-white/80">{about.languages.list}</p>
+            <div className="mt-6">
+              <h3 className="text-xl font-semibold">{about.skills.title || homeUi.skillSectionTitle}</h3>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {about.skills.list.map((skill) => (
+                  <span key={skill} className="tag-pill">
+                    {skill}
+                  </span>
+                ))}
               </div>
             </div>
+          </SectionCard>
+        </motion.section>
 
+        <SectionCard>
+          <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
-              <h2 className="mb-4 text-center text-2xl font-bold">
-                {about.hobbies.title}
-              </h2>
-              <div className="rounded-2xl bg-black/20 p-4 backdrop-blur-sm">
-                <p className="text-white/80">{about.hobbies.list}</p>
-              </div>
+              <span className="eyebrow">{homeUi.featuredWorkLabel}</span>
+              <h2 className="mt-4 text-3xl font-semibold md:text-4xl">{homeUi.featuredWorkTitle}</h2>
             </div>
+            <Link href="/projects" className="button-secondary">
+              {homeUi.featuredWorkLink}
+              <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
-        </motion.div>
-      </div>
 
-      <div className="fixed bottom-16 right-8 z-10">
-        <DownloadButton />
-      </div>
+          <div className="mt-8 grid gap-5 lg:grid-cols-3">
+            {featuredProjects.map((project, index) => (
+              <article key={project.id} className="surface-subtle overflow-hidden p-4">
+                <div className="overflow-hidden rounded-[1rem] border border-[var(--line)] bg-[var(--bg-soft)]">
+                  <img
+                    src={getAssetPath(project.cover)}
+                    alt={project.title}
+                    className="h-48 w-full object-cover"
+                  />
+                </div>
+                <p className="mt-4 text-xs font-semibold uppercase tracking-[0.18em] text-[#0f766e]">
+                  {homeUi.projectLabelPrefix} {String(index + 1).padStart(2, '0')}
+                </p>
+                <h3 className="mt-2 text-2xl font-semibold">{project.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-[#526072]">{project.description}</p>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {project.tags.slice(0, 4).map((tag) => (
+                    <span key={tag} className="tag-pill">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
+        </SectionCard>
 
-      {showScrollTop && (
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          aria-label="Back to top"
-          className="fixed bottom-8 left-8 rounded-full border border-white/10 bg-white p-3 text-gray-800 shadow-lg transition-colors hover:bg-gray-200"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12 19V5M5 12l7-7 7 7" />
-          </svg>
-        </button>
-      )}
-    </div>
+        <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+          <SectionCard>
+            <span className="eyebrow">{about.experience.title}</span>
+            <div className="mt-6 space-y-4">
+              {experienceItems.map((item) => (
+                <article key={item.key} className="surface-subtle px-5 py-5">
+                  <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
+                    <div>
+                      <h3 className="text-xl font-semibold">{item.company}</h3>
+                      <p className="mt-1 text-sm font-medium text-[#0f766e]">{item.duration}</p>
+                    </div>
+                    <p className="max-w-xl text-sm leading-7 text-[#526072]">{item.description}</p>
+                  </div>
+                  <ul className="mt-4 space-y-2 text-sm leading-7 text-[#526072]">
+                    {item.points.map((point) => (
+                      <li key={point} className="flex items-start gap-3">
+                        <span className="mt-2 h-1.5 w-1.5 rounded-full bg-[#0f766e]" />
+                        <span>{point}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
+            </div>
+          </SectionCard>
+
+          <div className="space-y-6">
+            <SectionCard>
+              <span className="eyebrow">{about.education.title}</span>
+              <div className="mt-5 space-y-3">
+                {about.education.degrees.map((degree) => (
+                  <div key={degree} className="surface-subtle px-4 py-4 text-sm leading-7 text-[#526072]">
+                    {degree}
+                  </div>
+                ))}
+              </div>
+            </SectionCard>
+
+            <SectionCard>
+              <span className="eyebrow">{about.languages.title}</span>
+              <p className="mt-5 text-base leading-7 text-[#526072]">{about.languages.list}</p>
+              <div className="mt-6 border-t border-[var(--line)] pt-6">
+                <span className="eyebrow">{about.hobbies.title}</span>
+                <p className="mt-4 text-base leading-7 text-[#526072]">{about.hobbies.list}</p>
+              </div>
+            </SectionCard>
+          </div>
+        </div>
+      </div>
+    </main>
   );
 };
 

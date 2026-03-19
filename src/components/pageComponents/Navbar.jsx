@@ -23,29 +23,26 @@ const Navbar = () => {
   };
 
   return (
-    <header className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-[95%] sm:w-11/12 md:w-4/5 lg:w-2/3 xl:w-1/2">
-      <nav className="flex items-center justify-between px-5 py-3 rounded-xl 
-                      bg-white/10 backdrop-blur-md shadow-lg border border-white/10 text-white">
-        
-        {/* Logo */}
+    <header className="sticky top-0 z-50 px-4 pt-4">
+      <nav className="page-shell surface-card flex items-center justify-between px-5 py-3 text-[#101828]">
         <Link
           href="/"
-          className="text-lg sm:text-xl font-bold tracking-tight"
+          className="text-lg font-bold tracking-tight sm:text-xl"
           onClick={() => setIsMenuOpen(false)}
         >
-          {SITE_CONFIG.owner}<span className="opacity-60">{content.navigation.brandSuffix}</span>
+          {SITE_CONFIG.owner}
+          <span className="ml-2 text-sm font-medium text-[#526072]">{content.navigation.brandSuffix}</span>
         </Link>
 
-        {/* Desktop Nav */}
         <div className="hidden sm:flex items-center space-x-4">
           {content.navigation.links.map((link) => (
             <Link
               key={link.path}
               href={link.path}
-              className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
+              className={`rounded-full px-3 py-1.5 text-sm font-medium transition-all ${
                 currentPath === link.path
-                  ? 'bg-white text-black shadow'
-                  : 'text-white hover:bg-white/20'
+                  ? 'bg-[#101828] text-white'
+                  : 'text-[#526072] hover:bg-white hover:text-[#101828]'
               }`}
             >
               {link.label}
@@ -53,39 +50,38 @@ const Navbar = () => {
           ))}
           <button
             onClick={toggleLanguage}
-            className="px-3 py-1.5 text-sm rounded-full border border-white text-white hover:bg-white hover:text-black transition-all"
+            className="button-secondary px-3 py-1.5 text-sm"
           >
             {content.navigation.languageToggleLabel}
           </button>
         </div>
 
-        {/* Mobile Toggle Button */}
         <button
-          className="sm:hidden p-2 text-white"
+          className="rounded-full p-2 text-[#101828] sm:hidden"
           onClick={() => setIsMenuOpen((prev) => !prev)}
+          aria-label={content.navigation.mobileMenuLabel}
         >
           {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </nav>
 
-      {/* Mobile Nav Panel */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-          initial={{ opacity: 0, scaleY: 0 }}
-          animate={{ opacity: 1, scaleY: 1 }}
-          exit={{ opacity: 0, scaleY: 0 }}
-          transition={{ duration: 0.3, ease: "easeInOut", delayChildren: 0.15, staggerChildren: 0.05 }}
-          className="sm:hidden origin-top mt-2 bg-white/10 backdrop-blur-md shadow-lg border border-white/10 rounded-xl px-5 py-3 space-y-2"
-        >
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.18, ease: 'easeOut' }}
+            className="page-shell surface-card mt-3 space-y-2 px-4 py-4 sm:hidden"
+          >
             {content.navigation.links.map((link) => (
               <Link
                 key={link.path}
                 href={link.path}
-                className={`block px-3 py-2 rounded-full text-sm font-medium transition-all ${
+                className={`block rounded-full px-3 py-2 text-sm font-medium transition-all ${
                   currentPath === link.path
-                    ? 'bg-white text-black shadow'
-                    : 'text-white hover:bg-white/20'
+                    ? 'bg-[#101828] text-white'
+                    : 'text-[#526072] hover:bg-white hover:text-[#101828]'
                 }`}
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -97,7 +93,7 @@ const Navbar = () => {
                 toggleLanguage();
                 setIsMenuOpen(false);
               }}
-              className="w-full text-left px-3 py-2 text-sm rounded-full border border-white text-white hover:bg-white hover:text-black transition-all"
+              className="button-secondary w-full justify-start px-3 py-2 text-left text-sm"
             >
               {content.navigation.languageToggleLabel}
             </button>

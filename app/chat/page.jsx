@@ -4,7 +4,7 @@ import { createPageMetadata } from '../../src/lib/metadata'
 export const metadata = createPageMetadata({
   title: 'Chat',
   description:
-    'Chat with an AI assistant trained on Jabin Chen’s projects, experience, and technical background.',
+    'Chat with a conversational AI version of Jabin Chen to explore projects, engineering choices, experience, and career story.',
   path: '/chat',
 })
 

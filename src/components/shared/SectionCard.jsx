@@ -13,7 +13,7 @@ const SectionCard = ({ children, className = '' }) => (
     whileInView="visible"
     viewport={{ once: true, amount: 0.2 }}
     variants={fadeInUp}
-    className={`rounded-3xl border border-white/10 bg-white/8 p-8 text-white shadow-2xl backdrop-blur-xl ${className}`}
+    className={`surface-card p-8 text-[#101828] ${className}`}
   >
     {children}
   </motion.section>
