@@ -8,8 +8,9 @@ A production-oriented portfolio built with Next.js App Router, designed to feel 
 - The content system is standardized around a single bilingual source of truth, which reduces drift and makes future updates safer.
 - SEO is treated as a first-class concern: metadata, canonical URLs, Open Graph, Twitter cards, `robots.txt`, and `sitemap.xml` are all configured.
 - The chat path is hardened with request validation, request-size limits, best-effort rate limiting, timeout control, and abortable client requests.
+- The site ships with baseline browser-facing security headers configured in Next.js.
 - The UI keeps a distinctive personal tone while still following practical engineering standards such as reusable content/config layers and build-time checks.
-- Image loading now uses Next.js image optimization, and social/manifest assets are separated from oversized source images.
+- Image loading now uses Next.js image optimization, project covers are switched to lighter JPEG assets, and social/manifest assets are separated from oversized source images.
 - The repo includes baseline automated tests for core helpers so regressions in language resolution and chat validation are easier to catch.
 
 ## Core capabilities

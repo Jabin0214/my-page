@@ -4,6 +4,8 @@ import {
   buildChatRequestBody,
   CHAT_LIMITS,
   enforceChatRateLimit,
+  getClientIdentifier,
+  isRequestTooLarge,
   normalizeHistory,
   resetChatRateLimitStore,
   validateChatPayload,
@@ -28,6 +30,13 @@ test('normalizeHistory filters unsupported roles and truncates content', () => {
   assert.equal(history[1].content, 'grounded reply')
 })
 
+test('validateChatPayload rejects messages beyond the allowed limit', () => {
+  const result = validateChatPayload({ message: 'a'.repeat(CHAT_LIMITS.maxMessageLength + 1) })
+
+  assert.equal(result.ok, false)
+  assert.equal(result.status, 400)
+})
+
 test('enforceChatRateLimit blocks once the request budget is exhausted', () => {
   resetChatRateLimitStore()
 
@@ -38,6 +47,17 @@ test('enforceChatRateLimit blocks once the request budget is exhausted', () => {
   const blocked = enforceChatRateLimit('127.0.0.1:test-agent')
   assert.equal(blocked.ok, false)
   assert.ok(blocked.retryAfterSeconds >= 1)
+})
+
+test('request helpers derive client identity and size limits from headers', () => {
+  const headers = new Headers({
+    'content-length': String(CHAT_LIMITS.maxRequestBytes + 1),
+    'x-forwarded-for': '203.0.113.10, 10.0.0.1',
+    'user-agent': 'Playwright',
+  })
+
+  assert.equal(isRequestTooLarge(headers), true)
+  assert.equal(getClientIdentifier(headers), '203.0.113.10:Playwright')
 })
 
 test('buildChatRequestBody keeps the system prompt and user payload intact', () => {

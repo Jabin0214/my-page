@@ -174,7 +174,7 @@ const portfolioContent = {
           description:
             'Developed an innovative application that automates medication purchases by extracting data from product images using AI-driven image recognition.',
           tags: ['React', 'Swift', 'ASP.NET', 'Docker', 'OpenAI API', 'AWS'],
-          cover: 'covers/medimate.png',
+          cover: 'covers/medimate.jpg',
           github: 'https://github.com/Jabin0214/Medimate',
         },
         {
@@ -183,7 +183,7 @@ const portfolioContent = {
           description:
             'Built a full-stack web application integrating Spotify and OpenAI APIs, allowing users to review, chat, and discover music interactively.',
           tags: ['MERN Stack', 'React', 'Node.js', 'MongoDB', 'Express', 'OpenAI API'],
-          cover: 'covers/musichat.png',
+          cover: 'covers/musichat.jpg',
           github: 'https://github.com/Jabin0214/Music-Chat',
         },
         {
@@ -192,7 +192,7 @@ const portfolioContent = {
           description:
             'Developed a stock portfolio and AI news podcast system, integrating financial summaries and podcasts using Azure TTS.',
           tags: ['React', 'ASP.NET Core', 'Azure', 'Docker', 'DeepSeek', 'NewsAPI'],
-          cover: 'covers/aipodcast.png',
+          cover: 'covers/aipodcast.jpg',
           github: 'https://github.com/Jabin0214/Finmate-Backend',
         },
         {
@@ -201,7 +201,7 @@ const portfolioContent = {
           description:
             "Conducted data mining on COVID-19's effect on education in Venezuela using CRISP-DM methodology, building ML models to predict school dropout rates.",
           tags: ['Python', 'Pandas', 'NumPy', 'Scikit-Learn', 'R', 'IBM SPSS'],
-          cover: 'covers/covid.png',
+          cover: 'covers/covid.jpg',
           github: 'https://github.com/Jabin0214/DM722',
         },
       ],
@@ -429,7 +429,7 @@ const portfolioContent = {
           description:
             '开发了一款创新的应用程序，通过使用 AI 驱动的图像识别技术从产品图像中提取数据，从而实现药物购买的自动化。',
           tags: ['React', 'Swift', 'ASP.NET', 'Docker', 'OpenAI API', 'AWS'],
-          cover: 'covers/medimate.png',
+          cover: 'covers/medimate.jpg',
           github: 'https://github.com/Jabin0214/Medimate',
         },
         {
@@ -438,7 +438,7 @@ const portfolioContent = {
           description:
             '构建了一个集成 Spotify 和 OpenAI API 的全栈 Web 应用程序，允许用户以交互方式评论、聊天和发现音乐。',
           tags: ['MERN Stack', 'React', 'Node.js', 'MongoDB', 'Express', 'OpenAI API'],
-          cover: 'covers/musichat.png',
+          cover: 'covers/musichat.jpg',
           github: 'https://github.com/Jabin0214/Music-Chat',
         },
         {
@@ -447,7 +447,7 @@ const portfolioContent = {
           description:
             '开发了一个股票投资组合和 AI 新闻播客系统，集成了金融摘要和使用 Azure TTS 生成的播客。',
           tags: ['React', 'ASP.NET Core', 'Azure', 'Docker', 'DeepSeek', 'NewsAPI'],
-          cover: 'covers/aipodcast.png',
+          cover: 'covers/aipodcast.jpg',
           github: 'https://github.com/Jabin0214/Finmate-Backend',
         },
         {
@@ -456,7 +456,7 @@ const portfolioContent = {
           description:
             '使用 CRISP-DM 方法对 COVID-19 对委内瑞拉教育的影响进行数据挖掘，构建机器学习模型以预测学校辍学率。',
           tags: ['Python', 'Pandas', 'NumPy', 'Scikit-Learn', 'R', 'IBM SPSS'],
-          cover: 'covers/covid.png',
+          cover: 'covers/covid.jpg',
           github: 'https://github.com/Jabin0214/DM722',
         },
       ],
