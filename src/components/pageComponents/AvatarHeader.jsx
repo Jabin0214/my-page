@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import EyeTrackingAvatar from '../ui/EyeTrackingAvatar';
 import DownloadButton from '../functionalComponents/DownloadButton';
 import { SITE_CONFIG } from '../../config/site';
 import { usePortfolioContent } from '../../hooks/usePortfolioContent';
@@ -55,7 +54,13 @@ const AvatarHeader = () => {
           </Link>
         </div>
 
-        <EyeTrackingAvatar chatUrl={SITE_CONFIG.contact.chat} bubbleText={hero.chatBubbleText} />
+        <div className="surface-subtle px-5 py-5">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#0f766e]">In one sentence</p>
+          <p className="mt-3 text-base leading-7 text-[#526072]">{hero.chatBubbleText}</p>
+          <Link href={SITE_CONFIG.contact.chat} className="mt-5 inline-flex items-center text-sm font-semibold text-[#0f766e] hover:text-[#115e59]">
+            Ask me directly
+          </Link>
+        </div>
 
         <div className="grid gap-3">
           {hero.notes.map((note) => (
