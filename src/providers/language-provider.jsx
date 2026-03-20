@@ -27,12 +27,6 @@ export function LanguageProvider({ children, initialLanguage = DEFAULT_LANGUAGE 
     syncLanguage(language)
   }, [language])
 
-  const setLanguage = (nextLanguage) => {
-    startTransition(() => {
-      setLanguageState(normalizeLanguage(nextLanguage))
-    })
-  }
-
   const toggleLanguage = () => {
     startTransition(() => {
       setLanguageState((currentLanguage) => (currentLanguage === 'en' ? 'zh' : 'en'))
@@ -40,7 +34,7 @@ export function LanguageProvider({ children, initialLanguage = DEFAULT_LANGUAGE 
   }
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, toggleLanguage }}>
+    <LanguageContext.Provider value={{ language, toggleLanguage }}>
       {children}
     </LanguageContext.Provider>
   )

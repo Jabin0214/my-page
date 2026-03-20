@@ -1,6 +1,6 @@
 'use client';
 
-import { FiDownload } from 'react-icons/fi';
+import { Download } from 'lucide-react';
 import { SITE_CONFIG } from '../../config/site';
 import { getAssetPath } from '../../lib/assets';
 
@@ -15,7 +15,7 @@ const DownloadButton = ({ className = '', label }) => {
       aria-label={accessibleLabel}
       className={`button-secondary ${className}`}
     >
-      <FiDownload className="w-5 h-5" />
+      <Download className="w-5 h-5" />
       <span>{accessibleLabel}</span>
     </a>
   );
