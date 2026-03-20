@@ -23,7 +23,6 @@ const portfolioContent = {
         secondaryLink: { path: '/contact', label: 'Contact' },
         resumeLabel: 'Resume',
         badge: 'software engineer, occasional tinkerer, definitely curious',
-        scrollLabel: 'scroll for the good stuff',
         chatBubbleText: 'Curious? Click me and ask the AI version of me a few questions.',
         quickReadLabel: 'Quick read',
         oneSentenceLabel: 'In one sentence',
@@ -49,7 +48,6 @@ const portfolioContent = {
         ],
       },
       ui: {
-        introTitle: 'A slightly more human intro',
         signalsTitle: 'A few useful signals',
         signals: [
           'I enjoy building products where engineering and user experience have to work together, not compete.',
@@ -156,16 +154,12 @@ const portfolioContent = {
       },
     },
     projects: {
-      sectionTitle: 'My Projects',
       eyebrow: 'selected projects',
       title: 'Things I built because they felt worth building.',
       description:
         'I like projects that combine engineering judgment, product thinking, and a little experimentation. This page is less “gallery wall” and more “here’s what I actually made, why I made it, and what’s interesting about it.”',
       featuredLabel: 'Featured project',
       viewSourceLabel: 'View on GitHub',
-      interestingLabel: 'What makes it interesting',
-      interestingText:
-        'This is the kind of project where I had to connect product intent with actual implementation choices, not just make a UI look passable.',
       stackLabel: 'Stack highlights',
       list: [
         {
@@ -240,7 +234,6 @@ const portfolioContent = {
       starterPrefix: 'prompt',
       liveEyebrow: 'Live conversation',
       liveTitle: 'Ask, dig deeper, push back a little',
-      liveChip: 'best with real questions',
       emptyTitle: 'No awkward small talk required',
       emptyDescription:
         'Ask about projects, engineering choices, AI work, how I collaborate, what I learned from a project, or what kind of role I’m aiming for. This works best when you ask like a real person, not a dropdown menu.',
@@ -281,7 +274,6 @@ const portfolioContent = {
         secondaryLink: { path: '/contact', label: '联系我' },
         resumeLabel: '简历',
         badge: '软件工程师，偶尔折腾东西，持续保持好奇',
-        scrollLabel: '往下看看更有意思的内容',
         chatBubbleText: '好奇的话，点我一下，问问这个 AI 版的我。',
         quickReadLabel: '快速了解',
         oneSentenceLabel: '一句话概括',
@@ -307,7 +299,6 @@ const portfolioContent = {
         ],
       },
       ui: {
-        introTitle: '一个稍微更像人的自我介绍',
         signalsTitle: '几个有用的判断信号',
         signals: [
           '我喜欢做那种工程和用户体验必须一起成立，而不是互相拖后腿的产品。',
@@ -411,16 +402,12 @@ const portfolioContent = {
       },
     },
     projects: {
-      sectionTitle: '我的项目',
       eyebrow: '精选项目',
       title: '我做这些项目，是因为它们值得被做出来。',
       description:
         '我喜欢那种同时需要工程判断、产品思维和一点实验精神的项目。这一页不是“作品画廊”，而更像“我做了什么、为什么做、以及它为什么有意思”。',
       featuredLabel: '精选项目',
       viewSourceLabel: '查看 GitHub',
-      interestingLabel: '它有意思的地方',
-      interestingText:
-        '这类项目真正考验的不是把页面做出来，而是把产品意图和实际实现选择连在一起。',
       stackLabel: '技术栈亮点',
       list: [
         {
@@ -494,7 +481,6 @@ const portfolioContent = {
       starterPrefix: '问题',
       liveEyebrow: '实时对话',
       liveTitle: '可以追问，也可以较真一点',
-      liveChip: '越具体越好用',
       emptyTitle: '不用尴尬开场白',
       emptyDescription:
         '你可以直接问项目、技术选择、AI 经历、合作方式、从项目里学到了什么，或者我想找什么样的角色。像真实聊天那样问，效果最好。',

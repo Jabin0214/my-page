@@ -3,28 +3,111 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
-import AvatarHeader from '../components/pageComponents/AvatarHeader';
-import SectionCard from '../components/shared/SectionCard';
-import { usePortfolioContent } from '../hooks/usePortfolioContent';
-import { getAssetPath } from '../lib/assets';
+import { ArrowRight, Download } from 'lucide-react';
+import { SITE_CONFIG } from '../src/config/site';
+import { usePortfolioContent } from '../src/hooks/usePortfolioContent';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
 };
 
+function AnimatedSectionCard({ children, className = '' }) {
+  return (
+    <motion.section
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={fadeInUp}
+      className={`surface-card p-8 text-[#101828] ${className}`}
+    >
+      {children}
+    </motion.section>
+  )
+}
+
 const Home = () => {
   const content = usePortfolioContent();
+  const hero = content.home.hero;
   const about = content.home.about;
   const homeUi = content.home.ui;
+  const chatLink = content.navigation.links.find((link) => link.path === SITE_CONFIG.contact.chat);
+  const resumeUrl = `/${SITE_CONFIG.contact.resumeFileName}`;
+  const heroFacts = [
+    { label: hero.factLabels.base, value: SITE_CONFIG.location },
+    { label: hero.factLabels.focus, value: hero.factValues.focus },
+    { label: hero.factLabels.style, value: hero.factValues.style },
+  ];
   const featuredProjects = content.projects.list.slice(0, 3);
   const experienceItems = about.experience.items;
 
   return (
     <main className="page-shell pb-24 pt-16">
       <div className="space-y-8">
-        <AvatarHeader />
+        <section className="grid gap-6 lg:grid-cols-[1.18fr_0.82fr]">
+          <div className="surface-card-strong px-6 py-8 md:px-10 md:py-10">
+            <span className="eyebrow">{hero.badge}</span>
+            <h1 className="mt-5 max-w-4xl text-5xl font-semibold leading-[0.92] text-[#101828] md:text-7xl">
+              {hero.title}
+            </h1>
+            <p className="mt-5 max-w-2xl text-lg leading-8 text-[#526072] md:text-xl">
+              {hero.description}. {hero.summary}
+            </p>
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link href={hero.primaryLink.path} className="button-primary">
+                {hero.primaryLink.label}
+              </Link>
+              <Link href={hero.secondaryLink.path} className="button-secondary">
+                {hero.secondaryLink.label}
+              </Link>
+              <a
+                href={resumeUrl}
+                download={SITE_CONFIG.contact.resumeFileName}
+                aria-label={hero.resumeLabel}
+                className="button-secondary"
+              >
+                <Download className="w-5 h-5" />
+                <span>{hero.resumeLabel}</span>
+              </a>
+            </div>
+
+            <div className="mt-10 grid gap-3 sm:grid-cols-3">
+              {heroFacts.map((fact) => (
+                <div key={fact.label} className="surface-subtle px-4 py-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#0f766e]">{fact.label}</p>
+                  <p className="mt-2 text-sm leading-6 text-[#526072]">{fact.value}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="surface-card flex flex-col gap-6 px-6 py-8 md:px-8 md:py-10">
+            <div className="flex items-center justify-between gap-3">
+              <span className="eyebrow">{hero.quickReadLabel}</span>
+              <Link href={SITE_CONFIG.contact.chat} className="text-sm font-semibold text-[#0f766e] hover:text-[#115e59]">
+                {chatLink?.label || 'Chat'}
+              </Link>
+            </div>
+
+            <div className="surface-subtle px-5 py-5">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#0f766e]">{hero.oneSentenceLabel}</p>
+              <p className="mt-3 text-base leading-7 text-[#526072]">{hero.chatBubbleText}</p>
+              <Link href={SITE_CONFIG.contact.chat} className="mt-5 inline-flex items-center text-sm font-semibold text-[#0f766e] hover:text-[#115e59]">
+                {hero.askDirectlyLabel}
+              </Link>
+            </div>
+
+            <div className="grid gap-3">
+              {hero.notes.map((note) => (
+                <div key={note.label} className="surface-subtle px-4 py-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#0f766e]">{note.label}</p>
+                  <p className="mt-2 text-sm leading-6 text-[#526072]">{note.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
 
         <motion.section
           initial="hidden"
@@ -33,7 +116,7 @@ const Home = () => {
           variants={fadeInUp}
           className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]"
         >
-          <SectionCard>
+          <AnimatedSectionCard>
             <span className="eyebrow">{about.whoAmI.title}</span>
             <h2 className="mt-5 text-3xl font-semibold md:text-4xl">{homeUi.workStyleTitle}</h2>
             <div className="mt-5 space-y-4 text-[1.02rem] leading-8 text-[#526072]">
@@ -41,9 +124,9 @@ const Home = () => {
                 <p key={paragraph}>{paragraph}</p>
               ))}
             </div>
-          </SectionCard>
+          </AnimatedSectionCard>
 
-          <SectionCard>
+          <AnimatedSectionCard>
             <span className="eyebrow">{homeUi.signalsTitle}</span>
             <div className="mt-5 grid gap-3">
               {homeUi.signals.map((signal) => (
@@ -63,10 +146,10 @@ const Home = () => {
                 ))}
               </div>
             </div>
-          </SectionCard>
+          </AnimatedSectionCard>
         </motion.section>
 
-        <SectionCard>
+        <AnimatedSectionCard>
           <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
               <span className="eyebrow">{homeUi.featuredWorkLabel}</span>
@@ -83,7 +166,7 @@ const Home = () => {
               <article key={project.id} className="surface-subtle overflow-hidden p-4">
                 <div className="overflow-hidden rounded-[1rem] border border-[var(--line)] bg-[var(--bg-soft)]">
                   <Image
-                    src={getAssetPath(project.cover)}
+                    src={`/${project.cover}`}
                     alt={project.title}
                     width={1024}
                     height={1024}
@@ -106,10 +189,10 @@ const Home = () => {
               </article>
             ))}
           </div>
-        </SectionCard>
+        </AnimatedSectionCard>
 
         <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-          <SectionCard>
+          <AnimatedSectionCard>
             <span className="eyebrow">{about.experience.title}</span>
             <div className="mt-6 space-y-4">
               {experienceItems.map((item, index) => (
@@ -132,10 +215,10 @@ const Home = () => {
                 </article>
               ))}
             </div>
-          </SectionCard>
+          </AnimatedSectionCard>
 
           <div className="space-y-6">
-            <SectionCard>
+            <AnimatedSectionCard>
               <span className="eyebrow">{about.education.title}</span>
               <div className="mt-5 space-y-3">
                 {about.education.degrees.map((degree) => (
@@ -144,16 +227,16 @@ const Home = () => {
                   </div>
                 ))}
               </div>
-            </SectionCard>
+            </AnimatedSectionCard>
 
-            <SectionCard>
+            <AnimatedSectionCard>
               <span className="eyebrow">{about.languages.title}</span>
               <p className="mt-5 text-base leading-7 text-[#526072]">{about.languages.list}</p>
               <div className="mt-6 border-t border-[var(--line)] pt-6">
                 <span className="eyebrow">{about.hobbies.title}</span>
                 <p className="mt-4 text-base leading-7 text-[#526072]">{about.hobbies.list}</p>
               </div>
-            </SectionCard>
+            </AnimatedSectionCard>
           </div>
         </div>
       </div>

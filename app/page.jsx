@@ -1,4 +1,4 @@
-import Home from '../src/views/Home'
+import HomeContent from './home-content'
 import { SITE_CONFIG } from '../src/config/site'
 import { createPageMetadata } from '../src/lib/metadata'
 
@@ -44,7 +44,7 @@ export default function Page() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
       />
-      <Home />
+      <HomeContent />
     </>
   )
 }

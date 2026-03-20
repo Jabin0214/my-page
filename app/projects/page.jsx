@@ -1,4 +1,4 @@
-import Projects from '../../src/views/Projects'
+import ProjectsContent from './projects-content'
 import { createPageMetadata } from '../../src/lib/metadata'
 
 export const metadata = createPageMetadata({
@@ -8,5 +8,5 @@ export const metadata = createPageMetadata({
 })
 
 export default function ProjectsPage() {
-  return <Projects />
+  return <ProjectsContent />
 }

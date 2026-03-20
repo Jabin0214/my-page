@@ -2,8 +2,7 @@
 
 import Image from 'next/image';
 import { ExternalLink } from 'lucide-react';
-import { usePortfolioContent } from '../hooks/usePortfolioContent';
-import { getAssetPath } from '../lib/assets';
+import { usePortfolioContent } from '../../src/hooks/usePortfolioContent';
 
 const Projects = () => {
   const { projects: projectsContent } = usePortfolioContent();
@@ -33,7 +32,7 @@ const Projects = () => {
             >
               <div className="overflow-hidden rounded-[1.5rem] border border-[var(--line)] bg-[var(--bg-soft)]">
                 <Image
-                  src={getAssetPath(project.cover)}
+                  src={`/${project.cover}`}
                   alt={project.title}
                   width={1024}
                   height={1024}

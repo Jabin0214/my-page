@@ -1,8 +1,8 @@
 'use client';
 
 import { Github, Mail } from 'lucide-react';
-import { SITE_CONFIG } from '../config/site';
-import { usePortfolioContent } from '../hooks/usePortfolioContent';
+import { SITE_CONFIG } from '../../src/config/site';
+import { usePortfolioContent } from '../../src/hooks/usePortfolioContent';
 
 const Contact = () => {
   const { contact } = usePortfolioContent();

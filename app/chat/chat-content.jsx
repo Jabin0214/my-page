@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { ArrowLeft, Bot, Lightbulb, Loader2, MessageCircleMore, Send, Sparkles, User } from 'lucide-react'
-import { sendChatMessage } from '../lib/chat-api'
-import { usePortfolioContent } from '../hooks/usePortfolioContent'
+import { sendChatMessage } from '../../src/lib/chat-api'
+import { usePortfolioContent } from '../../src/hooks/usePortfolioContent'
 
 export default function Chat() {
   const [input, setInput] = useState('')

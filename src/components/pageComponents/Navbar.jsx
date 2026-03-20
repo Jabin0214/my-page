@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react'; 
 import { SITE_CONFIG } from '../../config/site';
 import { usePortfolioContent } from '../../hooks/usePortfolioContent';
-import { useLanguage } from '../../hooks/useLanguage';
+import { useLanguage } from '../../providers/language-provider';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

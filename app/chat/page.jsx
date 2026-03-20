@@ -1,4 +1,4 @@
-import Chat from '../../src/views/Chat'
+import ChatContent from './chat-content'
 import { createPageMetadata } from '../../src/lib/metadata'
 
 export const metadata = createPageMetadata({
@@ -9,5 +9,5 @@ export const metadata = createPageMetadata({
 })
 
 export default function ChatPage() {
-  return <Chat />
+  return <ChatContent />
 }

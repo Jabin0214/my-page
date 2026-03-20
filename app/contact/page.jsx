@@ -1,4 +1,4 @@
-import Contact from '../../src/views/Contact'
+import ContactContent from './contact-content'
 import { createPageMetadata } from '../../src/lib/metadata'
 
 export const metadata = createPageMetadata({
@@ -8,5 +8,5 @@ export const metadata = createPageMetadata({
 })
 
 export default function ContactPage() {
-  return <Contact />
+  return <ContactContent />
 }
