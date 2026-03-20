@@ -4,6 +4,7 @@ import Navbar from '../src/components/pageComponents/Navbar'
 import Footer from '../src/components/pageComponents/Footer'
 import BackgroundVisual from '../src/components/ui/BackgroundVisual'
 import { SITE_CONFIG } from '../src/config/site'
+import { DEFAULT_LANGUAGE } from '../src/lib/language'
 
 export const metadata = {
   metadataBase: new URL(SITE_CONFIG.siteUrl),
@@ -41,8 +42,8 @@ export const metadata = {
     images: [
       {
         url: SITE_CONFIG.contact.ogImage,
-        width: 1200,
-        height: 1200,
+        width: 1024,
+        height: 1024,
         alt: `${SITE_CONFIG.owner} portfolio`,
       },
     ],
@@ -58,9 +59,9 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang={DEFAULT_LANGUAGE}>
       <body>
-        <Providers>
+        <Providers initialLanguage={DEFAULT_LANGUAGE}>
           <div className="relative min-h-screen overflow-hidden text-[#101828]">
             <BackgroundVisual />
             <Navbar />

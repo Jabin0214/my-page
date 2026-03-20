@@ -1,7 +1,7 @@
 'use client';
 
-import { useMemo } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import AvatarHeader from '../components/pageComponents/AvatarHeader';
@@ -18,12 +18,8 @@ const Home = () => {
   const content = usePortfolioContent();
   const about = content.home.about;
   const homeUi = content.home.ui;
-  const featuredProjects = useMemo(() => content.projects.list.slice(0, 3), [content.projects.list]);
-
-  const experienceItems = useMemo(
-    () => about.experience.items.map((item, index) => ({ ...item, key: index + 1 })),
-    [about.experience.items]
-  );
+  const featuredProjects = content.projects.list.slice(0, 3);
+  const experienceItems = about.experience.items;
 
   return (
     <main className="page-shell pb-24 pt-16">
@@ -39,7 +35,7 @@ const Home = () => {
         >
           <SectionCard>
             <span className="eyebrow">{about.whoAmI.title}</span>
-            <h2 className="mt-5 text-3xl font-semibold md:text-4xl">A clear picture of how I work</h2>
+            <h2 className="mt-5 text-3xl font-semibold md:text-4xl">{homeUi.workStyleTitle}</h2>
             <div className="mt-5 space-y-4 text-[1.02rem] leading-8 text-[#526072]">
               {about.whoAmI.paragraphs.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
@@ -86,9 +82,12 @@ const Home = () => {
             {featuredProjects.map((project, index) => (
               <article key={project.id} className="surface-subtle overflow-hidden p-4">
                 <div className="overflow-hidden rounded-[1rem] border border-[var(--line)] bg-[var(--bg-soft)]">
-                  <img
+                  <Image
                     src={getAssetPath(project.cover)}
                     alt={project.title}
+                    width={1024}
+                    height={1024}
+                    sizes="(max-width: 1024px) 100vw, 30vw"
                     className="h-48 w-full object-cover"
                   />
                 </div>
@@ -113,8 +112,8 @@ const Home = () => {
           <SectionCard>
             <span className="eyebrow">{about.experience.title}</span>
             <div className="mt-6 space-y-4">
-              {experienceItems.map((item) => (
-                <article key={item.key} className="surface-subtle px-5 py-5">
+              {experienceItems.map((item, index) => (
+                <article key={`${item.company}-${index}`} className="surface-subtle px-5 py-5">
                   <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
                     <div>
                       <h3 className="text-xl font-semibold">{item.company}</h3>

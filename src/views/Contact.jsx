@@ -11,7 +11,7 @@ const Contact = () => {
       <section className="surface-card-strong grid gap-6 px-6 py-8 md:grid-cols-[1.05fr_0.95fr] md:px-10 md:py-10">
         <div className="flex flex-col justify-center">
           <span className="eyebrow">{contact.sectionTitle}</span>
-          <h1 className="mt-5 text-4xl font-semibold md:text-5xl">Let&apos;s make it easy to reach me.</h1>
+          <h1 className="mt-5 text-4xl font-semibold md:text-5xl">{contact.title}</h1>
           <p className="mt-5 max-w-xl text-lg leading-8 text-[#526072]">
             {contact.description}
           </p>
@@ -48,11 +48,11 @@ const Contact = () => {
             <p className="mt-3 text-base leading-8 text-[#526072]">{contact.noteBody}</p>
           </div>
           <div className="surface-subtle px-5 py-5">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#0f766e]">Context</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#0f766e]">{contact.contextLabel}</p>
             <p className="mt-3 text-base leading-8 text-[#526072]">{contact.noteFooter}</p>
           </div>
           <div className="surface-subtle px-5 py-5">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#0f766e]">Based in</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#0f766e]">{contact.basedInLabel}</p>
             <p className="mt-3 text-base leading-8 text-[#526072]">{SITE_CONFIG.location}</p>
           </div>
         </div>

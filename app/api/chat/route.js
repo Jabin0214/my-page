@@ -1,123 +1,112 @@
 import { NextResponse } from 'next/server'
 import OpenAI from 'openai'
+import {
+  buildChatRequestBody,
+  CHAT_LIMITS,
+  enforceChatRateLimit,
+  getChatEnv,
+  getClientIdentifier,
+  isRequestTooLarge,
+  validateChatPayload,
+} from '../../../src/lib/chat'
 
 export const dynamic = 'force-dynamic'
 
-function getEnv() {
-  const openAiApiKey = process.env.OPENAI_API_KEY
-  const vectorStoreId = process.env.OPENAI_VECTOR_STORE_ID
-  const chatModel = process.env.OPENAI_CHAT_MODEL || 'gpt-4o-mini'
+function jsonResponse(body, init = {}) {
+  const headers = new Headers(init.headers)
+  headers.set('Cache-Control', 'no-store')
 
-  if (!openAiApiKey) {
-    throw new Error('OPENAI_API_KEY is not configured')
+  return NextResponse.json(body, {
+    ...init,
+    headers,
+  })
+}
+
+function logChatError(error) {
+  console.error('[chat-route]', {
+    name: error?.name,
+    status: error?.status,
+    message: error?.message,
+  })
+}
+
+function buildFailureResponse(error) {
+  if (error?.name === 'AbortError' || /timeout/i.test(error?.message || '')) {
+    return {
+      reply: 'The chat service timed out. Please try again.',
+      status: 503,
+    }
   }
 
-  if (!vectorStoreId) {
-    throw new Error('OPENAI_VECTOR_STORE_ID is not configured')
+  if (error?.status === 429) {
+    return {
+      reply: 'The chat service is busy right now. Please try again shortly.',
+      status: 503,
+    }
   }
 
   return {
-    openAiApiKey,
-    vectorStoreId,
-    chatModel,
+    reply: 'The chat service is temporarily unavailable. Please try again later.',
+    status: 500,
   }
-}
-
-function getClients() {
-  const { openAiApiKey, vectorStoreId, chatModel } = getEnv()
-  const openai = new OpenAI({ apiKey: openAiApiKey })
-
-  return {
-    openai,
-    vectorStoreId,
-    chatModel,
-  }
-}
-
-function normalizeHistory(history) {
-  if (!Array.isArray(history)) {
-    return []
-  }
-
-  return history
-    .filter(
-      (item) =>
-        item &&
-        (item.role === 'user' || item.role === 'assistant') &&
-        typeof item.content === 'string' &&
-        item.content.trim()
-    )
-    .slice(-8)
-    .map((item) => ({
-      role: item.role,
-      content: item.content.trim(),
-    }))
 }
 
 export async function POST(request) {
+  if (isRequestTooLarge(request.headers)) {
+    return jsonResponse(
+      { reply: 'Your request is too large. Please shorten it and try again.' },
+      { status: 413 }
+    )
+  }
+
+  const rateLimit = enforceChatRateLimit(getClientIdentifier(request.headers))
+
+  if (!rateLimit.ok) {
+    return jsonResponse(
+      { reply: 'Too many requests. Please wait a moment and try again.' },
+      {
+        status: 429,
+        headers: {
+          'Retry-After': String(rateLimit.retryAfterSeconds),
+        },
+      }
+    )
+  }
+
+  let payload
+
   try {
-    const { openai, vectorStoreId, chatModel } = getClients()
-    const { message, history } = await request.json()
+    payload = await request.json()
+  } catch {
+    return jsonResponse({ reply: 'Invalid JSON body.' }, { status: 400 })
+  }
 
-    if (!message || typeof message !== 'string') {
-      return NextResponse.json({ reply: 'Please ask a question.' }, { status: 400 })
-    }
+  const validation = validateChatPayload(payload)
 
-    const response = await openai.responses.create({
-      model: chatModel,
-      tools: [
-        {
-          type: 'file_search',
-          vector_store_ids: [vectorStoreId],
-          max_num_results: 4,
-        },
-      ],
-      include: ['file_search_call.results'],
-      input: [
-        {
-          role: 'system',
-          content:
-            `You are Jabin Chen answering as yourself in a real interview, recruiter screen, networking conversation, or hiring manager chat.\n` +
-            `Use file search silently to ground your answers in Jabin's actual resume, projects, experience, skills, and achievements.\n\n` +
-            `Identity and voice:\n` +
-            `- Always speak in first person as Jabin.\n` +
-            `- Sound like a thoughtful, high-performing software engineer explaining real work.\n` +
-            `- Be warm, clear, specific, and confident.\n` +
-            `- Sound like a real person talking, not like a polished corporate bio.\n` +
-            `- Never describe yourself as an assistant, bot, search tool, or portfolio guide.\n` +
-            `- Never mention files, sources, retrieval, knowledge bases, uploaded materials, or documents.\n` +
-            `- Never quote raw snippets or speak like you are reading notes.\n` +
-            `- Never invent facts, numbers, timelines, or responsibilities.\n\n` +
-            `Answering rules:\n` +
-            `- Treat every question as a serious interview question unless the user is clearly casual.\n` +
-            `- If the user sounds casual or curious, answer more conversationally while still staying accurate.\n` +
-            `- Lead with a direct answer, not with hedging or setup.\n` +
-            `- Then add the strongest concrete example or two.\n` +
-            `- End with the impact, lesson, or why it makes me effective.\n` +
-            `- For project questions, cover: what the product/problem was, what I owned, the stack choices, key engineering decisions, and the result.\n` +
-            `- For technical questions, explain what I used, why I chose it, tradeoffs I considered, and what outcome it enabled.\n` +
-            `- For behavioral questions, answer in concise story form with situation, action, and result, but do not mention STAR.\n` +
-            `- When asked to compare strengths, be decisive and prioritize the most impressive evidence.\n` +
-            `- Keep most answers to 2 or 3 compact paragraphs.\n` +
-            `- Use bullets only if the user explicitly asks for bullets or a list.\n` +
-            `- If contact information is requested, provide it naturally.\n\n` +
-            `If the materials do not support a claim, say: "I don't want to overstate that because I haven't documented enough detail on it yet."`,
-        },
-        ...normalizeHistory(history),
-        {
-          role: 'user',
-          content: message,
-        },
-      ],
-    })
+  if (!validation.ok) {
+    return jsonResponse({ reply: validation.error }, { status: validation.status })
+  }
+
+  try {
+    const { openAiApiKey, vectorStoreId, chatModel } = getChatEnv()
+    const openai = new OpenAI({ apiKey: openAiApiKey })
+    const response = await openai.responses.create(
+      buildChatRequestBody({
+        message: validation.data.message,
+        history: validation.data.history,
+        chatModel,
+        vectorStoreId,
+      }),
+      {
+        timeout: CHAT_LIMITS.timeoutMs,
+      }
+    )
 
     const reply = response.output_text?.trim() || 'Sorry, I could not generate a response.'
-    return NextResponse.json({ reply })
+    return jsonResponse({ reply })
   } catch (error) {
-    console.error('[chat-route]', error)
-    return NextResponse.json(
-      { reply: 'The chat service is temporarily unavailable. Please try again later.' },
-      { status: 500 }
-    )
+    logChatError(error)
+    const failure = buildFailureResponse(error)
+    return jsonResponse({ reply: failure.reply }, { status: failure.status })
   }
 }

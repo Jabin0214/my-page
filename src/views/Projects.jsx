@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { ExternalLink } from 'lucide-react';
 import { usePortfolioContent } from '../hooks/usePortfolioContent';
 import { getAssetPath } from '../lib/assets';
@@ -31,9 +32,13 @@ const Projects = () => {
               className="surface-card grid gap-6 p-6 md:grid-cols-[0.92fr_1.08fr] md:p-8"
             >
               <div className="overflow-hidden rounded-[1.5rem] border border-[var(--line)] bg-[var(--bg-soft)]">
-                <img
+                <Image
                   src={getAssetPath(project.cover)}
                   alt={project.title}
+                  width={1024}
+                  height={1024}
+                  priority={index === 0}
+                  sizes="(max-width: 768px) 100vw, 45vw"
                   className="h-full min-h-[18rem] w-full object-cover"
                 />
               </div>

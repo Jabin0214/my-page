@@ -6,15 +6,6 @@ import { ArrowLeft, Bot, Lightbulb, Loader2, MessageCircleMore, Send, Sparkles, 
 import { sendChatMessage } from '../lib/chat-api'
 import { usePortfolioContent } from '../hooks/usePortfolioContent'
 
-const suggestedQuestions = [
-  'Tell me about yourself.',
-  'What are the strongest projects you would highlight in an interview?',
-  'How would you describe your experience with cloud deployment?',
-  'What is your background in AI-related projects?',
-  'Why are you a strong fit for a full-stack role?',
-  'Can you walk me through Medimate and your impact there?',
-]
-
 export default function Chat() {
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
@@ -22,8 +13,11 @@ export default function Chat() {
   const chatEndRef = useRef(null)
   const inputRef = useRef(null)
   const textareaRef = useRef(null)
+  const activeRequestRef = useRef(null)
+  const requestIdRef = useRef(0)
   const content = usePortfolioContent()
   const chatContent = content.chat
+  const suggestedQuestions = chatContent.suggestedQuestions || []
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -40,6 +34,13 @@ export default function Chat() {
     textarea.style.height = `${Math.min(textarea.scrollHeight, 160)}px`
   }, [input])
 
+  useEffect(
+    () => () => {
+      activeRequestRef.current?.abort()
+    },
+    []
+  )
+
   async function handleSendMessage() {
     const trimmedInput = input.trim()
     if (!trimmedInput || loading) {
@@ -53,23 +54,39 @@ export default function Chat() {
         content: item.content,
       }))
 
+    const controller = new AbortController()
+    const requestId = requestIdRef.current + 1
+    requestIdRef.current = requestId
+    activeRequestRef.current = controller
     setLoading(true)
     setChatLog((previous) => [...previous, { role: 'user', content: trimmedInput }])
     setInput('')
 
     try {
-      const result = await sendChatMessage(trimmedInput, history)
+      const result = await sendChatMessage(trimmedInput, history, { signal: controller.signal })
+
+      if (requestId !== requestIdRef.current) {
+        return
+      }
+
       setChatLog((previous) => [...previous, { role: 'assistant', content: result.reply }])
-    } catch {
+    } catch (error) {
+      if (error?.name === 'AbortError' || requestId !== requestIdRef.current) {
+        return
+      }
+
       setChatLog((previous) => [
         ...previous,
         {
           role: 'system',
-          content: chatContent.unavailable,
+          content: error?.message || chatContent.unavailable,
         },
       ])
     } finally {
-      setLoading(false)
+      if (requestId === requestIdRef.current) {
+        activeRequestRef.current = null
+        setLoading(false)
+      }
     }
   }
 
@@ -81,6 +98,10 @@ export default function Chat() {
   }
 
   function handleClearChat() {
+    requestIdRef.current += 1
+    activeRequestRef.current?.abort()
+    activeRequestRef.current = null
+    setLoading(false)
     setChatLog([])
     setInput('')
     inputRef.current?.focus()
@@ -185,7 +206,7 @@ export default function Chat() {
                 type="button"
                 onClick={handleSendMessage}
                 disabled={loading || input.trim() === ''}
-                aria-label="Send message"
+                aria-label={chatContent.sendLabel}
                 className="button-primary h-12 w-12 rounded-[1.1rem] p-0 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}

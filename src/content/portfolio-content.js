@@ -1,3 +1,5 @@
+import { normalizeLanguage } from '../lib/language.js'
+
 const portfolioContent = {
   en: {
     navigation: {
@@ -19,9 +21,22 @@ const portfolioContent = {
           'I like building things that feel useful, a little thoughtful, and not painfully boring to use.',
         primaryLink: { path: '/projects', label: 'Projects' },
         secondaryLink: { path: '/contact', label: 'Contact' },
+        resumeLabel: 'Resume',
         badge: 'software engineer, occasional tinkerer, definitely curious',
         scrollLabel: 'scroll for the good stuff',
         chatBubbleText: 'Curious? Click me and ask the AI version of me a few questions.',
+        quickReadLabel: 'Quick read',
+        oneSentenceLabel: 'In one sentence',
+        askDirectlyLabel: 'Ask me directly',
+        factLabels: {
+          base: 'Base',
+          focus: 'Focus',
+          style: 'Style',
+        },
+        factValues: {
+          focus: 'Full-stack + AI product work',
+          style: 'Curious, pragmatic, ship-minded',
+        },
         notes: [
           {
             label: 'Right now',
@@ -44,6 +59,7 @@ const portfolioContent = {
         featuredWorkLabel: 'Selected work',
         featuredWorkTitle: 'Projects with actual personality',
         featuredWorkLink: 'see the full project page',
+        workStyleTitle: 'A clear picture of how I work',
         skillSectionTitle: 'Skills',
         projectLabelPrefix: 'Project',
       },
@@ -192,6 +208,7 @@ const portfolioContent = {
     },
     contact: {
       sectionTitle: 'Contact Me',
+      title: "Let's make it easy to reach me.",
       description:
         'I am always open to discussing new projects, creative ideas, or opportunities to be part of your vision. Feel free to reach out!',
       emailLabel: 'Email',
@@ -200,6 +217,8 @@ const portfolioContent = {
       noteBody:
         'If you want the short version: I like building thoughtful software, I’m easy to work with, and I enjoy conversations where someone actually wants to make something better.',
       noteFooter: 'Recruiter, founder, hiring manager, curious human: all welcome.',
+      contextLabel: 'Context',
+      basedInLabel: 'Based in',
     },
     chat: {
       eyebrow: 'talk to actual-jabin-ish',
@@ -230,6 +249,15 @@ const portfolioContent = {
       footerHintSecondary: 'Best results come from specific questions, not generic buzzwords.',
       thinking: 'Thinking...',
       unavailable: 'The assistant is temporarily unavailable. Please try again in a moment.',
+      sendLabel: 'Send message',
+      suggestedQuestions: [
+        'Tell me about yourself.',
+        'What are the strongest projects you would highlight in an interview?',
+        'How would you describe your experience with cloud deployment?',
+        'What is your background in AI-related projects?',
+        'Why are you a strong fit for a full-stack role?',
+        'Can you walk me through Medimate and your impact there?',
+      ],
     },
   },
   zh: {
@@ -251,9 +279,22 @@ const portfolioContent = {
         summary: '我喜欢做那些有用、有一点思考、而且不会让人用得很痛苦的东西。',
         primaryLink: { path: '/projects', label: '项目' },
         secondaryLink: { path: '/contact', label: '联系我' },
+        resumeLabel: '简历',
         badge: '软件工程师，偶尔折腾东西，持续保持好奇',
         scrollLabel: '往下看看更有意思的内容',
         chatBubbleText: '好奇的话，点我一下，问问这个 AI 版的我。',
+        quickReadLabel: '快速了解',
+        oneSentenceLabel: '一句话概括',
+        askDirectlyLabel: '直接问我',
+        factLabels: {
+          base: '所在地',
+          focus: '方向',
+          style: '风格',
+        },
+        factValues: {
+          focus: '全栈与 AI 产品开发',
+          style: '好奇、务实、偏交付',
+        },
         notes: [
           {
             label: '最近在做',
@@ -276,6 +317,7 @@ const portfolioContent = {
         featuredWorkLabel: '精选内容',
         featuredWorkTitle: '几个比较有个性的项目',
         featuredWorkLink: '去看完整项目页',
+        workStyleTitle: '更清楚地了解我是怎么做事的',
         skillSectionTitle: '技能',
         projectLabelPrefix: '项目',
       },
@@ -421,6 +463,7 @@ const portfolioContent = {
     },
     contact: {
       sectionTitle: '联系我',
+      title: '我希望别人联系我这件事，尽量简单一点。',
       description: '我总是乐于讨论新的项目、创意想法或参与您愿景的机会。欢迎随时与我联系。',
       emailLabel: '邮箱',
       githubLabel: 'GitHub',
@@ -428,6 +471,8 @@ const portfolioContent = {
       noteBody:
         '如果你想听最短版本：我喜欢做有思考的软件，也比较好合作，而且我喜欢和真正想把事情做得更好的人聊天。',
       noteFooter: '招聘者、创始人、经理，或者只是好奇的人，都欢迎。',
+      contextLabel: '适合联系我的场景',
+      basedInLabel: '所在城市',
     },
     chat: {
       eyebrow: '和一个挺像 Jabin 的版本聊天',
@@ -458,12 +503,21 @@ const portfolioContent = {
       footerHintSecondary: '问题越具体，回答通常越像真人。',
       thinking: '正在思考...',
       unavailable: '聊天服务暂时不可用，请稍后再试。',
+      sendLabel: '发送消息',
+      suggestedQuestions: [
+        '可以先介绍一下你自己吗？',
+        '如果是在面试里，你会重点讲哪几个项目？',
+        '你会怎么描述自己在云部署方面的经验？',
+        '你做过哪些和 AI 相关的项目或工作？',
+        '为什么你适合全栈岗位？',
+        '可以详细讲讲 Medimate 以及你的具体贡献吗？',
+      ],
     },
   },
 }
 
 export function resolveContentLocale(language) {
-  return typeof language === 'string' && language.toLowerCase().startsWith('zh') ? 'zh' : 'en'
+  return normalizeLanguage(language)
 }
 
 export function getPortfolioContent(language) {

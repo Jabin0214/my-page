@@ -2,6 +2,19 @@ import fs from 'node:fs'
 import path from 'node:path'
 import OpenAI from 'openai'
 
+function normalizeEnvValue(value) {
+  const trimmedValue = value.trim()
+
+  if (
+    (trimmedValue.startsWith('"') && trimmedValue.endsWith('"')) ||
+    (trimmedValue.startsWith("'") && trimmedValue.endsWith("'"))
+  ) {
+    return trimmedValue.slice(1, -1)
+  }
+
+  return trimmedValue
+}
+
 function loadLocalEnv() {
   const envPath = path.resolve(process.cwd(), '.env.local')
 
@@ -24,7 +37,7 @@ function loadLocalEnv() {
     }
 
     const key = trimmedLine.slice(0, separatorIndex).trim()
-    const value = trimmedLine.slice(separatorIndex + 1).trim()
+    const value = normalizeEnvValue(trimmedLine.slice(separatorIndex + 1))
 
     if (key && !process.env[key]) {
       process.env[key] = value
@@ -66,6 +79,11 @@ async function main() {
 
   const files = inputPaths.map((inputPath) => {
     const absolutePath = path.resolve(process.cwd(), inputPath)
+
+    if (!fs.existsSync(absolutePath)) {
+      throw new Error(`File not found: ${inputPath}`)
+    }
+
     return fs.createReadStream(absolutePath)
   })
 

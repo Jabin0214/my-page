@@ -40,6 +40,6 @@ export const SITE_CONFIG = {
     github: 'https://github.com/Jabin0214',
     chat: '/chat',
     resumeFileName: 'resume.pdf',
-    ogImage: '/favicon.png',
+    ogImage: '/og-image.jpg',
   },
 }

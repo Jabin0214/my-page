@@ -7,11 +7,11 @@ export default function manifest() {
     description: SITE_CONFIG.description,
     start_url: '/',
     display: 'standalone',
-    background_color: '#020617',
-    theme_color: '#020617',
+    background_color: '#eef3f7',
+    theme_color: '#eef3f7',
     icons: [
       {
-        src: '/favicon.png',
+        src: '/icon-512.png',
         sizes: '512x512',
         type: 'image/png',
       },

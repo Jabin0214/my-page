@@ -10,9 +10,9 @@ const AvatarHeader = () => {
   const hero = home.hero;
   const chatLink = navigation.links.find((link) => link.path === SITE_CONFIG.contact.chat);
   const heroFacts = [
-    { label: 'Base', value: SITE_CONFIG.location },
-    { label: 'Focus', value: 'Full-stack + AI product work' },
-    { label: 'Style', value: 'Curious, pragmatic, ship-minded' },
+    { label: hero.factLabels.base, value: SITE_CONFIG.location },
+    { label: hero.factLabels.focus, value: hero.factValues.focus },
+    { label: hero.factLabels.style, value: hero.factValues.style },
   ];
 
   return (
@@ -33,7 +33,7 @@ const AvatarHeader = () => {
           <Link href={hero.secondaryLink.path} className="button-secondary">
             {hero.secondaryLink.label}
           </Link>
-          <DownloadButton label="Resume" />
+          <DownloadButton label={hero.resumeLabel} />
         </div>
 
         <div className="mt-10 grid gap-3 sm:grid-cols-3">
@@ -48,17 +48,17 @@ const AvatarHeader = () => {
 
       <div className="surface-card flex flex-col gap-6 px-6 py-8 md:px-8 md:py-10">
         <div className="flex items-center justify-between gap-3">
-          <span className="eyebrow">Quick read</span>
+          <span className="eyebrow">{hero.quickReadLabel}</span>
           <Link href={SITE_CONFIG.contact.chat} className="text-sm font-semibold text-[#0f766e] hover:text-[#115e59]">
             {chatLink?.label || 'Chat'}
           </Link>
         </div>
 
         <div className="surface-subtle px-5 py-5">
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#0f766e]">In one sentence</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#0f766e]">{hero.oneSentenceLabel}</p>
           <p className="mt-3 text-base leading-7 text-[#526072]">{hero.chatBubbleText}</p>
           <Link href={SITE_CONFIG.contact.chat} className="mt-5 inline-flex items-center text-sm font-semibold text-[#0f766e] hover:text-[#115e59]">
-            Ask me directly
+            {hero.askDirectlyLabel}
           </Link>
         </div>
 
