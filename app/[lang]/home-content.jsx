@@ -1,16 +1,17 @@
-'use client';
+'use client'
 
-import Link from 'next/link';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { ArrowRight, Download } from 'lucide-react';
-import { SITE_CONFIG } from '../src/config/site';
-import { usePortfolioContent } from '../src/hooks/usePortfolioContent';
+import Link from 'next/link'
+import Image from 'next/image'
+import { motion } from 'framer-motion'
+import { ArrowRight, Download } from 'lucide-react'
+import { SITE_CONFIG } from '../../src/config/site'
+import { useLanguage } from '../../src/hooks/useLanguage'
+import { usePortfolioContent } from '../../src/hooks/usePortfolioContent'
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-};
+}
 
 function AnimatedSectionCard({ children, className = '' }) {
   return (
@@ -27,19 +28,23 @@ function AnimatedSectionCard({ children, className = '' }) {
 }
 
 const Home = () => {
-  const content = usePortfolioContent();
-  const hero = content.home.hero;
-  const about = content.home.about;
-  const homeUi = content.home.ui;
-  const chatLink = content.navigation.links.find((link) => link.path === SITE_CONFIG.contact.chat);
-  const resumeUrl = `/${SITE_CONFIG.contact.resumeFileName}`;
+  const content = usePortfolioContent()
+  const { localizePath } = useLanguage()
+  const hero = content.home.hero
+  const about = content.home.about
+  const homeUi = content.home.ui
+  const chatLink = content.navigation.links.find(
+    (link) => link.path === SITE_CONFIG.contact.chat
+  )
+  const resumeUrl = `/${SITE_CONFIG.contact.resumeFileName}`
+  const chatPath = localizePath(SITE_CONFIG.contact.chat)
   const heroFacts = [
     { label: hero.factLabels.base, value: SITE_CONFIG.location },
     { label: hero.factLabels.focus, value: hero.factValues.focus },
     { label: hero.factLabels.style, value: hero.factValues.style },
-  ];
-  const featuredProjects = content.projects.list.slice(0, 3);
-  const experienceItems = about.experience.items;
+  ]
+  const featuredProjects = content.projects.list.slice(0, 3)
+  const experienceItems = about.experience.items
 
   return (
     <main className="page-shell pb-24 pt-16">
@@ -55,10 +60,10 @@ const Home = () => {
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link href={hero.primaryLink.path} className="button-primary">
+              <Link href={localizePath(hero.primaryLink.path)} className="button-primary">
                 {hero.primaryLink.label}
               </Link>
-              <Link href={hero.secondaryLink.path} className="button-secondary">
+              <Link href={localizePath(hero.secondaryLink.path)} className="button-secondary">
                 {hero.secondaryLink.label}
               </Link>
               <a
@@ -85,7 +90,7 @@ const Home = () => {
           <div className="surface-card flex flex-col gap-6 px-6 py-8 md:px-8 md:py-10">
             <div className="flex items-center justify-between gap-3">
               <span className="eyebrow">{hero.quickReadLabel}</span>
-              <Link href={SITE_CONFIG.contact.chat} className="text-sm font-semibold text-[#0f766e] hover:text-[#115e59]">
+              <Link href={chatPath} className="text-sm font-semibold text-[#0f766e] hover:text-[#115e59]">
                 {chatLink?.label || 'Chat'}
               </Link>
             </div>
@@ -93,7 +98,7 @@ const Home = () => {
             <div className="surface-subtle px-5 py-5">
               <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#0f766e]">{hero.oneSentenceLabel}</p>
               <p className="mt-3 text-base leading-7 text-[#526072]">{hero.chatBubbleText}</p>
-              <Link href={SITE_CONFIG.contact.chat} className="mt-5 inline-flex items-center text-sm font-semibold text-[#0f766e] hover:text-[#115e59]">
+              <Link href={chatPath} className="mt-5 inline-flex items-center text-sm font-semibold text-[#0f766e] hover:text-[#115e59]">
                 {hero.askDirectlyLabel}
               </Link>
             </div>
@@ -155,7 +160,7 @@ const Home = () => {
               <span className="eyebrow">{homeUi.featuredWorkLabel}</span>
               <h2 className="mt-4 text-3xl font-semibold md:text-4xl">{homeUi.featuredWorkTitle}</h2>
             </div>
-            <Link href="/projects" className="button-secondary">
+            <Link href={localizePath('/projects')} className="button-secondary">
               {homeUi.featuredWorkLink}
               <ArrowRight className="h-4 w-4" />
             </Link>
@@ -241,7 +246,7 @@ const Home = () => {
         </div>
       </div>
     </main>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home

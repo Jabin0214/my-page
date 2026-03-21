@@ -1,12 +1,12 @@
-'use client';
+'use client'
 
-import Image from 'next/image';
-import { ExternalLink } from 'lucide-react';
-import { usePortfolioContent } from '../../src/hooks/usePortfolioContent';
+import Image from 'next/image'
+import { ExternalLink } from 'lucide-react'
+import { usePortfolioContent } from '../../../src/hooks/usePortfolioContent'
 
 const Projects = () => {
-  const { projects: projectsContent } = usePortfolioContent();
-  const projects = projectsContent.list;
+  const { projects: projectsContent } = usePortfolioContent()
+  const projects = projectsContent.list
 
   return (
     <main className="page-shell pb-20 pt-16">
@@ -76,7 +76,7 @@ const Projects = () => {
           ))}
       </section>
     </main>
-  );
-};
+  )
+}
 
-export default Projects;
+export default Projects

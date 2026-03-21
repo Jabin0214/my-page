@@ -1,7 +1,7 @@
 'use client'
 
 import { getPortfolioContent } from '../content/portfolio-content'
-import { useLanguage } from '../providers/language-provider'
+import { useLanguage } from './useLanguage'
 
 export function usePortfolioContent() {
   const { language } = useLanguage()

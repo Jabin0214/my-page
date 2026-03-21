@@ -3,8 +3,9 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { ArrowLeft, Bot, Lightbulb, Loader2, MessageCircleMore, Send, Sparkles, User } from 'lucide-react'
-import { sendChatMessage } from '../../src/lib/chat-api'
-import { usePortfolioContent } from '../../src/hooks/usePortfolioContent'
+import { sendChatMessage } from '../../../src/lib/chat-api'
+import { useLanguage } from '../../../src/hooks/useLanguage'
+import { usePortfolioContent } from '../../../src/hooks/usePortfolioContent'
 
 export default function Chat() {
   const [input, setInput] = useState('')
@@ -16,6 +17,7 @@ export default function Chat() {
   const activeRequestRef = useRef(null)
   const requestIdRef = useRef(0)
   const content = usePortfolioContent()
+  const { localizePath } = useLanguage()
   const chatContent = content.chat
   const suggestedQuestions = chatContent.suggestedQuestions || []
 
@@ -257,7 +259,7 @@ export default function Chat() {
                 <span className="eyebrow">{chatContent.startersLabel}</span>
                 <p className="mt-4 text-sm leading-7 text-[#526072]">{chatContent.startersDescription}</p>
               </div>
-              <Link href="/" className="button-secondary text-sm">
+              <Link href={localizePath('/')} className="button-secondary text-sm">
                 <ArrowLeft className="h-4 w-4" />
                 {chatContent.backLabel}
               </Link>

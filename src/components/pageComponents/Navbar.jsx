@@ -1,29 +1,31 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { AnimatePresence, motion } from 'framer-motion';
-import { Menu, X } from 'lucide-react'; 
-import { SITE_CONFIG } from '../../config/site';
-import { usePortfolioContent } from '../../hooks/usePortfolioContent';
-import { useLanguage } from '../../providers/language-provider';
+import { useState } from 'react'
+import Link from 'next/link'
+import { AnimatePresence, motion } from 'framer-motion'
+import { Menu, X } from 'lucide-react'
+import { SITE_CONFIG } from '../../config/site'
+import { useLanguage } from '../../hooks/useLanguage'
+import { usePortfolioContent } from '../../hooks/usePortfolioContent'
 
 const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const currentPath = usePathname();
-  const content = usePortfolioContent();
-  const { toggleLanguage: switchLanguage } = useLanguage();
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const content = usePortfolioContent()
+  const {
+    localizePath,
+    pathWithoutLanguage,
+    switchLanguage,
+  } = useLanguage()
 
   const handleLanguageToggle = () => {
-    switchLanguage();
-  };
+    switchLanguage()
+  }
 
   return (
     <header className="sticky top-0 z-50 px-4 pt-4">
       <nav className="page-shell surface-card flex items-center justify-between px-5 py-3 text-[#101828]">
         <Link
-          href="/"
+          href={localizePath('/')}
           className="text-lg font-bold tracking-tight sm:text-xl"
           onClick={() => setIsMenuOpen(false)}
         >
@@ -35,9 +37,9 @@ const Navbar = () => {
           {content.navigation.links.map((link) => (
             <Link
               key={link.path}
-              href={link.path}
+              href={localizePath(link.path)}
               className={`rounded-full px-3 py-1.5 text-sm font-medium transition-all ${
-                currentPath === link.path
+                pathWithoutLanguage === link.path
                   ? 'bg-[#101828] text-white'
                   : 'text-[#526072] hover:bg-white hover:text-[#101828]'
               }`}
@@ -79,9 +81,9 @@ const Navbar = () => {
             {content.navigation.links.map((link) => (
               <Link
                 key={link.path}
-                href={link.path}
+                href={localizePath(link.path)}
                 className={`block rounded-full px-3 py-2 text-sm font-medium transition-all ${
-                  currentPath === link.path
+                  pathWithoutLanguage === link.path
                     ? 'bg-[#101828] text-white'
                     : 'text-[#526072] hover:bg-white hover:text-[#101828]'
                 }`}
@@ -93,8 +95,8 @@ const Navbar = () => {
             <button
               type="button"
               onClick={() => {
-                handleLanguageToggle();
-                setIsMenuOpen(false);
+                handleLanguageToggle()
+                setIsMenuOpen(false)
               }}
               className="button-secondary w-full justify-start px-3 py-2 text-left text-sm"
             >
@@ -104,7 +106,7 @@ const Navbar = () => {
         )}
       </AnimatePresence>
     </header>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar

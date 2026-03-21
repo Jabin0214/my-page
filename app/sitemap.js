@@ -1,17 +1,22 @@
-import { SITE_CONFIG } from '../src/config/site'
+import { buildAlternateLanguageLinks, buildCanonicalUrl } from '../src/lib/metadata'
 
 export default function sitemap() {
-  const baseUrl = SITE_CONFIG.siteUrl
+  const lastModified = new Date()
 
   return [
     '',
     '/chat',
     '/projects',
     '/contact',
-  ].map((path) => ({
-    url: `${baseUrl}${path}`,
-    lastModified: new Date(),
-    changeFrequency: path === '' ? 'weekly' : 'monthly',
-    priority: path === '' ? 1 : 0.7,
-  }))
+  ].flatMap((path) =>
+    ['en', 'zh'].map((language) => ({
+      url: buildCanonicalUrl(path, language),
+      lastModified,
+      changeFrequency: path === '' ? 'weekly' : 'monthly',
+      priority: path === '' ? 1 : 0.7,
+      alternates: {
+        languages: buildAlternateLanguageLinks(path),
+      },
+    }))
+  )
 }

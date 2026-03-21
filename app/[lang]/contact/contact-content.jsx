@@ -1,11 +1,11 @@
-'use client';
+'use client'
 
-import { Github, Mail } from 'lucide-react';
-import { SITE_CONFIG } from '../../src/config/site';
-import { usePortfolioContent } from '../../src/hooks/usePortfolioContent';
+import { Github, Mail } from 'lucide-react'
+import { SITE_CONFIG } from '../../../src/config/site'
+import { usePortfolioContent } from '../../../src/hooks/usePortfolioContent'
 
 const Contact = () => {
-  const { contact } = usePortfolioContent();
+  const { contact } = usePortfolioContent()
   return (
     <main className="page-shell pb-20 pt-16">
       <section className="surface-card-strong grid gap-6 px-6 py-8 md:grid-cols-[1.05fr_0.95fr] md:px-10 md:py-10">
@@ -58,7 +58,7 @@ const Contact = () => {
         </div>
       </section>
     </main>
-  );
-};
+  )
+}
 
-export default Contact;
+export default Contact

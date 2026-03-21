@@ -6,17 +6,18 @@ A production-oriented portfolio built with Next.js App Router, designed to feel 
 
 - It is more than a static portfolio. The site includes a grounded AI chat experience powered by OpenAI `file_search` and a hosted vector store.
 - The content system is standardized around a single bilingual source of truth, which reduces drift and makes future updates safer.
-- SEO is treated as a first-class concern: metadata, canonical URLs, Open Graph, Twitter cards, `robots.txt`, and `sitemap.xml` are all configured.
+- SEO is treated as a first-class concern: localized metadata, canonical URLs, alternate language URLs, Open Graph, Twitter cards, `robots.txt`, and `sitemap.xml` are all configured.
 - The chat path is hardened with request validation, request-size limits, best-effort rate limiting, timeout control, and abortable client requests.
 - The site ships with baseline browser-facing security headers configured in Next.js.
 - The UI keeps a distinctive personal tone while still following practical engineering standards such as reusable content/config layers and build-time checks.
 - Image loading now uses Next.js image optimization, project covers are switched to lighter JPEG assets, and social/manifest assets are separated from oversized source images.
 - The repo includes baseline automated tests for core helpers so regressions in language resolution and chat validation are easier to catch.
+- Language is now route-native: English and Chinese pages live under `/en` and `/zh`, with cookie-backed redirects so SEO and sharing stay clean.
 
 ## Core capabilities
 
 - Home, Projects, Contact, and AI Chat pages built on the App Router
-- Cookie and localStorage backed language persistence for English and Chinese
+- Route-level bilingual URLs for English and Chinese with cookie-backed preference redirects
 - OpenAI Responses API integration with vector-store-backed retrieval
 - Static SEO routes for `robots.txt`, `sitemap.xml`, and `manifest.webmanifest`
 - Resume download, project showcase cards, and portfolio-specific structured data
@@ -25,6 +26,7 @@ A production-oriented portfolio built with Next.js App Router, designed to feel 
 
 - Single-source localized content in [`src/content/portfolio-content.js`](./src/content/portfolio-content.js)
 - Shared site metadata in [`src/config/site.js`](./src/config/site.js)
+- URL-based language routing and helpers in [`src/lib/language.js`](./src/lib/language.js) plus [`proxy.js`](./proxy.js)
 - Centralized chat validation and rate-limit logic in [`src/lib/chat.js`](./src/lib/chat.js)
 - Basic regression tests via Node's built-in test runner
 - Lint, test, and production build checks wired into `npm run check`
@@ -40,11 +42,12 @@ A production-oriented portfolio built with Next.js App Router, designed to feel 
 ## Project structure
 
 ```text
-app/                     App Router pages, route handlers, metadata routes
+app/[lang]/              Localized pages, layout, and per-page metadata
+app/                     Route handlers and metadata routes
 src/components/          Shared UI and page components
 src/content/             Bilingual portfolio content
 src/config/              Site-level configuration
-src/lib/                 Chat validation, metadata, asset, and language helpers
+src/lib/                 Chat validation, metadata, and language helpers
 knowledge/               Files uploaded to the OpenAI vector store
 scripts/                 Local tooling such as vector store uploads
 test/                    Node-based regression tests
@@ -120,5 +123,5 @@ If `OPENAI_VECTOR_STORE_ID` is missing, the upload script creates a new vector s
 
 - Core pages are prerendered as static content.
 - The chat API route is intentionally dynamic.
-- Language preference is persisted across sessions.
+- Language preference is persisted via cookie and reinforced by route-based URLs.
 - The `.env.local` file is ignored by Git and is intended for local secrets only.
