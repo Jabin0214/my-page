@@ -171,10 +171,27 @@ h4 {
   .delay-300,
   .delay-400,
   .delay-2000,
-  .delay-4000 {
+  .delay-4000,
+  .typing-dot {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
+  }
+}
+
+/* Chat typing indicator */
+.typing-dot {
+  animation: typing-bounce 1.3s ease-in-out infinite;
+}
+
+@keyframes typing-bounce {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  30% {
+    transform: translateY(-5px);
+    opacity: 1;
   }
 }
 
