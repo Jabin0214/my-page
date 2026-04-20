@@ -4,6 +4,15 @@ export default function sitemap() {
   const lastModified = new Date()
 
   return [
+    {
+      url: buildCanonicalUrl('/'),
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 1,
+      alternates: {
+        languages: buildAlternateLanguageLinks('/'),
+      },
+    },
     '',
     '/chat',
     '/projects',

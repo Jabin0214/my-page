@@ -1,4 +1,4 @@
-import { DEFAULT_LANGUAGE, normalizeLanguage } from '../lib/language'
+import { DEFAULT_LANGUAGE, normalizeLanguage } from '../lib/language.js'
 
 const DEFAULT_SITE_URL = 'https://jabinchen.com'
 

@@ -9,6 +9,7 @@ import {
   normalizeLanguage,
   resolveLanguageParam,
 } from '../src/lib/language.js'
+import { buildAlternateLanguageLinks } from '../src/lib/metadata.js'
 
 test('normalizeLanguage and resolveContentLocale map Chinese variants to zh', () => {
   assert.equal(normalizeLanguage('zh-CN'), 'zh')
@@ -39,4 +40,12 @@ test('accept-language detection respects quality values', () => {
     detectLanguageFromAcceptLanguage('en-US;q=0.7, zh-CN;q=0.9'),
     'zh'
   )
+})
+
+test('alternate language links use the root URL as x-default', () => {
+  const alternates = buildAlternateLanguageLinks('/projects')
+
+  assert.equal(alternates.en, 'https://jabinchen.com/en/projects')
+  assert.equal(alternates.zh, 'https://jabinchen.com/zh/projects')
+  assert.equal(alternates['x-default'], 'https://jabinchen.com/projects')
 })

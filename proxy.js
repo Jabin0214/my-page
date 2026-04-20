@@ -26,6 +26,10 @@ export function proxy(request) {
     return response
   }
 
+  if (pathname === '/') {
+    return NextResponse.next()
+  }
+
   const language = getRequestLanguage(request)
   const redirectUrl = request.nextUrl.clone()
   redirectUrl.pathname = localizePath(pathname, language)

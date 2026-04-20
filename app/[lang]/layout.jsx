@@ -1,4 +1,3 @@
-import '../globals.css'
 import { notFound } from 'next/navigation'
 import Navbar from '../../src/components/pageComponents/Navbar'
 import { SITE_CONFIG, getSiteLocaleConfig } from '../../src/config/site'
@@ -77,34 +76,30 @@ export default async function RootLayout({ children, params }) {
   const site = getSiteLocaleConfig(language)
 
   return (
-    <html lang={language}>
-      <body>
-        <div className="relative min-h-screen overflow-hidden text-[#101828]">
-          <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(15,118,110,0.12),_transparent_30%),radial-gradient(circle_at_82%_14%,_rgba(59,130,246,0.1),_transparent_28%),linear-gradient(180deg,_#f7f9fc,_#eef3f7)]" />
-            <div
-              className="absolute inset-0 opacity-40"
-              style={{
-                backgroundImage:
-                  'linear-gradient(rgba(15,23,42,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(15,23,42,0.04) 1px, transparent 1px)',
-                backgroundSize: '34px 34px',
-                maskImage:
-                  'radial-gradient(circle at center, black 32%, transparent 88%)',
-              }}
-            />
+    <div className="relative min-h-screen overflow-hidden text-[#101828]">
+      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(15,118,110,0.12),_transparent_30%),radial-gradient(circle_at_82%_14%,_rgba(59,130,246,0.1),_transparent_28%),linear-gradient(180deg,_#f7f9fc,_#eef3f7)]" />
+        <div
+          className="absolute inset-0 opacity-40"
+          style={{
+            backgroundImage:
+              'linear-gradient(rgba(15,23,42,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(15,23,42,0.04) 1px, transparent 1px)',
+            backgroundSize: '34px 34px',
+            maskImage:
+              'radial-gradient(circle at center, black 32%, transparent 88%)',
+          }}
+        />
+      </div>
+      <Navbar />
+      {children}
+      <footer className="page-shell pb-8 pt-4">
+        <div className="surface-card px-6 py-5 text-sm text-[#526072]">
+          <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+            <p>© {new Date().getFullYear()} Jabin Chen</p>
+            <p>{site.footerTagline}</p>
           </div>
-          <Navbar />
-          {children}
-          <footer className="page-shell pb-8 pt-4">
-            <div className="surface-card px-6 py-5 text-sm text-[#526072]">
-              <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-                <p>© {new Date().getFullYear()} Jabin Chen</p>
-                <p>{site.footerTagline}</p>
-              </div>
-            </div>
-          </footer>
         </div>
-      </body>
-    </html>
+      </footer>
+    </div>
   )
 }

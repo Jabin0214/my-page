@@ -1,5 +1,5 @@
-import { SITE_CONFIG, getSiteLocaleConfig } from '../config/site'
-import { SUPPORTED_LANGUAGES, localizePath, normalizeLanguage } from './language'
+import { SITE_CONFIG, getSiteLocaleConfig } from '../config/site.js'
+import { SUPPORTED_LANGUAGES, localizePath, normalizeLanguage } from './language.js'
 
 export function buildCanonicalUrl(path = '/', language) {
   const resolvedPath = language ? localizePath(path, language) : path
@@ -11,7 +11,7 @@ export function buildAlternateLanguageLinks(path = '/') {
     SUPPORTED_LANGUAGES.map((language) => [language, buildCanonicalUrl(path, language)])
   )
 
-  alternates['x-default'] = buildCanonicalUrl(path, 'en')
+  alternates['x-default'] = new URL(path, SITE_CONFIG.siteUrl).toString()
 
   return alternates
 }
