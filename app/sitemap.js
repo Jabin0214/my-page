@@ -1,7 +1,9 @@
-import { buildAlternateLanguageLinks, buildCanonicalUrl } from '../src/lib/metadata'
+import { buildAlternateLanguageLinks, buildCanonicalUrl } from '../src/lib/metadata.js'
+import { SUPPORTED_LANGUAGES } from '../src/lib/language.js'
 
 export default function sitemap() {
   const lastModified = new Date()
+  const localizedPaths = ['/', '/chat', '/projects', '/contact']
 
   return [
     {
@@ -13,19 +15,16 @@ export default function sitemap() {
         languages: buildAlternateLanguageLinks('/'),
       },
     },
-    '',
-    '/chat',
-    '/projects',
-    '/contact',
-  ].flatMap((path) =>
-    ['en', 'zh'].map((language) => ({
-      url: buildCanonicalUrl(path, language),
-      lastModified,
-      changeFrequency: path === '' ? 'weekly' : 'monthly',
-      priority: path === '' ? 1 : 0.7,
-      alternates: {
-        languages: buildAlternateLanguageLinks(path),
-      },
-    }))
-  )
+    ...localizedPaths.flatMap((path) =>
+      SUPPORTED_LANGUAGES.map((language) => ({
+        url: buildCanonicalUrl(path, language),
+        lastModified,
+        changeFrequency: path === '/' ? 'weekly' : 'monthly',
+        priority: path === '/' ? 1 : 0.7,
+        alternates: {
+          languages: buildAlternateLanguageLinks(path),
+        },
+      }))
+    ),
+  ]
 }

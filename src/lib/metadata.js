@@ -53,3 +53,65 @@ export function createPageMetadata({
     },
   }
 }
+
+export function buildPersonJsonLd({ language, path = '/' } = {}) {
+  const normalizedLanguage = normalizeLanguage(language)
+  const site = getSiteLocaleConfig(normalizedLanguage)
+  const url = buildCanonicalUrl(path, normalizedLanguage)
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: SITE_CONFIG.owner,
+    alternateName: SITE_CONFIG.alternateNames,
+    url,
+    mainEntityOfPage: url,
+    jobTitle: site.jobTitle,
+    description: site.description,
+    email: `mailto:${SITE_CONFIG.contact.email}`,
+    image: new URL(SITE_CONFIG.contact.ogImage, SITE_CONFIG.siteUrl).toString(),
+    sameAs: SITE_CONFIG.profileUrls,
+    homeLocation: {
+      '@type': 'Place',
+      name: SITE_CONFIG.location,
+    },
+    knowsAbout: [
+      'React',
+      'Next.js',
+      '.NET',
+      'AI applications',
+      'Cloud development',
+      'Full stack development',
+    ],
+    inLanguage: normalizedLanguage,
+  }
+}
+
+export function buildWebsiteJsonLd({ language, path = '/' } = {}) {
+  const normalizedLanguage = normalizeLanguage(language)
+  const site = getSiteLocaleConfig(normalizedLanguage)
+  const url = buildCanonicalUrl(path, normalizedLanguage)
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: site.title,
+    alternateName: SITE_CONFIG.alternateNames,
+    url,
+    description: site.description,
+    inLanguage: normalizedLanguage,
+    publisher: {
+      '@type': 'Person',
+      name: SITE_CONFIG.owner,
+      alternateName: SITE_CONFIG.alternateNames,
+      url,
+    },
+    about: {
+      '@type': 'Person',
+      name: SITE_CONFIG.owner,
+      alternateName: SITE_CONFIG.alternateNames,
+      jobTitle: site.jobTitle,
+      url,
+    },
+  }
+}

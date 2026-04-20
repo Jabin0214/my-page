@@ -9,7 +9,11 @@ import {
   normalizeLanguage,
   resolveLanguageParam,
 } from '../src/lib/language.js'
-import { buildAlternateLanguageLinks } from '../src/lib/metadata.js'
+import {
+  buildAlternateLanguageLinks,
+  buildPersonJsonLd,
+  buildWebsiteJsonLd,
+} from '../src/lib/metadata.js'
 
 test('normalizeLanguage and resolveContentLocale map Chinese variants to zh', () => {
   assert.equal(normalizeLanguage('zh-CN'), 'zh')
@@ -48,4 +52,24 @@ test('alternate language links use the root URL as x-default', () => {
   assert.equal(alternates.en, 'https://jabinchen.com/en/projects')
   assert.equal(alternates.zh, 'https://jabinchen.com/zh/projects')
   assert.equal(alternates['x-default'], 'https://jabinchen.com/projects')
+})
+
+test('person structured data identifies Jabin Chen official profiles', () => {
+  const person = buildPersonJsonLd({ language: 'en', path: '/' })
+
+  assert.equal(person['@type'], 'Person')
+  assert.equal(person.name, 'Jabin Chen')
+  assert.ok(person.alternateName.includes('JabinChen'))
+  assert.equal(person.url, 'https://jabinchen.com/en')
+  assert.ok(person.sameAs.includes('https://jabinchen.com'))
+  assert.ok(person.sameAs.includes('https://github.com/Jabin0214'))
+})
+
+test('website structured data exposes Jabin Chen search identity', () => {
+  const website = buildWebsiteJsonLd({ language: 'zh', path: '/' })
+
+  assert.equal(website['@type'], 'WebSite')
+  assert.equal(website.url, 'https://jabinchen.com/zh')
+  assert.equal(website.publisher.name, 'Jabin Chen')
+  assert.ok(website.about.alternateName.includes('JabinChen'))
 })
