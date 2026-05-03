@@ -170,6 +170,11 @@ const portfolioContent = {
       title: 'Things I built because they felt worth building.',
       description:
         'I like projects that combine engineering judgment, product thinking, and a little experimentation. This page is less “gallery wall” and more “here’s what I actually made, why I made it, and what’s interesting about it.”',
+      showcaseIntroLabel: 'Showcase view',
+      showcaseNote:
+        'These are the projects that best represent the mix of engineering, product curiosity, and visual care I like bringing to work.',
+      showcaseClosing:
+        'A few things I wanted to feel: clear intent, strong interaction, and enough taste to be remembered.',
       featuredLabel: 'Featured project',
       viewSourceLabel: 'View on GitHub',
       stackLabel: 'Stack highlights',
@@ -430,6 +435,11 @@ const portfolioContent = {
       title: '我做这些项目，是因为它们值得被做出来。',
       description:
         '我喜欢那种同时需要工程判断、产品思维和一点实验精神的项目。这一页不是“作品画廊”，而更像“我做了什么、为什么做、以及它为什么有意思”。',
+      showcaseIntroLabel: '展示视角',
+      showcaseNote:
+        '这些项目不是为了凑作品数量，而是因为它们各自都让我想认真把它做完整。',
+      showcaseClosing:
+        '我希望它们给人的感觉是：目标清楚、交互扎实，而且在气质上也足够让人记住。',
       featuredLabel: '精选项目',
       viewSourceLabel: '查看 GitHub',
       stackLabel: '技术栈亮点',

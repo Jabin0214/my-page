@@ -38,6 +38,9 @@ test('portfolio content exposes localized chat prompts and contact headings', ()
   assert.equal(english.home.ui.introLabel, 'Editorial introduction')
   assert.equal(english.home.ui.selectedWorkIntro, 'A few projects that best show how I think and build.')
   assert.equal(chinese.home.ui.experienceSnapshotTitle, '一些能说明我做事方式的经历')
+  assert.equal(english.projects.showcaseIntroLabel, 'Showcase view')
+  assert.equal(english.projects.showcaseClosing, 'A few things I wanted to feel: clear intent, strong interaction, and enough taste to be remembered.')
+  assert.equal(chinese.projects.showcaseNote, '这些项目不是为了凑作品数量，而是因为它们各自都让我想认真把它做完整。')
 })
 
 test('language route helpers localize and strip prefixed paths', () => {
