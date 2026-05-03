@@ -48,6 +48,9 @@ const portfolioContent = {
         ],
       },
       ui: {
+        introLabel: 'Editorial introduction',
+        introTitle: 'A grounded builder with a product ear and a healthy dislike of clunky software.',
+        introAccent: 'I like work that asks engineering, usability, and judgment to show up at the same time.',
         signalsTitle: 'A few useful signals',
         signals: [
           'I enjoy building products where engineering and user experience have to work together, not compete.',
@@ -56,10 +59,19 @@ const portfolioContent = {
         ],
         featuredWorkLabel: 'Selected work',
         featuredWorkTitle: 'Projects with actual personality',
+        selectedWorkIntro: 'A few projects that best show how I think and build.',
         featuredWorkLink: 'see the full project page',
         workStyleTitle: 'A clear picture of how I work',
+        workStyleIntro:
+          'The throughline in most of my work is simple: make the product clearer, make the system sturdier, and keep the experience pleasant to use.',
         skillSectionTitle: 'Skills',
         projectLabelPrefix: 'Project',
+        experienceSnapshotLabel: 'Experience snapshot',
+        experienceSnapshotTitle: 'A few roles that best show how I work',
+        experienceSnapshotDescription:
+          'Not the full resume, just the parts that best signal range, ownership, and follow-through.',
+        educationLabel: 'Background',
+        detailLabel: 'A bit more context',
       },
       about: {
         whoAmI: {
@@ -299,6 +311,9 @@ const portfolioContent = {
         ],
       },
       ui: {
+        introLabel: '编辑式介绍',
+        introTitle: '一个做事比较踏实、懂产品语境，也不太能忍受糟糕体验的工程师。',
+        introAccent: '我喜欢那种既考验工程能力，也考验判断力和体验感的工作。',
         signalsTitle: '几个有用的判断信号',
         signals: [
           '我喜欢做那种工程和用户体验必须一起成立，而不是互相拖后腿的产品。',
@@ -307,10 +322,19 @@ const portfolioContent = {
         ],
         featuredWorkLabel: '精选内容',
         featuredWorkTitle: '几个比较有个性的项目',
+        selectedWorkIntro: '这几个项目最能代表我怎么思考、怎么落地，以及我会对什么问题感兴趣。',
         featuredWorkLink: '去看完整项目页',
         workStyleTitle: '更清楚地了解我是怎么做事的',
+        workStyleIntro:
+          '如果要概括我的做事方式，大概就是：把产品讲清楚，把系统做扎实，同时尽量让体验用起来舒服。',
         skillSectionTitle: '技能',
         projectLabelPrefix: '项目',
+        experienceSnapshotLabel: '经历速写',
+        experienceSnapshotTitle: '一些能说明我做事方式的经历',
+        experienceSnapshotDescription:
+          '不是完整简历，而是几段最能体现范围、责任感和落地能力的经历。',
+        educationLabel: '背景',
+        detailLabel: '补充信息',
       },
       about: {
         whoAmI: {

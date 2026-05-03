@@ -34,6 +34,9 @@ test('portfolio content exposes localized chat prompts and contact headings', ()
   assert.ok(chinese.chat.suggestedQuestions.length > 0)
   assert.equal(english.contact.title, "Let's make it easy to reach me.")
   assert.equal(chinese.contact.basedInLabel, '所在城市')
+  assert.equal(english.home.ui.introLabel, 'Editorial introduction')
+  assert.equal(english.home.ui.selectedWorkIntro, 'A few projects that best show how I think and build.')
+  assert.equal(chinese.home.ui.experienceSnapshotTitle, '一些能说明我做事方式的经历')
 })
 
 test('language route helpers localize and strip prefixed paths', () => {
