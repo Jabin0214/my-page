@@ -19,6 +19,7 @@ import {
   getExperienceHighlights,
   getFeaturedProjects,
 } from '../src/lib/homepage.js'
+import { buildProjectShowcase } from '../src/lib/projects.js'
 
 test('normalizeLanguage and resolveContentLocale map Chinese variants to zh', () => {
   assert.equal(normalizeLanguage('zh-CN'), 'zh')
@@ -100,4 +101,16 @@ test('homepage helpers curate hero facts, featured projects, and experience high
     experienceHighlights[0].company,
     'FRW Healthcare Limited & ICT Graduate School'
   )
+})
+
+test('projects helper adds sequence labels and alternating media rhythm', () => {
+  const english = getPortfolioContent('en')
+  const showcase = buildProjectShowcase(english.projects.list, 'Project')
+
+  assert.equal(showcase.length, 4)
+  assert.equal(showcase[0].sequenceLabel, 'Project 01')
+  assert.equal(showcase[0].mediaSide, 'left')
+  assert.equal(showcase[1].sequenceLabel, 'Project 02')
+  assert.equal(showcase[1].mediaSide, 'right')
+  assert.equal(showcase[3].title, 'COVID-19 Impact Analysis with Machine Learning')
 })
