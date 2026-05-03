@@ -366,3 +366,125 @@ textarea:focus-visible {
     line-height: 1.8;
   }
 }
+
+.projects-showcase {
+  position: relative;
+}
+
+.projects-hero {
+  padding-top: 0.5rem;
+}
+
+.projects-showcase-display {
+  max-width: 11ch;
+  font-size: clamp(3.1rem, 6vw, 5.8rem);
+  line-height: 0.97;
+  letter-spacing: -0.05em;
+}
+
+.projects-showcase-aside {
+  display: grid;
+  gap: 1rem;
+  align-content: end;
+}
+
+.projects-showcase-note {
+  border: 1px solid var(--line);
+  border-radius: 1.7rem;
+  background: rgba(255, 249, 242, 0.64);
+  padding: 1.25rem 1.3rem;
+}
+
+.projects-showcase-closing {
+  max-width: 26rem;
+  font-family: "Fraunces", "Iowan Old Style", "Georgia", serif;
+  font-size: 1.1rem;
+  line-height: 1.65;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.projects-showcase-row {
+  border-top: 1px solid rgba(53, 39, 28, 0.12);
+  padding-top: 1.25rem;
+}
+
+.projects-showcase-grid {
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+}
+
+.projects-showcase-media {
+  overflow: hidden;
+  border-radius: 2rem;
+  border: 1px solid var(--line);
+  background: rgba(255, 250, 243, 0.86);
+  box-shadow: var(--shadow);
+}
+
+.projects-showcase-image {
+  min-height: 21rem;
+  width: 100%;
+  object-fit: cover;
+  transform: scale(1.01);
+  transition: transform 420ms ease, filter 420ms ease;
+}
+
+.projects-showcase-row:hover .projects-showcase-image {
+  transform: scale(1.04);
+  filter: saturate(1.03) contrast(1.02);
+}
+
+.projects-showcase-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+.projects-showcase-meta {
+  max-width: 35rem;
+}
+
+.projects-showcase-title {
+  max-width: 13ch;
+  font-size: clamp(2rem, 3.2vw, 3.2rem);
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.projects-showcase-stack {
+  border-top: 1px solid var(--line);
+  padding-top: 1.15rem;
+}
+
+@media (min-width: 1024px) {
+  .projects-showcase-grid {
+    gap: 3rem;
+  }
+
+  .projects-showcase-row:nth-of-type(odd) .projects-showcase-copy {
+    padding-left: 1rem;
+  }
+
+  .projects-showcase-row:nth-of-type(even) .projects-showcase-copy {
+    padding-right: 1rem;
+  }
+
+  .projects-showcase-row:nth-of-type(even) .projects-showcase-media {
+    transform: translateY(2rem);
+  }
+}
+
+@media (prefers-reduced-motion) {
+  .projects-showcase-image {
+    transform: none !important;
+    transition: none !important;
+    filter: none !important;
+  }
+
+  .projects-showcase-row:hover .projects-showcase-image {
+    transform: none !important;
+    filter: none !important;
+  }
+}
