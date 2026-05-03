@@ -14,6 +14,11 @@ import {
   buildPersonJsonLd,
   buildWebsiteJsonLd,
 } from '../src/lib/metadata.js'
+import {
+  buildHeroFacts,
+  getExperienceHighlights,
+  getFeaturedProjects,
+} from '../src/lib/homepage.js'
 
 test('normalizeLanguage and resolveContentLocale map Chinese variants to zh', () => {
   assert.equal(normalizeLanguage('zh-CN'), 'zh')
@@ -72,4 +77,24 @@ test('website structured data exposes Jabin Chen search identity', () => {
   assert.equal(website.url, 'https://jabinchen.com/zh')
   assert.equal(website.publisher.name, 'Jabin Chen')
   assert.ok(website.about.alternateName.includes('JabinChen'))
+})
+
+test('homepage helpers curate hero facts, featured projects, and experience highlights', () => {
+  const english = getPortfolioContent('en')
+  const heroFacts = buildHeroFacts(english.home.hero, 'Auckland, New Zealand')
+  const featuredProjects = getFeaturedProjects(english.projects.list)
+  const experienceHighlights = getExperienceHighlights(english.home.about.experience.items)
+
+  assert.deepEqual(heroFacts, [
+    { label: 'Base', value: 'Auckland, New Zealand' },
+    { label: 'Focus', value: 'Full-stack + AI product work' },
+    { label: 'Style', value: 'Curious, pragmatic, ship-minded' },
+  ])
+  assert.equal(featuredProjects.length, 3)
+  assert.equal(featuredProjects[0].title, 'Medimate - AI-powered Medication Assistance')
+  assert.equal(experienceHighlights.length, 3)
+  assert.equal(
+    experienceHighlights[0].company,
+    'FRW Healthcare Limited & ICT Graduate School'
+  )
 })
