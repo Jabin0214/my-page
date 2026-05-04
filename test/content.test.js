@@ -14,6 +14,7 @@ import {
   buildPersonJsonLd,
   buildWebsiteJsonLd,
 } from '../src/lib/metadata.js'
+import { SITE_CONFIG } from '../src/config/site.js'
 import {
   buildHeroFacts,
   getExperienceHighlights,
@@ -33,14 +34,42 @@ test('portfolio content exposes localized chat prompts and contact headings', ()
 
   assert.ok(english.chat.suggestedQuestions.length > 0)
   assert.ok(chinese.chat.suggestedQuestions.length > 0)
-  assert.equal(english.contact.title, "Let's make it easy to reach me.")
-  assert.equal(chinese.contact.basedInLabel, '所在城市')
-  assert.equal(english.home.ui.introLabel, 'Editorial introduction')
-  assert.equal(english.home.ui.selectedWorkIntro, 'A few projects that best show how I think and build.')
-  assert.equal(chinese.home.ui.experienceSnapshotTitle, '一些能说明我做事方式的经历')
-  assert.equal(english.projects.showcaseIntroLabel, 'Showcase view')
-  assert.equal(english.projects.showcaseClosing, 'A few things I wanted to feel: clear intent, strong interaction, and enough taste to be remembered.')
-  assert.equal(chinese.projects.showcaseNote, '这些项目不是为了凑作品数量，而是因为它们各自都让我想认真把它做完整。')
+  assert.equal(
+    english.home.hero.title,
+    'Full-stack developer building AI-assisted tools, production websites, and useful systems.'
+  )
+  assert.equal(
+    english.home.hero.factValues.focus,
+    'Production systems, workflow tooling, and AI-assisted products'
+  )
+  assert.equal(chinese.home.ui.experienceSnapshotTitle, '最能代表我现在工作方式的几段经历')
+  assert.equal(
+    english.projects.list[0].title,
+    'The Oneness Association — Production Non-Profit Platform'
+  )
+  assert.equal(
+    english.contact.title,
+    'A straightforward way to reach me for roles, projects, or useful conversations.'
+  )
+  assert.equal(chinese.contact.basedInLabel, '所在地')
+  assert.equal(
+    chinese.projects.showcaseNote,
+    '这些项目更像我现在能力和判断方式的切片，而不是为了把页面填满。'
+  )
+  assert.equal(english.contact.linkedinLabel, 'LinkedIn')
+  assert.equal(english.contact.workRightsLabel, 'Work rights')
+  assert.equal(english.contact.workRightsValue, 'Full right to work in New Zealand')
+})
+
+test('site config exposes the updated public identity links', () => {
+  assert.equal(SITE_CONFIG.contact.email, 'jabinchen0214@gmail.com')
+  assert.equal(
+    SITE_CONFIG.social.linkedin,
+    'https://linkedin.com/in/jabinchen-590929276'
+  )
+  assert.ok(
+    SITE_CONFIG.profileUrls.includes('https://linkedin.com/in/jabinchen-590929276')
+  )
 })
 
 test('language route helpers localize and strip prefixed paths', () => {
@@ -94,26 +123,32 @@ test('homepage helpers curate hero facts, featured projects, and experience high
 
   assert.deepEqual(heroFacts, [
     { label: 'Base', value: 'Auckland, New Zealand' },
-    { label: 'Focus', value: 'Full-stack + AI product work' },
-    { label: 'Style', value: 'Curious, pragmatic, ship-minded' },
+    {
+      label: 'Focus',
+      value: 'Production systems, workflow tooling, and AI-assisted products',
+    },
+    {
+      label: 'Style',
+      value: 'Grounded, ownership-heavy, and focused on useful outcomes',
+    },
   ])
   assert.equal(featuredProjects.length, 3)
-  assert.equal(featuredProjects[0].title, 'Medimate - AI-powered Medication Assistance')
-  assert.equal(experienceHighlights.length, 3)
   assert.equal(
-    experienceHighlights[0].company,
-    'FRW Healthcare Limited & ICT Graduate School'
+    featuredProjects[0].title,
+    'The Oneness Association — Production Non-Profit Platform'
   )
+  assert.equal(experienceHighlights.length, 3)
+  assert.equal(experienceHighlights[0].company, 'ST International Ltd')
 })
 
 test('projects helper adds sequence labels and alternating media rhythm', () => {
   const english = getPortfolioContent('en')
   const showcase = buildProjectShowcase(english.projects.list, 'Project')
 
-  assert.equal(showcase.length, 4)
+  assert.equal(showcase.length, 5)
   assert.equal(showcase[0].sequenceLabel, 'Project 01')
   assert.equal(showcase[0].mediaSide, 'left')
   assert.equal(showcase[1].sequenceLabel, 'Project 02')
   assert.equal(showcase[1].mediaSide, 'right')
-  assert.equal(showcase[3].title, 'COVID-19 Impact Analysis with Machine Learning')
+  assert.equal(showcase[2].title, 'FinanceBro — AI Investment Assistant for Telegram')
 })

@@ -27,21 +27,25 @@ export const SITE_CONFIG = {
     'JabinChen',
     'Jabin Chen portfolio',
     'Full Stack Developer',
-    'React Developer',
-    'Next.js Developer',
-    'Software Engineer Auckland',
     'AI Developer',
+    'Workflow Automation',
+    'Software Engineer Auckland',
+    'Production Systems',
+    'Next.js Developer',
   ],
   social: {
     github: 'https://github.com/Jabin0214',
+    linkedin: 'https://linkedin.com/in/jabinchen-590929276',
   },
   profileUrls: [
     DEFAULT_SITE_URL,
     'https://github.com/Jabin0214',
+    'https://linkedin.com/in/jabinchen-590929276',
   ],
   contact: {
-    email: 'jabinchen0214@outlook.com',
+    email: 'jabinchen0214@gmail.com',
     github: 'https://github.com/Jabin0214',
+    linkedin: 'https://linkedin.com/in/jabinchen-590929276',
     chat: '/chat',
     resumeFileName: 'resume.pdf',
     ogImage: '/og-image.jpg',
@@ -50,7 +54,7 @@ export const SITE_CONFIG = {
     en: {
       title: 'Jabin Chen | Official Portfolio & Full Stack Developer',
       description:
-        'Official website of Jabin Chen, a full stack developer in Auckland building React, Next.js, .NET, AI, and cloud-powered products.',
+        'Official website of Jabin Chen, a full-stack developer in Auckland building production websites, workflow tooling, and AI-assisted systems.',
       footerTagline: 'Built with Next.js, a personal point of view, and a lot less chaos.',
       openGraphLocale: 'en_NZ',
       jobTitle: 'Full Stack Developer',
@@ -64,7 +68,7 @@ export const SITE_CONFIG = {
     zh: {
       title: 'Jabin Chen | 官方作品集与全栈开发工程师',
       description:
-        'Jabin Chen 官方网站。Jabin Chen 是一名位于奥克兰的全栈开发工程师，专注于 React、Next.js、.NET、AI 与云端产品。',
+        'Jabin Chen 官方网站。Jabin Chen 是一名位于奥克兰的全栈开发工程师，专注于生产级网站、工作流工具与 AI 辅助系统。',
       footerTagline: '用 Next.js 搭建，也带着一点个人视角，少一点模板味。',
       openGraphLocale: 'zh_CN',
       jobTitle: '全栈开发工程师',
