@@ -15,15 +15,16 @@ const portfolioContent = {
     },
     home: {
       hero: {
-        title: 'Hello, I am Jabin',
-        description: 'Full Stack Developer / Tech Enthusiast / Lifelong learner',
+        title: 'Full-stack developer building AI-assisted tools, production websites, and useful systems.',
+        description: 'Current work across production websites, workflow tooling, and applied AI products',
         summary:
-          'I like building things that feel useful, a little thoughtful, and not painfully boring to use.',
+          'Most of the work I care about sits somewhere between product clarity, operational usefulness, and technical ownership.',
         primaryLink: { path: '/projects', label: 'Projects' },
         secondaryLink: { path: '/contact', label: 'Contact' },
         resumeLabel: 'Resume',
-        badge: 'software engineer, occasional tinkerer, definitely curious',
-        chatBubbleText: 'Curious? Click me and ask the AI version of me a few questions.',
+        badge: 'full-stack developer, real-world builder, still very curious',
+        chatBubbleText:
+          'If you want the short version, ask me about the systems I have shipped, the ones I am building now, or how I make product decisions under real constraints.',
         quickReadLabel: 'Quick read',
         oneSentenceLabel: 'In one sentence',
         askDirectlyLabel: 'Ask me directly',
@@ -33,43 +34,45 @@ const portfolioContent = {
           style: 'Style',
         },
         factValues: {
-          focus: 'Full-stack + AI product work',
-          style: 'Curious, pragmatic, ship-minded',
+          focus: 'Production systems, workflow tooling, and AI-assisted products',
+          style: 'Grounded, ownership-heavy, and focused on useful outcomes',
         },
         notes: [
           {
             label: 'Right now',
-            text: 'Building a portfolio that feels more like a person and less like a template.',
+            text: 'Working in property operations while building software that removes busywork, improves visibility, and makes awkward systems easier to use.',
           },
           {
             label: 'What I gravitate toward',
-            text: 'Full-stack products, AI-flavored ideas, clean UX, and systems that actually ship.',
+            text: 'Production websites, operational tools, applied AI workflows, and products where engineering judgment has to meet real constraints.',
           },
         ],
       },
       ui: {
-        introLabel: 'Editorial introduction',
-        introTitle: 'A grounded builder with a product ear and a healthy dislike of clunky software.',
-        introAccent: 'I like work that asks engineering, usability, and judgment to show up at the same time.',
+        introLabel: 'Current direction',
+        introTitle: 'A builder who likes software that earns its keep in the real world.',
+        introAccent:
+          'The common thread in my work is fairly simple: find the part of the system that is wasting time, adding friction, or hiding useful signal, then rebuild it into something people can actually rely on.',
         signalsTitle: 'A few useful signals',
         signals: [
-          'I enjoy building products where engineering and user experience have to work together, not compete.',
-          'I care a lot about shipping things that feel clean, useful, and well thought through under the hood.',
-          'When a project mixes full-stack work, AI, and practical product tradeoffs, I’m usually interested.',
+          'I work best on products where there is a real user, a real process problem, and a real need to ship something that holds up outside a demo.',
+          'Recent work spans a live non-profit platform, internal workflow tooling, AI-assisted financial analysis, and production-facing pharmacy systems.',
+          'The strongest projects tend to be the ones where product thinking, full-stack delivery, and applied AI all need to co-exist without becoming messy.',
         ],
         featuredWorkLabel: 'Selected work',
-        featuredWorkTitle: 'Projects with actual personality',
-        selectedWorkIntro: 'A few projects that best show how I think and build.',
+        featuredWorkTitle: 'The projects that best represent how I work now',
+        selectedWorkIntro:
+          'These are the projects I would lead with in a serious conversation about product sense, technical ownership, and current level.',
         featuredWorkLink: 'see the full project page',
-        workStyleTitle: 'A clear picture of how I work',
+        workStyleTitle: 'How I tend to approach the work',
         workStyleIntro:
-          'The throughline in most of my work is simple: make the product clearer, make the system sturdier, and keep the experience pleasant to use.',
+          'Good software usually comes from balancing three things at once: understanding the actual problem, making defensible technical choices, and keeping the end experience clean enough that people want to keep using it.',
         skillSectionTitle: 'Skills',
         projectLabelPrefix: 'Project',
         experienceSnapshotLabel: 'Experience snapshot',
-        experienceSnapshotTitle: 'A few roles that best show how I work',
+        experienceSnapshotTitle: 'A few roles that best represent how I work now',
         experienceSnapshotDescription:
-          'Not the full resume, just the parts that best signal range, ownership, and follow-through.',
+          'Not the full history, just the parts that best show range, ownership, and what kind of problems I have actually been trusted to work on.',
         educationLabel: 'Background',
         detailLabel: 'A bit more context',
       },
@@ -77,73 +80,55 @@ const portfolioContent = {
         whoAmI: {
           title: 'Who Am I',
           paragraphs: [
-            "Hi, I'm Jabin Chen — a Master's graduate from the University of Auckland and a passionate developer who enjoys building impactful tech solutions. With hands-on experience in JavaScript, C#, and Python, I've developed full-stack applications using frameworks such as React, ASP.NET Core, and Node.js.",
-            "Driven by creativity and curiosity, I'm especially interested in how emerging technologies — particularly AI and cloud computing — can enhance user experiences and address real-world challenges. I'm always open to meaningful conversations about innovation and the future of technology.",
+            "I am a full-stack developer based in Auckland, currently working close to real operational problems while continuing to build independent products on the side. The work that suits me best usually involves some mix of systems thinking, product judgment, and hands-on delivery.",
+            'Recent projects have included a live website and member platform for a registered non-profit, a property workflow tool built from pain points inside my current role, an AI-powered Telegram investment assistant, and a multi-platform digital pharmacy system shipped with a small team.',
           ],
         },
         skills: {
           title: 'Skills',
           list: [
-            'React.js',
-            'Node.js',
-            'C#',
-            'Swift',
-            'Docker',
-            'AWS',
-            'ASP.NET',
+            'React 19',
+            'Next.js 16',
             'TypeScript',
-            'Machine Learning',
-            'UI/UX Design',
+            '.NET 9 / ASP.NET Core',
+            'PostgreSQL',
+            'Docker',
+            'Claude / LLM tool use',
+            'Prisma ORM',
+            'Tailwind CSS',
+            'AWS / Cloudflare',
           ],
         },
         experience: {
           title: 'Experience',
           items: [
             {
-              company: 'FRW Healthcare Limited & ICT Graduate School',
-              duration: '07/2024–12/2024',
-              description: 'AI-powered medication purchasing platform.',
+              company: 'ST International Ltd',
+              duration: '01/2025–Present',
+              description: 'Property operations, reporting, and workflow improvement inside a very small team managing 100+ rental properties.',
               points: [
-                'Developed cross-platform UI with Swift (iOS) and React.js (Web); scalable RESTful APIs using Spring Boot.',
-                'Containerized applications with Docker, deployed on AWS with Nginx, and implemented CI/CD pipelines.',
-                'Enhanced pharmacy workflow efficiency by 40% through AI-driven automation and system performance tuning.',
+                'Coordinate routine inspection scheduling, tenant communication, reporting, and the repetitive operational work that keeps the business moving.',
+                'Built Schedora in response to pain points in the old workflow, turning a manual scheduling and reporting burden into a cleaner internal system.',
+                'Use Microsoft 365, Google Workspace, and day-to-day operational data to support a high-volume property portfolio in a two-person business.',
+              ],
+            },
+            {
+              company: 'FRW Healthcare Limited & ICT Graduate School',
+              duration: '06/2024–12/2024',
+              description: 'Full-stack developer and team lead for Medimate, a multi-platform digital pharmacy system.',
+              points: [
+                'Led a 4-person team across SwiftUI, React, Spring Boot, and the supporting data stack for consumer, pharmacist, and admin workflows.',
+                'Worked on the iOS experience, React dashboard, AI-assisted medication recognition direction, and deployment infrastructure across Docker, AWS, and Nginx.',
+                'Helped deliver a system that improved pharmacist workflow efficiency by 40 percent during UAT.',
               ],
             },
             {
               company: 'The University of Auckland',
               duration: '02/2023–12/2024',
-              description: 'Teaching Assistant for Computer Science courses.',
+              description: 'Teaching Assistant for Computer Science, supporting undergraduate students across multiple technical environments.',
               points: [
-                'Evaluated and graded assignments for Principles of Programming, Software Fundamentals, and Computer Organisation.',
-                'Provided feedback and additional learning support to students, improving academic performance and understanding.',
-              ],
-            },
-            {
-              company: 'Musichat',
-              duration: '07/2023–11/2023',
-              description: 'Full Stack Developer for AI-integrated music web application.',
-              points: [
-                'Built full-stack app using MERN stack, integrating Spotify API for music playback and OpenAI API for conversational AI.',
-                'Implemented real-time chat with Socket.IO; optimized MongoDB for high concurrency in an Agile environment.',
-              ],
-            },
-            {
-              company: 'AI Financial Platform (Personal Project)',
-              duration: '01/2025–Present',
-              description: 'Stock portfolio and AI news podcast system.',
-              points: [
-                'Developed responsive frontend with React and Tailwind; secure routing via context-based authentication.',
-                'Designed layered RESTful APIs with ASP.NET Core and EF Core; integrated DeepSeek and NewsAPI for financial summaries.',
-                'Converted summaries into podcasts using Azure TTS; deployed services via Docker and Azure App Service with CI/CD.',
-              ],
-            },
-            {
-              company: 'Danone Nutricia (Virtual Internship)',
-              duration: '06/2023',
-              description: 'Display-only productivity web app.',
-              points: [
-                'Built a responsive frontend using React.js and designed user flows in Figma.',
-                'Developed RESTful APIs with Python Flask to retrieve and serve production order documents.',
+                'Supported 30+ students per term with debugging, environment setup, and practical problem solving across Windows, macOS, and Linux.',
+                'Helped students work through IDE, compiler, version-control, and systems issues while also giving structured feedback on coursework.',
               ],
             },
           ],
@@ -151,13 +136,13 @@ const portfolioContent = {
         education: {
           title: 'Education',
           degrees: [
-            'Master of Information Technology – University of Auckland',
+            'Master of Information Technology, First Class Honours – University of Auckland',
             'Bachelor of Science in Computer Science – University of Auckland',
           ],
         },
         languages: {
           title: 'Languages',
-          list: 'English, Mandarin-Chinese',
+          list: 'English (professional), Mandarin Chinese (native)',
         },
         hobbies: {
           title: 'Hobbies',
@@ -167,69 +152,82 @@ const portfolioContent = {
     },
     projects: {
       eyebrow: 'selected projects',
-      title: 'Things I built because they felt worth building.',
+      title: 'A body of work built around live delivery, internal tools, and useful AI.',
       description:
-        'I like projects that combine engineering judgment, product thinking, and a little experimentation. This page is less “gallery wall” and more “here’s what I actually made, why I made it, and what’s interesting about it.”',
+        'The strongest projects here are the ones with real users, real constraints, and clear ownership. Some are live in production, some are internal systems, and some are personal products built to solve very specific problems well.',
       showcaseIntroLabel: 'Showcase view',
       showcaseNote:
-        'These are the projects that best represent the mix of engineering, product curiosity, and visual care I like bringing to work.',
+        'These projects are less about collecting technologies and more about showing what I can own from problem framing through implementation.',
       showcaseClosing:
-        'A few things I wanted to feel: clear intent, strong interaction, and enough taste to be remembered.',
+        'The thread running through them is usually the same: clear purpose, practical architecture, and enough care that the result feels considered rather than improvised.',
       featuredLabel: 'Featured project',
       viewSourceLabel: 'View on GitHub',
       stackLabel: 'Stack highlights',
       list: [
         {
           id: 1,
-          title: 'Medimate - AI-powered Medication Assistance',
+          title: 'The Oneness Association — Production Non-Profit Platform',
           description:
-            'Developed an innovative application that automates medication purchases by extracting data from product images using AI-driven image recognition.',
-          tags: ['React', 'Swift', 'ASP.NET', 'Docker', 'OpenAI API', 'AWS'],
+            'Delivered a live 48+ page production website and member platform for a registered New Zealand non-profit, covering architecture, authentication, database design, SEO, deployment, and ongoing maintenance.',
+          tags: ['Next.js 16', 'React 19', 'TypeScript', 'Prisma', 'PostgreSQL', 'Cloudflare'],
+          cover: 'covers/aipodcast.jpg',
+          github: 'https://the-one.co.nz/',
+        },
+        {
+          id: 2,
+          title: 'Schedora — Property Workflow And Scheduling Platform',
+          description:
+            'Built independently in response to operational pain inside my current role, Schedora replaces messy manual inspection scheduling and reporting workflows with a cleaner internal system. Containerised and infrastructure-ready, but not yet deployed live.',
+          tags: ['.NET 9', 'ASP.NET Core', 'React 19', 'Ant Design', 'PostgreSQL', 'Docker'],
+          cover: 'covers/medimate.jpg',
+          github: 'https://github.com/Jabin0214/Schedora',
+        },
+        {
+          id: 3,
+          title: 'FinanceBro — AI Investment Assistant for Telegram',
+          description:
+            'A production-deployed Telegram bot that combines Claude tool use, xAI Grok, IBKR integrations, and custom risk tooling to answer portfolio and options questions in natural language. It assists analysis and decision support, but does not execute trades.',
+          tags: ['Python 3.13', 'Anthropic SDK', 'Telegram Bot API', 'ib_insync', 'Docker', 'Railway'],
+          cover: 'covers/aipodcast.jpg',
+          github: 'https://github.com/Jabin0214',
+        },
+        {
+          id: 4,
+          title: 'Medimate — Digital Pharmacy System',
+          description:
+            'Worked as full-stack developer and team lead on a multi-platform pharmacy product spanning SwiftUI, React, Spring Boot, and supporting infrastructure, with AI-assisted medication recognition and production deployment on AWS.',
+          tags: ['SwiftUI', 'React', 'Spring Boot', 'MySQL', 'Redis', 'AWS'],
           cover: 'covers/medimate.jpg',
           github: 'https://github.com/Jabin0214/Medimate',
         },
         {
-          id: 2,
-          title: 'MusicChat - AI-Enhanced Social Music Platform',
+          id: 5,
+          title: 'Musichat — Social Music Platform',
           description:
-            'Built a full-stack web application integrating Spotify and OpenAI APIs, allowing users to review, chat, and discover music interactively.',
-          tags: ['MERN Stack', 'React', 'Node.js', 'MongoDB', 'Express', 'OpenAI API'],
+            'An earlier team project that combined Spotify, OpenAI, and real-time messaging into a MERN-based social music experience. Still useful as a signal of full-stack collaboration and API integration work.',
+          tags: ['MERN', 'Spotify API', 'OpenAI API', 'Socket.IO', 'Redux'],
           cover: 'covers/musichat.jpg',
           github: 'https://github.com/Jabin0214/Music-Chat',
-        },
-        {
-          id: 3,
-          title: 'Financial Podcast System',
-          description:
-            'Developed a stock portfolio and AI news podcast system, integrating financial summaries and podcasts using Azure TTS.',
-          tags: ['React', 'ASP.NET Core', 'Azure', 'Docker', 'DeepSeek', 'NewsAPI'],
-          cover: 'covers/aipodcast.jpg',
-          github: 'https://github.com/Jabin0214/Finmate-Backend',
-        },
-        {
-          id: 4,
-          title: 'COVID-19 Impact Analysis with Machine Learning',
-          description:
-            "Conducted data mining on COVID-19's effect on education in Venezuela using CRISP-DM methodology, building ML models to predict school dropout rates.",
-          tags: ['Python', 'Pandas', 'NumPy', 'Scikit-Learn', 'R', 'IBM SPSS'],
-          cover: 'covers/covid.jpg',
-          github: 'https://github.com/Jabin0214/DM722',
         },
       ],
     },
     contact: {
       sectionTitle: 'Contact Me',
-      title: "Let's make it easy to reach me.",
+      title: 'A straightforward way to reach me for roles, projects, or useful conversations.',
       description:
-        'I am always open to discussing new projects, creative ideas, or opportunities to be part of your vision. Feel free to reach out!',
+        'If you are hiring, building something useful, or just want to talk through product, AI, or full-stack systems work, I am easy to reach and happy to have a serious conversation.',
       emailLabel: 'Email',
       githubLabel: 'GitHub',
+      linkedinLabel: 'LinkedIn',
       noteLabel: 'quick note',
       noteBody:
-        'If you want the short version: I like building thoughtful software, I’m easy to work with, and I enjoy conversations where someone actually wants to make something better.',
-      noteFooter: 'Recruiter, founder, hiring manager, curious human: all welcome.',
-      contextLabel: 'Context',
+        'The best conversations usually happen when someone has a real product, workflow, or systems problem and wants to make it cleaner, smarter, or more reliable.',
+      noteFooter:
+        'Open to full-stack roles, product-minded engineering work, AI-assisted systems, and projects where ownership actually matters.',
+      contextLabel: 'Best fit',
       basedInLabel: 'Based in',
+      workRightsLabel: 'Work rights',
+      workRightsValue: 'Full right to work in New Zealand',
     },
     chat: {
       eyebrow: 'talk to actual-jabin-ish',
@@ -284,14 +282,15 @@ const portfolioContent = {
     },
     home: {
       hero: {
-        title: '你好，我是 Jabin',
-        description: '全栈开发工程师 / 技术爱好者 / 创造者',
-        summary: '我喜欢做那些有用、有一点思考、而且不会让人用得很痛苦的东西。',
+        title: '做 AI 辅助工具、生产级网站和真正有用系统的全栈开发工程师。',
+        description: '现在主要在生产系统、工作流工具和 AI 辅助产品之间做交叉型的全栈工作',
+        summary: '我最适合的工作，通常都同时需要产品判断、系统思维和把东西真正做落地的能力。',
         primaryLink: { path: '/projects', label: '项目' },
         secondaryLink: { path: '/contact', label: '联系我' },
         resumeLabel: '简历',
-        badge: '软件工程师，偶尔折腾东西，持续保持好奇',
-        chatBubbleText: '好奇的话，点我一下，问问这个 AI 版的我。',
+        badge: '全栈开发工程师，也做真实世界里的系统和工具',
+        chatBubbleText:
+          '如果你想快速了解我，可以直接问我做过哪些系统、现在在做什么，或者我是怎么在真实约束下做技术判断的。',
         quickReadLabel: '快速了解',
         oneSentenceLabel: '一句话概括',
         askDirectlyLabel: '直接问我',
@@ -301,43 +300,45 @@ const portfolioContent = {
           style: '风格',
         },
         factValues: {
-          focus: '全栈与 AI 产品开发',
-          style: '好奇、务实、偏交付',
+          focus: '生产系统、工作流工具与 AI 辅助产品',
+          style: '稳、重交付，也愿意自己扛 ownership',
         },
         notes: [
           {
             label: '最近在做',
-            text: '把这个作品集做得更像一个真实的人，而不是一个模板站。',
+            text: '一边在真实业务环境里做流程和系统改造，一边继续做独立产品和上线项目。',
           },
           {
             label: '我偏爱的东西',
-            text: '全栈产品、带一点 AI 味道的想法、干净的体验，以及真正能落地的系统。',
+            text: '生产级网站、内部工作流工具、AI 辅助产品，以及那些真正要面对现实约束的系统。',
           },
         ],
       },
       ui: {
-        introLabel: '编辑式介绍',
-        introTitle: '一个做事比较踏实、懂产品语境，也不太能忍受糟糕体验的工程师。',
-        introAccent: '我喜欢那种既考验工程能力，也考验判断力和体验感的工作。',
+        introLabel: '现在的方向',
+        introTitle: '我更喜欢做那些在真实环境里真的会被人依赖的软件。',
+        introAccent:
+          '如果一个系统能明显减少重复工作、把信息讲清楚，或者在复杂流程里替人省下很多时间，我通常会对它很有兴趣。',
         signalsTitle: '几个有用的判断信号',
         signals: [
-          '我喜欢做那种工程和用户体验必须一起成立，而不是互相拖后腿的产品。',
-          '我很在意把东西做得干净、好用，而且底层实现也讲得通。',
-          '如果一个项目同时涉及全栈、AI 和真实的产品取舍，我通常会很感兴趣。',
+          '我比较擅长的不是做一个好看的 demo，而是把真实问题讲清楚，然后做成别人真的能用的系统。',
+          '最近的项目横跨生产网站、内部流程工具、AI 辅助金融分析，以及多端数字药房系统。',
+          '最适合我的工作通常同时需要全栈交付、产品判断，以及在现实约束下做取舍的能力。',
         ],
         featuredWorkLabel: '精选内容',
-        featuredWorkTitle: '几个比较有个性的项目',
-        selectedWorkIntro: '这几个项目最能代表我怎么思考、怎么落地，以及我会对什么问题感兴趣。',
+        featuredWorkTitle: '最能代表我现在能力结构的几个项目',
+        selectedWorkIntro:
+          '如果要快速判断我现在的水平、方向和判断方式，这几个项目会比更早期的作品更有代表性。',
         featuredWorkLink: '去看完整项目页',
-        workStyleTitle: '更清楚地了解我是怎么做事的',
+        workStyleTitle: '我通常怎么处理问题',
         workStyleIntro:
-          '如果要概括我的做事方式，大概就是：把产品讲清楚，把系统做扎实，同时尽量让体验用起来舒服。',
+          '我比较相信一个系统要同时站得住三个层面：问题是否真的被理解，技术方案是否合理，以及最终体验是不是足够清楚、顺手、可信。',
         skillSectionTitle: '技能',
         projectLabelPrefix: '项目',
         experienceSnapshotLabel: '经历速写',
-        experienceSnapshotTitle: '一些能说明我做事方式的经历',
+        experienceSnapshotTitle: '最能代表我现在工作方式的几段经历',
         experienceSnapshotDescription:
-          '不是完整简历，而是几段最能体现范围、责任感和落地能力的经历。',
+          '不是完整简历，而是几段最能体现我现在做事范围、责任感和落地能力的经历。',
         educationLabel: '背景',
         detailLabel: '补充信息',
       },
@@ -345,84 +346,70 @@ const portfolioContent = {
         whoAmI: {
           title: '我是谁',
           paragraphs: [
-            '嗨，我是 Jabin Chen — 一位奥克兰大学的硕士毕业生，也是一位热衷于构建有影响力的技术解决方案的热情开发者。凭借在 JavaScript、C# 和 Python 方面的实践经验，我使用 React、ASP.NET Core 和 Node.js 等框架开发了全栈应用程序。',
-            '在创造力和好奇心的驱动下，我对新兴技术，尤其是人工智能和云计算，如何增强用户体验和解决现实世界的挑战特别感兴趣。我总是乐于就创新和技术的未来进行有意义的对话。',
+            '我现在在奥克兰，做的是比较贴近真实业务的全栈工作，同时也持续在做自己的独立项目。对我来说，最有意思的工作通常不是堆技术，而是把一个混乱、低效或者信息不透明的问题重构成真正可用的系统。',
+            '最近这段时间，我做过已上线的非营利组织平台、基于真实工作痛点开发的物业流程工具、AI 驱动的 Telegram 投资助手，以及和团队一起交付的多端数字药房系统。这些项目合在一起，基本就是我现在最真实的能力轮廓。',
           ],
         },
         skills: {
           title: '技能',
           list: [
-            'React.js',
-            'Node.js',
-            'C#',
-            'Swift',
-            'Docker',
-            'AWS',
-            'ASP.NET',
+            'React 19',
+            'Next.js 16',
             'TypeScript',
-            '机器学习',
-            'UI/UX 设计',
+            '.NET 9 / ASP.NET Core',
+            'PostgreSQL',
+            'Docker',
+            'Claude / LLM tool use',
+            'Prisma ORM',
+            'Cloudflare',
+            'AWS',
+            'Tailwind CSS',
           ],
         },
         experience: {
           title: '工作经历',
           items: [
             {
-              company: 'FRW Healthcare Limited & ICT Graduate School',
-              duration: '2024年7月–2024年12月',
-              description: 'AI 驱动的药物购买平台。',
+              company: 'ST International Ltd',
+              duration: '2025年1月–至今',
+              description: '物业运营、报表与流程改进工作，团队很小，但日常问题都很真实。',
               points: [
-                '使用 Swift (iOS) 和 React.js (Web) 开发跨平台用户界面；使用 Spring Boot 开发可扩展的 RESTful API。',
-                '使用 Docker 对应用程序进行容器化，在 AWS 上使用 Nginx 部署，并实施 CI/CD 管道。',
-                '通过 AI 驱动的自动化和系统性能调优，将药房工作流程效率提高了 40%。',
+                '负责 routine inspection 的预约、租客沟通、文书和报表等高频事务，直接接触旧系统和低效流程带来的实际问题。',
+                '因为原有流程过于繁琐，所以主动开发了 Schedora，试图把预约、排程和报告这类工作做得更清楚、更省时。',
+                '在一个两人协作、管理 100+ 套出租物业的小型环境里，持续处理沟通、文档和运营支持工作。',
+              ],
+            },
+            {
+              company: 'FRW Healthcare Limited & ICT Graduate School',
+              duration: '2024年6月–2024年12月',
+              description: 'Medimate 数字药房系统，全栈开发兼团队负责人。',
+              points: [
+                '带领 4 人团队在 SwiftUI、React、Spring Boot 以及配套数据架构上推进消费者端、药剂师端和管理端功能。',
+                '参与 iOS 体验、React dashboard、药品识别 AI 方向以及 Docker / AWS / Nginx 部署链路。',
+                '项目在 UAT 中帮助药剂师工作流效率提升 40%。',
               ],
             },
             {
               company: '奥克兰大学',
               duration: '2023年2月–2024年12月',
-              description: '计算机科学课程助教。',
+              description: '计算机科学助教，长期帮助本科生解决开发环境和课程实现问题。',
               points: [
-                '评估和批改了《编程原理》《软件基础》和《计算机组成》的作业。',
-                '为学生提供反馈和额外的学习支持，提高了他们的学业成绩和理解能力。',
-              ],
-            },
-            {
-              company: 'Musichat',
-              duration: '2023年7月–2023年11月',
-              description: 'AI 集成音乐 Web 应用程序全栈开发工程师。',
-              points: [
-                '使用 MERN 栈构建全栈应用程序，集成 Spotify API 进行音乐播放和 OpenAI API 进行对话式 AI。',
-                '使用 Socket.IO 实现实时聊天；在敏捷环境中优化 MongoDB 以实现高并发。',
-              ],
-            },
-            {
-              company: 'AI 金融平台 (个人项目)',
-              duration: '2025年1月–至今',
-              description: '股票投资组合和 AI 新闻播客系统。',
-              points: [
-                '使用 React 和 Tailwind 开发响应式前端；通过基于上下文的身份验证实现安全路由。',
-                '使用 ASP.NET Core 和 EF Core 设计分层 RESTful API；集成 DeepSeek 和 NewsAPI 以获取金融摘要。',
-                '使用 Azure TTS 将摘要转换为播客；通过 Docker 和 Azure App Service 部署服务，并使用 CI/CD。',
-              ],
-            },
-            {
-              company: '达能纽迪希亚 (虚拟实习)',
-              duration: '2023年6月',
-              description: '展示型生产力 Web 应用程序。',
-              points: [
-                '使用 React.js 构建响应式前端，并在 Figma 中设计用户流程。',
-                '使用 Python Flask 开发 RESTful API，以检索和提供生产订单文档。',
+                '每学期支持 30+ 名学生，处理 IDE、编译器、操作系统、Git 和环境配置问题。',
+                '除了批改和反馈，也经常帮助学生把卡住他们的技术问题真正定位并解决。',
               ],
             },
           ],
         },
         education: {
           title: '教育背景',
-          degrees: ['信息技术硕士 – 奥克兰大学', '计算机科学学士 – 奥克兰大学'],
+          degrees: [
+            '信息技术硕士（一等荣誉）– 奥克兰大学',
+            '计算机科学学士 – 奥克兰大学',
+          ],
         },
         languages: {
           title: '语言',
-          list: '英语, 汉语',
+          list: '英语（专业工作水平）, 普通话（母语）',
         },
         hobbies: {
           title: '爱好',
@@ -432,68 +419,82 @@ const portfolioContent = {
     },
     projects: {
       eyebrow: '精选项目',
-      title: '我做这些项目，是因为它们值得被做出来。',
+      title: '这些项目更能代表我现在真正会做、也真正做过的东西。',
       description:
-        '我喜欢那种同时需要工程判断、产品思维和一点实验精神的项目。这一页不是“作品画廊”，而更像“我做了什么、为什么做、以及它为什么有意思”。',
+        '这里最值得看的，不是技术名词本身，而是每个项目背后的问题、交付方式和 ownership。有的已经上线，有的是内部系统，有的是独立产品，但它们都比早期作品更能代表我现在的能力结构。',
       showcaseIntroLabel: '展示视角',
       showcaseNote:
-        '这些项目不是为了凑作品数量，而是因为它们各自都让我想认真把它做完整。',
+        '这些项目更像我现在能力和判断方式的切片，而不是为了把页面填满。',
       showcaseClosing:
-        '我希望它们给人的感觉是：目标清楚、交互扎实，而且在气质上也足够让人记住。',
+        '贯穿它们的共同点通常是：目标明确、架构讲得通、并且结果真的能被人用起来。',
       featuredLabel: '精选项目',
       viewSourceLabel: '查看 GitHub',
       stackLabel: '技术栈亮点',
       list: [
         {
           id: 1,
-          title: 'Medimate - AI 驱动的药物辅助',
+          title: 'The Oneness Association — Production Non-Profit Platform',
           description:
-            '开发了一款创新的应用程序，通过使用 AI 驱动的图像识别技术从产品图像中提取数据，从而实现药物购买的自动化。',
-          tags: ['React', 'Swift', 'ASP.NET', 'Docker', 'OpenAI API', 'AWS'],
+            '为新西兰注册非营利组织独立完成并持续维护一个 48+ 页面的网站与会员平台，覆盖架构、认证、数据库、SEO、部署和后续维护，已真实上线运行。',
+          tags: ['Next.js 16', 'React 19', 'TypeScript', 'Prisma', 'PostgreSQL', 'Cloudflare'],
+          cover: 'covers/aipodcast.jpg',
+          github: 'https://the-one.co.nz/',
+        },
+        {
+          id: 2,
+          title: 'Schedora — Property Workflow And Scheduling Platform',
+          description:
+            '从当前工作里的真实痛点出发独立开发的内部流程工具，用来替代低效的人工预约、排程和报告工作。已经完成本地与容器化层面的交付，但还没有对外上线。',
+          tags: ['.NET 9', 'ASP.NET Core', 'React 19', 'Ant Design', 'PostgreSQL', 'Docker'],
+          cover: 'covers/medimate.jpg',
+          github: 'https://github.com/Jabin0214/Schedora',
+        },
+        {
+          id: 3,
+          title: 'FinanceBro — AI Investment Assistant for Telegram',
+          description:
+            '一个已部署到生产环境的 Telegram 投资助手，把 Claude tool use、xAI Grok、IBKR 数据和自定义风险分析工具组合在一起，用自然语言回答投资组合和期权问题，但不执行真实交易。',
+          tags: ['Python 3.13', 'Anthropic SDK', 'Telegram Bot API', 'ib_insync', 'Docker', 'Railway'],
+          cover: 'covers/aipodcast.jpg',
+          github: 'https://github.com/Jabin0214',
+        },
+        {
+          id: 4,
+          title: 'Medimate — Digital Pharmacy System',
+          description:
+            '作为全栈开发兼 team lead 参与多端数字药房系统交付，覆盖 SwiftUI、React、Spring Boot 以及配套部署链路，并参与药品识别 AI 方向和整体交付协作。',
+          tags: ['SwiftUI', 'React', 'Spring Boot', 'MySQL', 'Redis', 'AWS'],
           cover: 'covers/medimate.jpg',
           github: 'https://github.com/Jabin0214/Medimate',
         },
         {
-          id: 2,
-          title: 'MusicChat - AI 增强的社交音乐平台',
+          id: 5,
+          title: 'Musichat — Social Music Platform',
           description:
-            '构建了一个集成 Spotify 和 OpenAI API 的全栈 Web 应用程序，允许用户以交互方式评论、聊天和发现音乐。',
-          tags: ['MERN Stack', 'React', 'Node.js', 'MongoDB', 'Express', 'OpenAI API'],
+            '更早期的团队项目，把 Spotify、OpenAI 和实时聊天整合到一个 MERN 应用里。它仍然能说明我在 API 集成和全栈协作上的基础，但已经不是最能代表我当前水平的项目。',
+          tags: ['MERN', 'Spotify API', 'OpenAI API', 'Socket.IO', 'Redux'],
           cover: 'covers/musichat.jpg',
           github: 'https://github.com/Jabin0214/Music-Chat',
-        },
-        {
-          id: 3,
-          title: '金融播客系统',
-          description:
-            '开发了一个股票投资组合和 AI 新闻播客系统，集成了金融摘要和使用 Azure TTS 生成的播客。',
-          tags: ['React', 'ASP.NET Core', 'Azure', 'Docker', 'DeepSeek', 'NewsAPI'],
-          cover: 'covers/aipodcast.jpg',
-          github: 'https://github.com/Jabin0214/Finmate-Backend',
-        },
-        {
-          id: 4,
-          title: '基于机器学习的 COVID-19 影响分析',
-          description:
-            '使用 CRISP-DM 方法对 COVID-19 对委内瑞拉教育的影响进行数据挖掘，构建机器学习模型以预测学校辍学率。',
-          tags: ['Python', 'Pandas', 'NumPy', 'Scikit-Learn', 'R', 'IBM SPSS'],
-          cover: 'covers/covid.jpg',
-          github: 'https://github.com/Jabin0214/DM722',
         },
       ],
     },
     contact: {
       sectionTitle: '联系我',
-      title: '我希望别人联系我这件事，尽量简单一点。',
-      description: '我总是乐于讨论新的项目、创意想法或参与您愿景的机会。欢迎随时与我联系。',
+      title: '如果你想聊角色、项目，或者只是想认真聊聊要解决的问题，可以直接联系我。',
+      description:
+        '如果你正在招人、在做一个值得认真打磨的产品，或者刚好需要一个懂全栈、AI 辅助系统和真实交付的人，我很乐意继续聊。',
       emailLabel: '邮箱',
       githubLabel: 'GitHub',
+      linkedinLabel: 'LinkedIn',
       noteLabel: '补充一句',
       noteBody:
-        '如果你想听最短版本：我喜欢做有思考的软件，也比较好合作，而且我喜欢和真正想把事情做得更好的人聊天。',
-      noteFooter: '招聘者、创始人、经理，或者只是好奇的人，都欢迎。',
+        '我通常最适合的工作，是那些既需要扎实交付，也需要一点产品判断和系统思维的场景。',
+      noteFooter:
+        '比较欢迎的方向包括全栈岗位、产品导向工程工作、AI 辅助系统，以及那些真的需要 ownership 的项目。',
       contextLabel: '适合联系我的场景',
-      basedInLabel: '所在城市',
+      basedInLabel: '所在地',
+      workRightsLabel: '工作权',
+      workRightsValue: '拥有新西兰完整工作权',
     },
     chat: {
       eyebrow: '和一个挺像 Jabin 的版本聊天',
