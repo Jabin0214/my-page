@@ -21,6 +21,7 @@ import {
   getFeaturedProjects,
 } from '../src/lib/homepage.js'
 import { buildProjectShowcase } from '../src/lib/projects.js'
+import { CHAT_SYSTEM_PROMPT } from '../src/lib/chat.js'
 
 test('normalizeLanguage and resolveContentLocale map Chinese variants to zh', () => {
   assert.equal(normalizeLanguage('zh-CN'), 'zh')
@@ -70,6 +71,12 @@ test('site config exposes the updated public identity links', () => {
   assert.ok(
     SITE_CONFIG.profileUrls.includes('https://linkedin.com/in/jabinchen-590929276')
   )
+})
+
+test('chat system prompt reflects the reconstructed public narrative', () => {
+  assert.match(CHAT_SYSTEM_PROMPT, /production websites/i)
+  assert.match(CHAT_SYSTEM_PROMPT, /workflow/i)
+  assert.match(CHAT_SYSTEM_PROMPT, /AI-assisted/i)
 })
 
 test('language route helpers localize and strip prefixed paths', () => {

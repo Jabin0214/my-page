@@ -1,6 +1,6 @@
 'use client'
 
-import { Github, Mail } from 'lucide-react'
+import { Github, Linkedin, Mail } from 'lucide-react'
 import { SITE_CONFIG } from '../../../src/config/site'
 import { usePortfolioContent } from '../../../src/hooks/usePortfolioContent'
 
@@ -39,6 +39,18 @@ const Contact = () => {
                 <p className="mt-1">{SITE_CONFIG.contact.github}</p>
               </div>
             </a>
+            <a
+              href={SITE_CONFIG.contact.linkedin}
+              className="surface-subtle flex items-center gap-3 px-4 py-4 text-base text-[#526072] hover:border-[rgba(15,118,110,0.24)] hover:text-[#101828]"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Linkedin className="h-7 w-7" />
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#0f766e]">{contact.linkedinLabel}</p>
+                <p className="mt-1">{SITE_CONFIG.contact.linkedin}</p>
+              </div>
+            </a>
           </div>
         </div>
 
@@ -54,6 +66,10 @@ const Contact = () => {
           <div className="surface-subtle px-5 py-5">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#0f766e]">{contact.basedInLabel}</p>
             <p className="mt-3 text-base leading-8 text-[#526072]">{SITE_CONFIG.location}</p>
+          </div>
+          <div className="surface-subtle px-5 py-5">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#0f766e]">{contact.workRightsLabel}</p>
+            <p className="mt-3 text-base leading-8 text-[#526072]">{contact.workRightsValue}</p>
           </div>
         </div>
       </section>
