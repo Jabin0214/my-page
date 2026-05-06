@@ -170,7 +170,7 @@ const portfolioContent = {
           description:
             'Delivered a live 48+ page production website and member platform for a registered New Zealand non-profit, covering architecture, authentication, database design, SEO, deployment, and ongoing maintenance.',
           tags: ['Next.js 16', 'React 19', 'TypeScript', 'Prisma', 'PostgreSQL', 'Cloudflare'],
-          cover: 'covers/aipodcast.jpg',
+          cover: 'covers/oneness.png',
           github: 'https://the-one.co.nz/',
         },
         {
@@ -179,7 +179,7 @@ const portfolioContent = {
           description:
             'Built independently in response to operational pain inside my current role, Schedora replaces messy manual inspection scheduling and reporting workflows with a cleaner internal system. Containerised and infrastructure-ready, but not yet deployed live.',
           tags: ['.NET 9', 'ASP.NET Core', 'React 19', 'Ant Design', 'PostgreSQL', 'Docker'],
-          cover: 'covers/medimate.jpg',
+          cover: 'covers/schedora.png',
           github: 'https://github.com/Jabin0214/Schedora',
         },
         {
@@ -188,7 +188,7 @@ const portfolioContent = {
           description:
             'A production-deployed Telegram bot that combines Claude tool use, xAI Grok, IBKR integrations, and custom risk tooling to answer portfolio and options questions in natural language. It assists analysis and decision support, but does not execute trades.',
           tags: ['Python 3.13', 'Anthropic SDK', 'Telegram Bot API', 'ib_insync', 'Docker', 'Railway'],
-          cover: 'covers/aipodcast.jpg',
+          cover: 'covers/financebro.png',
           github: 'https://github.com/Jabin0214',
         },
         {
@@ -197,7 +197,7 @@ const portfolioContent = {
           description:
             'Worked as full-stack developer and team lead on a multi-platform pharmacy product spanning SwiftUI, React, Spring Boot, and supporting infrastructure, with AI-assisted medication recognition and production deployment on AWS.',
           tags: ['SwiftUI', 'React', 'Spring Boot', 'MySQL', 'Redis', 'AWS'],
-          cover: 'covers/medimate.jpg',
+          cover: 'covers/medimate.png',
           github: 'https://github.com/Jabin0214/Medimate',
         },
         {
@@ -206,7 +206,7 @@ const portfolioContent = {
           description:
             'An earlier team project that combined Spotify, OpenAI, and real-time messaging into a MERN-based social music experience. Still useful as a signal of full-stack collaboration and API integration work.',
           tags: ['MERN', 'Spotify API', 'OpenAI API', 'Socket.IO', 'Redux'],
-          cover: 'covers/musichat.jpg',
+          cover: 'covers/musichat.png',
           github: 'https://github.com/Jabin0214/Music-Chat',
         },
       ],
@@ -437,7 +437,7 @@ const portfolioContent = {
           description:
             '为新西兰注册非营利组织独立完成并持续维护一个 48+ 页面的网站与会员平台，覆盖架构、认证、数据库、SEO、部署和后续维护，已真实上线运行。',
           tags: ['Next.js 16', 'React 19', 'TypeScript', 'Prisma', 'PostgreSQL', 'Cloudflare'],
-          cover: 'covers/aipodcast.jpg',
+          cover: 'covers/oneness.png',
           github: 'https://the-one.co.nz/',
         },
         {
@@ -446,7 +446,7 @@ const portfolioContent = {
           description:
             '从当前工作里的真实痛点出发独立开发的内部流程工具，用来替代低效的人工预约、排程和报告工作。已经完成本地与容器化层面的交付，但还没有对外上线。',
           tags: ['.NET 9', 'ASP.NET Core', 'React 19', 'Ant Design', 'PostgreSQL', 'Docker'],
-          cover: 'covers/medimate.jpg',
+          cover: 'covers/schedora.png',
           github: 'https://github.com/Jabin0214/Schedora',
         },
         {
@@ -455,7 +455,7 @@ const portfolioContent = {
           description:
             '一个已部署到生产环境的 Telegram 投资助手，把 Claude tool use、xAI Grok、IBKR 数据和自定义风险分析工具组合在一起，用自然语言回答投资组合和期权问题，但不执行真实交易。',
           tags: ['Python 3.13', 'Anthropic SDK', 'Telegram Bot API', 'ib_insync', 'Docker', 'Railway'],
-          cover: 'covers/aipodcast.jpg',
+          cover: 'covers/financebro.png',
           github: 'https://github.com/Jabin0214',
         },
         {
@@ -464,7 +464,7 @@ const portfolioContent = {
           description:
             '作为全栈开发兼 team lead 参与多端数字药房系统交付，覆盖 SwiftUI、React、Spring Boot 以及配套部署链路，并参与药品识别 AI 方向和整体交付协作。',
           tags: ['SwiftUI', 'React', 'Spring Boot', 'MySQL', 'Redis', 'AWS'],
-          cover: 'covers/medimate.jpg',
+          cover: 'covers/medimate.png',
           github: 'https://github.com/Jabin0214/Medimate',
         },
         {
@@ -473,7 +473,7 @@ const portfolioContent = {
           description:
             '更早期的团队项目，把 Spotify、OpenAI 和实时聊天整合到一个 MERN 应用里。它仍然能说明我在 API 集成和全栈协作上的基础，但已经不是最能代表我当前水平的项目。',
           tags: ['MERN', 'Spotify API', 'OpenAI API', 'Socket.IO', 'Redux'],
-          cover: 'covers/musichat.jpg',
+          cover: 'covers/musichat.png',
           github: 'https://github.com/Jabin0214/Music-Chat',
         },
       ],
