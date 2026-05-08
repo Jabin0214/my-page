@@ -22,27 +22,22 @@ const Navbar = () => {
   }
 
   return (
-    <header className="sticky top-0 z-50 px-4 pt-4">
-      <nav className="page-shell surface-card flex items-center justify-between px-5 py-3 text-[#101828]">
+    <header className="minimal-nav-frame z-50">
+      <nav className="minimal-nav-shell flex items-center justify-between">
         <Link
           href={localizePath('/')}
-          className="text-lg font-bold tracking-tight sm:text-xl"
+          className="minimal-brand-mark"
           onClick={() => setIsMenuOpen(false)}
         >
           {SITE_CONFIG.owner}
-          <span className="ml-2 text-sm font-medium text-[#526072]">{content.navigation.brandSuffix}</span>
         </Link>
 
-        <div className="hidden sm:flex items-center space-x-4">
+        <div className="minimal-nav-links">
           {content.navigation.links.map((link) => (
             <Link
               key={link.path}
               href={localizePath(link.path)}
-              className={`rounded-full px-3 py-1.5 text-sm font-medium transition-all ${
-                pathWithoutLanguage === link.path
-                  ? 'bg-[#101828] text-white'
-                  : 'text-[#526072] hover:bg-white hover:text-[#101828]'
-              }`}
+              className={`minimal-nav-link ${pathWithoutLanguage === link.path ? 'is-active' : ''}`}
             >
               {link.label}
             </Link>
@@ -50,7 +45,7 @@ const Navbar = () => {
           <button
             type="button"
             onClick={handleLanguageToggle}
-            className="button-secondary px-3 py-1.5 text-sm"
+            className="minimal-language-button"
           >
             {content.navigation.languageToggleLabel}
           </button>
@@ -58,7 +53,7 @@ const Navbar = () => {
 
         <button
           type="button"
-          className="rounded-full p-2 text-[#101828] sm:hidden"
+          className="minimal-menu-button"
           onClick={() => setIsMenuOpen((prev) => !prev)}
           aria-label={content.navigation.mobileMenuLabel}
           aria-expanded={isMenuOpen}
@@ -76,17 +71,13 @@ const Navbar = () => {
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.18, ease: 'easeOut' }}
             id="mobile-navigation"
-            className="page-shell surface-card mt-3 space-y-2 px-4 py-4 sm:hidden"
+            className="minimal-mobile-panel"
           >
             {content.navigation.links.map((link) => (
               <Link
                 key={link.path}
                 href={localizePath(link.path)}
-                className={`block rounded-full px-3 py-2 text-sm font-medium transition-all ${
-                  pathWithoutLanguage === link.path
-                    ? 'bg-[#101828] text-white'
-                    : 'text-[#526072] hover:bg-white hover:text-[#101828]'
-                }`}
+                className={`minimal-mobile-link ${pathWithoutLanguage === link.path ? 'is-active' : ''}`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 {link.label}
@@ -98,7 +89,7 @@ const Navbar = () => {
                 handleLanguageToggle()
                 setIsMenuOpen(false)
               }}
-              className="button-secondary w-full justify-start px-3 py-2 text-left text-sm"
+              className="minimal-mobile-link w-full text-left"
             >
               {content.navigation.languageToggleLabel}
             </button>

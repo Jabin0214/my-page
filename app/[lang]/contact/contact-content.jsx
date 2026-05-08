@@ -1,75 +1,61 @@
 'use client'
 
-import { Github, Linkedin, Mail } from 'lucide-react'
+import { Github, Linkedin, Mail, MapPin } from 'lucide-react'
 import { SITE_CONFIG } from '../../../src/config/site'
 import { usePortfolioContent } from '../../../src/hooks/usePortfolioContent'
 
 const Contact = () => {
   const { contact } = usePortfolioContent()
-  return (
-    <main className="page-shell pb-20 pt-16">
-      <section className="surface-card-strong grid gap-6 px-6 py-8 md:grid-cols-[1.05fr_0.95fr] md:px-10 md:py-10">
-        <div className="flex flex-col justify-center">
-          <span className="eyebrow">{contact.sectionTitle}</span>
-          <h1 className="mt-5 text-4xl font-semibold md:text-5xl">{contact.title}</h1>
-          <p className="mt-5 max-w-xl text-lg leading-8 text-[#526072]">
-            {contact.description}
-          </p>
+  const links = [
+    {
+      label: contact.emailLabel,
+      value: SITE_CONFIG.contact.email,
+      href: `mailto:${SITE_CONFIG.contact.email}`,
+      icon: Mail,
+    },
+    {
+      label: contact.githubLabel,
+      value: 'github.com/Jabin0214',
+      href: SITE_CONFIG.contact.github,
+      icon: Github,
+    },
+    {
+      label: contact.linkedinLabel,
+      value: 'linkedin.com/in/jabinchen',
+      href: SITE_CONFIG.contact.linkedin,
+      icon: Linkedin,
+    },
+  ]
 
-          <div className="mt-8 flex flex-col gap-4">
+  return (
+    <main className="minimal-content-page minimal-contact-page">
+      <section className="minimal-page-hero minimal-contact-hero">
+        <p className="minimal-kicker">{contact.sectionTitle}</p>
+        <h1>{contact.title}</h1>
+      </section>
+
+      <section className="minimal-contact-grid">
+        <div className="minimal-contact-links">
+          {links.map(({ label, value, href, icon: Icon }) => (
             <a
-              href={`mailto:${SITE_CONFIG.contact.email}`}
-              className="surface-subtle flex items-center gap-3 px-4 py-4 text-base text-[#526072] hover:border-[rgba(15,118,110,0.24)] hover:text-[#101828]"
+              key={label}
+              href={href}
+              target={href.startsWith('http') ? '_blank' : undefined}
+              rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+              className="minimal-contact-link"
             >
-              <Mail className="h-7 w-7" />
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#0f766e]">{contact.emailLabel}</p>
-                <p className="mt-1">{SITE_CONFIG.contact.email}</p>
-              </div>
+              <Icon className="h-5 w-5" />
+              <span>{label}</span>
+              <strong>{value}</strong>
             </a>
-            <a
-              href={SITE_CONFIG.contact.github}
-              className="surface-subtle flex items-center gap-3 px-4 py-4 text-base text-[#526072] hover:border-[rgba(15,118,110,0.24)] hover:text-[#101828]"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Github className="h-7 w-7" />
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#0f766e]">{contact.githubLabel}</p>
-                <p className="mt-1">{SITE_CONFIG.contact.github}</p>
-              </div>
-            </a>
-            <a
-              href={SITE_CONFIG.contact.linkedin}
-              className="surface-subtle flex items-center gap-3 px-4 py-4 text-base text-[#526072] hover:border-[rgba(15,118,110,0.24)] hover:text-[#101828]"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Linkedin className="h-7 w-7" />
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#0f766e]">{contact.linkedinLabel}</p>
-                <p className="mt-1">{SITE_CONFIG.contact.linkedin}</p>
-              </div>
-            </a>
-          </div>
+          ))}
         </div>
 
-        <div className="grid gap-4">
-          <div className="surface-subtle px-5 py-5">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#0f766e]">{contact.noteLabel}</p>
-            <p className="mt-3 text-base leading-8 text-[#526072]">{contact.noteBody}</p>
-          </div>
-          <div className="surface-subtle px-5 py-5">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#0f766e]">{contact.contextLabel}</p>
-            <p className="mt-3 text-base leading-8 text-[#526072]">{contact.noteFooter}</p>
-          </div>
-          <div className="surface-subtle px-5 py-5">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#0f766e]">{contact.basedInLabel}</p>
-            <p className="mt-3 text-base leading-8 text-[#526072]">{SITE_CONFIG.location}</p>
-          </div>
-          <div className="surface-subtle px-5 py-5">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#0f766e]">{contact.workRightsLabel}</p>
-            <p className="mt-3 text-base leading-8 text-[#526072]">{contact.workRightsValue}</p>
+        <div className="minimal-contact-note">
+          <p>{contact.noteBody}</p>
+          <div>
+            <MapPin className="h-4 w-4" />
+            <span>{SITE_CONFIG.location}</span>
           </div>
         </div>
       </section>

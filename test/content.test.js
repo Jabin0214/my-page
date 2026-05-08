@@ -16,7 +16,6 @@ import {
 } from '../src/lib/metadata.js'
 import { SITE_CONFIG } from '../src/config/site.js'
 import {
-  buildHeroFacts,
   getExperienceHighlights,
   getFeaturedProjects,
 } from '../src/lib/homepage.js'
@@ -37,11 +36,7 @@ test('portfolio content exposes localized chat prompts and contact headings', ()
   assert.ok(chinese.chat.suggestedQuestions.length > 0)
   assert.equal(
     english.home.hero.title,
-    'Full-stack developer building AI-assisted tools, production websites, and useful systems.'
-  )
-  assert.equal(
-    english.home.hero.factValues.focus,
-    'Production systems, workflow tooling, and AI-assisted products'
+    'When code is no longer scarce, what is left for developers?'
   )
   assert.equal(chinese.home.ui.experienceSnapshotTitle, '最能代表我现在工作方式的几段经历')
   assert.equal(
@@ -52,14 +47,7 @@ test('portfolio content exposes localized chat prompts and contact headings', ()
     english.contact.title,
     'A straightforward way to reach me for roles, projects, or useful conversations.'
   )
-  assert.equal(chinese.contact.basedInLabel, '所在地')
-  assert.equal(
-    chinese.projects.showcaseNote,
-    '这些项目更像我现在能力和判断方式的切片，而不是为了把页面填满。'
-  )
   assert.equal(english.contact.linkedinLabel, 'LinkedIn')
-  assert.equal(english.contact.workRightsLabel, 'Work rights')
-  assert.equal(english.contact.workRightsValue, 'Full right to work in New Zealand')
 })
 
 test('site config exposes the updated public identity links', () => {
@@ -122,23 +110,11 @@ test('website structured data exposes Jabin Chen search identity', () => {
   assert.ok(website.about.alternateName.includes('JabinChen'))
 })
 
-test('homepage helpers curate hero facts, featured projects, and experience highlights', () => {
+test('homepage helpers curate featured projects and experience highlights', () => {
   const english = getPortfolioContent('en')
-  const heroFacts = buildHeroFacts(english.home.hero, 'Auckland, New Zealand')
   const featuredProjects = getFeaturedProjects(english.projects.list)
   const experienceHighlights = getExperienceHighlights(english.home.about.experience.items)
 
-  assert.deepEqual(heroFacts, [
-    { label: 'Base', value: 'Auckland, New Zealand' },
-    {
-      label: 'Focus',
-      value: 'Production systems, workflow tooling, and AI-assisted products',
-    },
-    {
-      label: 'Style',
-      value: 'Grounded, ownership-heavy, and focused on useful outcomes',
-    },
-  ])
   assert.equal(featuredProjects.length, 3)
   assert.equal(
     featuredProjects[0].title,

@@ -197,11 +197,11 @@ export default function Chat() {
   }
 
   return (
-    <main className="page-shell pb-16 pt-16">
+    <main className="minimal-content-page minimal-chat-page">
       <div className="grid gap-6 xl:grid-cols-[1.12fr_0.88fr]">
 
         {/* ── Chat window ── */}
-        <section className="surface-card-strong order-1 flex h-[72svh] min-h-[34rem] flex-col overflow-hidden xl:h-[calc(100svh-8rem)]">
+        <section className="minimal-chat-card minimal-chat-window order-1 flex h-[72svh] min-h-[34rem] flex-col overflow-hidden xl:h-[calc(100svh-8rem)]">
 
           {/* Header */}
           <div className="flex items-center justify-between border-b border-[var(--line)] px-5 py-3.5">
@@ -223,7 +223,7 @@ export default function Chat() {
               disabled={chatLog.length === 0 && !loading}
               title={chatContent.clearChatLabel}
               aria-label={chatContent.clearChatLabel}
-              className="flex h-8 w-8 items-center justify-center rounded-full border border-[var(--line)] bg-transparent text-[var(--muted)] transition-all hover:border-[rgba(15,23,42,0.2)] hover:bg-white hover:text-[var(--text)] disabled:pointer-events-none disabled:opacity-25"
+              className="minimal-chat-icon-button disabled:pointer-events-none disabled:opacity-25"
             >
               <RotateCcw className="h-3.5 w-3.5" />
             </button>
@@ -243,12 +243,12 @@ export default function Chat() {
                   {chatContent.emptyDescription}
                 </p>
                 <div className="mt-7 flex flex-wrap justify-center gap-2 px-2">
-                  {suggestedQuestions.slice(0, 3).map(q => (
+                  {suggestedQuestions.slice(0, 2).map(q => (
                     <button
                       key={q}
                       type="button"
                       onClick={() => handleSendMessage(q)}
-                      className="rounded-full border border-[var(--line)] bg-white/80 px-4 py-2 text-xs font-medium text-[var(--text)] shadow-sm transition-all hover:border-[rgba(15,118,110,0.3)] hover:bg-white hover:shadow-md"
+                      className="minimal-chat-chip-button"
                     >
                       {q}
                     </button>
@@ -268,24 +268,24 @@ export default function Chat() {
                       className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
                     >
                       {message.role === 'system' ? (
-                        <div className="max-w-[90%] rounded-2xl border border-[#fed7aa] bg-[#fff7ed] px-4 py-3 text-sm leading-7 text-[#9a3412]">
+                        <div className="minimal-chat-system-message">
                           {message.content}
                         </div>
                       ) : message.role === 'user' ? (
-                        <div className="max-w-[80%] rounded-[1.4rem] rounded-br-sm bg-[#101828] px-4 py-3 text-sm leading-7 text-white">
+                        <div className="minimal-chat-user-message">
                           <p className="whitespace-pre-wrap">{message.content}</p>
                         </div>
                       ) : (
                         /* Assistant bubble with hover copy */
                         <div className="group relative max-w-[85%]">
-                          <div className="rounded-[1.4rem] rounded-bl-sm border border-[var(--line)] bg-white px-4 py-3 text-sm leading-7 text-[var(--text)] shadow-sm">
+                          <div className="minimal-chat-message">
                             {renderContent(message.content)}
                           </div>
                           <button
                             type="button"
                             onClick={() => handleCopy(message)}
                             aria-label="Copy message"
-                            className="absolute -bottom-2 -right-2 flex h-7 w-7 items-center justify-center rounded-full border border-[var(--line)] bg-white text-[var(--muted)] shadow-sm transition-all opacity-100 sm:opacity-0 sm:group-hover:opacity-100 hover:text-[var(--text)]"
+                            className="minimal-chat-copy-button"
                           >
                             {copiedId === message.id
                               ? <Check className="h-3 w-3 text-emerald-500" />
@@ -306,7 +306,7 @@ export default function Chat() {
                       transition={{ duration: 0.2, ease: 'easeOut' }}
                       className="flex justify-start"
                     >
-                      <div className="rounded-[1.4rem] rounded-bl-sm border border-[var(--line)] bg-white px-4 py-3 shadow-sm">
+                      <div className="minimal-chat-message">
                         <TypingDots />
                       </div>
                     </motion.div>
@@ -319,7 +319,7 @@ export default function Chat() {
           </div>
 
           {/* Input bar */}
-          <div className="border-t border-[var(--line)] bg-white/50 px-5 py-4">
+          <div className="minimal-chat-composer">
             <div className="flex items-end gap-2.5">
               <textarea
                 ref={textareaRef}
@@ -329,14 +329,14 @@ export default function Chat() {
                 rows={1}
                 disabled={loading}
                 placeholder={chatContent.placeholder}
-                className="field-surface min-h-[48px] max-h-40 flex-1 resize-none px-4 py-3 text-sm text-[var(--text)] outline-none placeholder:text-[var(--muted)] focus:border-[rgba(15,118,110,0.4)] disabled:opacity-50"
+                className="minimal-chat-input disabled:opacity-50"
               />
               <button
                 type="button"
                 onClick={() => handleSendMessage()}
                 disabled={loading || !input.trim()}
                 aria-label={chatContent.sendLabel}
-                className="button-primary h-12 w-12 flex-shrink-0 rounded-[1.1rem] p-0 disabled:cursor-not-allowed disabled:opacity-40"
+                className="minimal-chat-send disabled:cursor-not-allowed disabled:opacity-40"
               >
                 <Send className="h-4 w-4" />
               </button>
@@ -349,27 +349,27 @@ export default function Chat() {
         <aside className="order-2 space-y-5">
 
           {/* About this chat */}
-          <section className="surface-card p-6">
-            <span className="eyebrow">
+          <section className="minimal-chat-card p-6">
+            <span className="minimal-chat-eyebrow">
               <Sparkles className="h-3.5 w-3.5" />
               {chatContent.eyebrow}
             </span>
             <h2 className="mt-4 text-2xl font-semibold">{chatContent.title}</h2>
             <p className="mt-3 text-sm leading-7 text-[var(--muted)]">{chatContent.description}</p>
             <div className="mt-5 flex flex-wrap gap-2">
-              <span className="tag-pill">{chatContent.chipFirstPerson}</span>
-              <span className="tag-pill">{chatContent.chipGrounded}</span>
+              <span className="minimal-chat-pill">{chatContent.chipFirstPerson}</span>
+              <span className="minimal-chat-pill">{chatContent.chipGrounded}</span>
             </div>
           </section>
 
           {/* Suggested questions */}
-          <section className="surface-card p-6">
+          <section className="minimal-chat-card p-6">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <span className="eyebrow">{chatContent.startersLabel}</span>
+                <span className="minimal-chat-eyebrow">{chatContent.startersLabel}</span>
                 <p className="mt-3 text-sm leading-7 text-[var(--muted)]">{chatContent.startersDescription}</p>
               </div>
-              <Link href={localizePath('/')} className="button-secondary flex-shrink-0 py-2 text-xs">
+              <Link href={localizePath('/')} className="minimal-chat-back-link">
                 <ArrowLeft className="h-3.5 w-3.5" />
                 {chatContent.backLabel}
               </Link>
@@ -380,7 +380,7 @@ export default function Chat() {
                   key={q}
                   type="button"
                   onClick={() => handleSendMessage(q)}
-                  className="surface-subtle block w-full px-4 py-3.5 text-left transition-all hover:border-[rgba(15,118,110,0.24)] hover:bg-white/90"
+                  className="minimal-chat-question"
                 >
                   <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--accent)]">
                     {chatContent.starterPrefix} {String(i + 1).padStart(2, '0')}

@@ -3,7 +3,6 @@ import { normalizeLanguage } from '../lib/language.js'
 const portfolioContent = {
   en: {
     navigation: {
-      brandSuffix: "'s Portfolio",
       links: [
         { path: '/', label: 'Home' },
         { path: '/projects', label: 'Projects' },
@@ -15,38 +14,11 @@ const portfolioContent = {
     },
     home: {
       hero: {
-        title: 'Full-stack developer building AI-assisted tools, production websites, and useful systems.',
-        description: 'Current work across production websites, workflow tooling, and applied AI products',
-        summary:
-          'Most of the work I care about sits somewhere between product clarity, operational usefulness, and technical ownership.',
+        title: 'When code is no longer scarce, what is left for developers?',
         primaryLink: { path: '/projects', label: 'Projects' },
         secondaryLink: { path: '/contact', label: 'Contact' },
         resumeLabel: 'Resume',
         badge: 'full-stack developer, real-world builder, still very curious',
-        chatBubbleText:
-          'If you want the short version, ask me about the systems I have shipped, the ones I am building now, or how I make product decisions under real constraints.',
-        quickReadLabel: 'Quick read',
-        oneSentenceLabel: 'In one sentence',
-        askDirectlyLabel: 'Ask me directly',
-        factLabels: {
-          base: 'Base',
-          focus: 'Focus',
-          style: 'Style',
-        },
-        factValues: {
-          focus: 'Production systems, workflow tooling, and AI-assisted products',
-          style: 'Grounded, ownership-heavy, and focused on useful outcomes',
-        },
-        notes: [
-          {
-            label: 'Right now',
-            text: 'Working in property operations while building software that removes busywork, improves visibility, and makes awkward systems easier to use.',
-          },
-          {
-            label: 'What I gravitate toward',
-            text: 'Production websites, operational tools, applied AI workflows, and products where engineering judgment has to meet real constraints.',
-          },
-        ],
       },
       ui: {
         introLabel: 'Current direction',
@@ -61,18 +33,13 @@ const portfolioContent = {
         ],
         featuredWorkLabel: 'Selected work',
         featuredWorkTitle: 'The projects that best represent how I work now',
-        selectedWorkIntro:
-          'These are the projects I would lead with in a serious conversation about product sense, technical ownership, and current level.',
         featuredWorkLink: 'see the full project page',
         workStyleTitle: 'How I tend to approach the work',
         workStyleIntro:
           'Good software usually comes from balancing three things at once: understanding the actual problem, making defensible technical choices, and keeping the end experience clean enough that people want to keep using it.',
         skillSectionTitle: 'Skills',
-        projectLabelPrefix: 'Project',
         experienceSnapshotLabel: 'Experience snapshot',
         experienceSnapshotTitle: 'A few roles that best represent how I work now',
-        experienceSnapshotDescription:
-          'Not the full history, just the parts that best show range, ownership, and what kind of problems I have actually been trusted to work on.',
         educationLabel: 'Background',
         detailLabel: 'A bit more context',
       },
@@ -152,17 +119,10 @@ const portfolioContent = {
     },
     projects: {
       eyebrow: 'selected projects',
-      title: 'A body of work built around live delivery, internal tools, and useful AI.',
-      description:
-        'The strongest projects here are the ones with real users, real constraints, and clear ownership. Some are live in production, some are internal systems, and some are personal products built to solve very specific problems well.',
-      showcaseIntroLabel: 'Showcase view',
-      showcaseNote:
-        'These projects are less about collecting technologies and more about showing what I can own from problem framing through implementation.',
-      showcaseClosing:
-        'The thread running through them is usually the same: clear purpose, practical architecture, and enough care that the result feels considered rather than improvised.',
+      title: 'Work that actually shipped.',
+      description: 'Real users, real constraints, clear ownership.',
       featuredLabel: 'Featured project',
       viewSourceLabel: 'View on GitHub',
-      stackLabel: 'Stack highlights',
       list: [
         {
           id: 1,
@@ -219,15 +179,8 @@ const portfolioContent = {
       emailLabel: 'Email',
       githubLabel: 'GitHub',
       linkedinLabel: 'LinkedIn',
-      noteLabel: 'quick note',
       noteBody:
         'The best conversations usually happen when someone has a real product, workflow, or systems problem and wants to make it cleaner, smarter, or more reliable.',
-      noteFooter:
-        'Open to full-stack roles, product-minded engineering work, AI-assisted systems, and projects where ownership actually matters.',
-      contextLabel: 'Best fit',
-      basedInLabel: 'Based in',
-      workRightsLabel: 'Work rights',
-      workRightsValue: 'Full right to work in New Zealand',
     },
     chat: {
       eyebrow: 'talk to actual-jabin-ish',
@@ -270,7 +223,6 @@ const portfolioContent = {
   },
   zh: {
     navigation: {
-      brandSuffix: '的作品集',
       links: [
         { path: '/', label: '首页' },
         { path: '/projects', label: '项目' },
@@ -282,37 +234,11 @@ const portfolioContent = {
     },
     home: {
       hero: {
-        title: '做 AI 辅助工具、生产级网站和真正有用系统的全栈开发工程师。',
-        description: '现在主要在生产系统、工作流工具和 AI 辅助产品之间做交叉型的全栈工作',
-        summary: '我最适合的工作，通常都同时需要产品判断、系统思维和把东西真正做落地的能力。',
+        title: '代码不再稀缺之后，开发者还剩下什么？',
         primaryLink: { path: '/projects', label: '项目' },
         secondaryLink: { path: '/contact', label: '联系我' },
         resumeLabel: '简历',
         badge: '全栈开发工程师，也做真实世界里的系统和工具',
-        chatBubbleText:
-          '如果你想快速了解我，可以直接问我做过哪些系统、现在在做什么，或者我是怎么在真实约束下做技术判断的。',
-        quickReadLabel: '快速了解',
-        oneSentenceLabel: '一句话概括',
-        askDirectlyLabel: '直接问我',
-        factLabels: {
-          base: '所在地',
-          focus: '方向',
-          style: '风格',
-        },
-        factValues: {
-          focus: '生产系统、工作流工具与 AI 辅助产品',
-          style: '稳、重交付，也愿意自己扛 ownership',
-        },
-        notes: [
-          {
-            label: '最近在做',
-            text: '一边在真实业务环境里做流程和系统改造，一边继续做独立产品和上线项目。',
-          },
-          {
-            label: '我偏爱的东西',
-            text: '生产级网站、内部工作流工具、AI 辅助产品，以及那些真正要面对现实约束的系统。',
-          },
-        ],
       },
       ui: {
         introLabel: '现在的方向',
@@ -327,18 +253,13 @@ const portfolioContent = {
         ],
         featuredWorkLabel: '精选内容',
         featuredWorkTitle: '最能代表我现在能力结构的几个项目',
-        selectedWorkIntro:
-          '如果要快速判断我现在的水平、方向和判断方式，这几个项目会比更早期的作品更有代表性。',
         featuredWorkLink: '去看完整项目页',
         workStyleTitle: '我通常怎么处理问题',
         workStyleIntro:
           '我比较相信一个系统要同时站得住三个层面：问题是否真的被理解，技术方案是否合理，以及最终体验是不是足够清楚、顺手、可信。',
         skillSectionTitle: '技能',
-        projectLabelPrefix: '项目',
         experienceSnapshotLabel: '经历速写',
         experienceSnapshotTitle: '最能代表我现在工作方式的几段经历',
-        experienceSnapshotDescription:
-          '不是完整简历，而是几段最能体现我现在做事范围、责任感和落地能力的经历。',
         educationLabel: '背景',
         detailLabel: '补充信息',
       },
@@ -419,17 +340,10 @@ const portfolioContent = {
     },
     projects: {
       eyebrow: '精选项目',
-      title: '这些项目更能代表我现在真正会做、也真正做过的东西。',
-      description:
-        '这里最值得看的，不是技术名词本身，而是每个项目背后的问题、交付方式和 ownership。有的已经上线，有的是内部系统，有的是独立产品，但它们都比早期作品更能代表我现在的能力结构。',
-      showcaseIntroLabel: '展示视角',
-      showcaseNote:
-        '这些项目更像我现在能力和判断方式的切片，而不是为了把页面填满。',
-      showcaseClosing:
-        '贯穿它们的共同点通常是：目标明确、架构讲得通、并且结果真的能被人用起来。',
+      title: '一些真正做过的东西。',
+      description: '真实用户、真实约束、真实交付。',
       featuredLabel: '精选项目',
       viewSourceLabel: '查看 GitHub',
-      stackLabel: '技术栈亮点',
       list: [
         {
           id: 1,
@@ -486,15 +400,8 @@ const portfolioContent = {
       emailLabel: '邮箱',
       githubLabel: 'GitHub',
       linkedinLabel: 'LinkedIn',
-      noteLabel: '补充一句',
       noteBody:
         '我通常最适合的工作，是那些既需要扎实交付，也需要一点产品判断和系统思维的场景。',
-      noteFooter:
-        '比较欢迎的方向包括全栈岗位、产品导向工程工作、AI 辅助系统，以及那些真的需要 ownership 的项目。',
-      contextLabel: '适合联系我的场景',
-      basedInLabel: '所在地',
-      workRightsLabel: '工作权',
-      workRightsValue: '拥有新西兰完整工作权',
     },
     chat: {
       eyebrow: '和一个挺像 Jabin 的版本聊天',
