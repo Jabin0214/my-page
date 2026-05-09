@@ -82,32 +82,36 @@ npm run check
 NEXT_PUBLIC_SITE_URL=https://your-domain.com
 OPENAI_API_KEY=...
 OPENAI_CHAT_MODEL=gpt-4o-mini
-OPENAI_VECTOR_STORE_ID=vs_...
+
+# Optional — distributed rate limit on Vercel / multi-instance deployments.
+# Without these, the chat route uses an in-memory bucket that does not
+# survive across serverless instances.
+UPSTASH_REDIS_REST_URL=...
+UPSTASH_REDIS_REST_TOKEN=...
 ```
 
 ## AI knowledge base workflow
 
-The chat assistant uses OpenAI `file_search` with a hosted vector store.
+The chat assistant inlines the Markdown files in `knowledge/` directly into the system prompt at request time. To update what the assistant knows, edit those files and redeploy — no upload step required. The corpus is small enough that OpenAI's automatic prompt caching keeps repeated requests cheap.
 
-Upload one or more files:
+## Rate limiting
 
-```bash
-npm run upload:knowledge -- ./path/to/resume.pdf ./path/to/projects.md
+The chat API rate-limits per client IP (sliding window, defaults to 8 requests / minute).
+
+- **With `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` set:** uses Upstash Redis. Required for Vercel / any multi-instance deployment so limits stay consistent across functions.
+- **Without them:** falls back to an in-memory bucket. Fine for local development or a single long-running Node process, but ineffective on serverless.
+
+To enable Upstash: create a free Redis database at [console.upstash.com](https://console.upstash.com), copy the REST URL and token from the database page, and add both as environment variables in Vercel.
+
+## Observability
+
+Each chat request logs a JSON line to stdout:
+
+```
+[chat] {"ts":"…","ip":"…","q":"…","chars":1234,"ms":2100,"ok":true}
 ```
 
-Upload the curated profile set in this repo:
-
-```bash
-npm run upload:profile
-```
-
-Create a brand new vector store and upload the curated profile set:
-
-```bash
-npm run upload:profile:new
-```
-
-If `OPENAI_VECTOR_STORE_ID` is missing, the upload script creates a new vector store and prints the ID you should store in `.env.local` and your deployment platform.
+On Vercel these show up under the project's Logs / Observability tab. For long-term querying, attach a Log Drain or write the same record to Upstash / a database from `app/api/chat/route.js`.
 
 ## Deployment
 
@@ -116,8 +120,9 @@ If `OPENAI_VECTOR_STORE_ID` is missing, the upload script creates a new vector s
 1. Import this repository into Vercel.
 2. Keep the framework preset as `Next.js`.
 3. Set `NEXT_PUBLIC_SITE_URL` to the final production domain.
-4. Add `OPENAI_API_KEY`, `OPENAI_CHAT_MODEL`, and `OPENAI_VECTOR_STORE_ID`.
-5. Attach the custom domain in Vercel.
+4. Add `OPENAI_API_KEY` and (optionally) `OPENAI_CHAT_MODEL`.
+5. Add `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` to enable distributed rate limiting (recommended).
+6. Attach the custom domain in Vercel.
 
 ## Notes
 

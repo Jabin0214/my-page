@@ -21,7 +21,7 @@ import {
   getFeaturedProjects,
 } from '../src/lib/homepage.js'
 import { buildProjectShowcase } from '../src/lib/projects.js'
-import { CHAT_SYSTEM_PROMPT } from '../src/lib/chat.js'
+import { buildSystemPrompt } from '../src/lib/chat.js'
 
 test('normalizeLanguage and resolveContentLocale map Chinese variants to zh', () => {
   assert.equal(normalizeLanguage('zh-CN'), 'zh')
@@ -73,10 +73,11 @@ test('site config exposes the updated public identity links', () => {
   )
 })
 
-test('chat system prompt reflects the reconstructed public narrative', () => {
-  assert.match(CHAT_SYSTEM_PROMPT, /production websites/i)
-  assert.match(CHAT_SYSTEM_PROMPT, /workflow/i)
-  assert.match(CHAT_SYSTEM_PROMPT, /AI-assisted/i)
+test('chat system prompt embeds persona rules and knowledge ground truth', () => {
+  const prompt = buildSystemPrompt()
+  assert.match(prompt, /Jabin Chen/)
+  assert.match(prompt, /Knowledge/)
+  assert.match(prompt, /Schedora|Medimate/)
 })
 
 test('language route helpers localize and strip prefixed paths', () => {

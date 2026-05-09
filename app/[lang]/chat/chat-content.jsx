@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, Bot, Check, Copy, RotateCcw, Send, Sparkles } from 'lucide-react'
-import { sendChatMessage } from '../../../src/lib/chat-api'
+import { ArrowLeft, Bot, Check, Copy, RotateCcw, RefreshCw, Send, Sparkles, Square } from 'lucide-react'
+import { streamChatMessage } from '../../../src/lib/chat-api'
 import { useLanguage } from '../../../src/hooks/useLanguage'
 import { usePortfolioContent } from '../../../src/hooks/usePortfolioContent'
 
@@ -112,17 +112,14 @@ export default function Chat() {
   const chatContent = content.chat
   const suggestedQuestions = chatContent.suggestedQuestions || []
 
-  // Auto-scroll to latest message
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [chatLog, loading])
 
-  // Restore focus after response
   useEffect(() => {
     if (!loading) textareaRef.current?.focus()
   }, [loading])
 
-  // Auto-resize textarea
   useEffect(() => {
     const el = textareaRef.current
     if (!el) return
@@ -130,43 +127,95 @@ export default function Chat() {
     el.style.height = `${Math.min(el.scrollHeight, 160)}px`
   }, [input])
 
-  // Abort on unmount
   useEffect(() => () => { activeRequestRef.current?.abort() }, [])
 
-  async function handleSendMessage(messageOverride) {
-    const text = typeof messageOverride === 'string' ? messageOverride.trim() : input.trim()
+  const runChat = useCallback(async (text, { historyOverride, retryUserId } = {}) => {
     if (!text || loading) return
-
-    const history = chatLog
-      .filter(m => m.role === 'user' || m.role === 'assistant')
-      .map(m => ({ role: m.role, content: m.content }))
 
     const controller = new AbortController()
     const requestId = requestIdRef.current + 1
     requestIdRef.current = requestId
     activeRequestRef.current = controller
 
+    const userMsgId = retryUserId ?? `u${++messageIdRef.current}`
+    const assistantMsgId = `a${++messageIdRef.current}`
+
     setLoading(true)
-    setChatLog(prev => [...prev, { id: `u${++messageIdRef.current}`, role: 'user', content: text }])
-    setInput('')
+    setChatLog(prev => {
+      const base = retryUserId
+        // Drop any failed assistant message tied to the retried user message
+        ? prev.filter(m => !(m.role === 'assistant' && m.replyTo === retryUserId && m.status === 'error'))
+            .map(m => m.id === retryUserId ? { ...m, status: 'sent' } : m)
+        : [...prev, { id: userMsgId, role: 'user', content: text, status: 'sent' }]
+      return [...base, { id: assistantMsgId, role: 'assistant', content: '', status: 'streaming', replyTo: userMsgId }]
+    })
+    if (!retryUserId) setInput('')
+
+    const history = (historyOverride ?? chatLog)
+      .filter(m => (m.role === 'user' && m.status !== 'failed') || (m.role === 'assistant' && m.status === 'done'))
+      .map(m => ({ role: m.role, content: m.content }))
 
     try {
-      const result = await sendChatMessage(text, history, { signal: controller.signal })
+      await streamChatMessage(text, history, {
+        signal: controller.signal,
+        onDelta: (delta) => {
+          if (requestId !== requestIdRef.current) return
+          setChatLog(prev => prev.map(m =>
+            m.id === assistantMsgId ? { ...m, content: m.content + delta } : m
+          ))
+        },
+      })
+
       if (requestId !== requestIdRef.current) return
-      setChatLog(prev => [...prev, { id: `a${++messageIdRef.current}`, role: 'assistant', content: result.reply }])
+      setChatLog(prev => prev.map(m =>
+        m.id === assistantMsgId ? { ...m, status: 'done' } : m
+      ))
     } catch (error) {
-      if (error?.name === 'AbortError' || requestId !== requestIdRef.current) return
-      setChatLog(prev => [...prev, {
-        id: `e${++messageIdRef.current}`,
-        role: 'system',
-        content: error?.message || chatContent.unavailable,
-      }])
+      if (requestId !== requestIdRef.current) return
+      const aborted = error?.name === 'AbortError'
+      setChatLog(prev => prev.map(m => {
+        if (m.id === assistantMsgId) {
+          if (aborted && m.content) return { ...m, status: 'done' }
+          return {
+            ...m,
+            status: 'error',
+            content: m.content,
+            errorMessage: aborted ? null : (error?.message || chatContent.unavailable),
+          }
+        }
+        if (m.id === userMsgId) return { ...m, status: aborted ? 'sent' : 'failed' }
+        return m
+      }))
+      // Remove empty aborted assistant bubble entirely
+      if (aborted) {
+        setChatLog(prev => prev.filter(m => !(m.id === assistantMsgId && !m.content)))
+      }
     } finally {
       if (requestId === requestIdRef.current) {
         activeRequestRef.current = null
         setLoading(false)
       }
     }
+  }, [chatLog, loading, chatContent.unavailable])
+
+  function handleSendMessage(messageOverride) {
+    const text = typeof messageOverride === 'string' ? messageOverride.trim() : input.trim()
+    if (!text) return
+    runChat(text)
+  }
+
+  function handleStop() {
+    activeRequestRef.current?.abort()
+  }
+
+  function handleRetry(userMessage) {
+    if (loading) return
+    // Build history up to (but not including) the user message being retried.
+    const idx = chatLog.findIndex(m => m.id === userMessage.id)
+    const historyOverride = idx >= 0 ? chatLog.slice(0, idx) : chatLog
+    // Trim out the failed assistant reply tied to this user message.
+    setChatLog(prev => prev.filter(m => !(m.role === 'assistant' && m.replyTo === userMessage.id)))
+    runChat(userMessage.content, { historyOverride, retryUserId: userMessage.id })
   }
 
   function handleKeyDown(e) {
@@ -196,6 +245,10 @@ export default function Chat() {
     }
   }
 
+  const lastAssistantStreaming = chatLog[chatLog.length - 1]?.role === 'assistant'
+    && chatLog[chatLog.length - 1]?.status === 'streaming'
+    && !chatLog[chatLog.length - 1]?.content
+
   return (
     <main className="page-shell pb-16 pt-16">
       <div className="grid gap-6 xl:grid-cols-[1.12fr_0.88fr]">
@@ -203,7 +256,6 @@ export default function Chat() {
         {/* ── Chat window ── */}
         <section className="surface-card-strong order-1 flex h-[72svh] min-h-[34rem] flex-col overflow-hidden xl:h-[calc(100svh-8rem)]">
 
-          {/* Header */}
           <div className="flex items-center justify-between border-b border-[var(--line)] px-5 py-3.5">
             <div className="flex items-center gap-3">
               <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-2xl bg-[var(--accent-soft)]">
@@ -229,11 +281,8 @@ export default function Chat() {
             </button>
           </div>
 
-          {/* Message list */}
           <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5 scrollbar-hide">
             {chatLog.length === 0 && !loading ? (
-
-              /* Empty state */
               <div className="flex h-full min-h-[26rem] flex-col items-center justify-center text-center">
                 <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--accent-soft)]">
                   <Sparkles className="h-6 w-6 text-[var(--accent-strong)]" />
@@ -255,61 +304,96 @@ export default function Chat() {
                   ))}
                 </div>
               </div>
-
             ) : (
               <div className="space-y-4">
                 <AnimatePresence initial={false}>
-                  {chatLog.map(message => (
-                    <motion.div
-                      key={message.id}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.2, ease: 'easeOut' }}
-                      className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
-                    >
-                      {message.role === 'system' ? (
-                        <div className="max-w-[90%] rounded-2xl border border-[#fed7aa] bg-[#fff7ed] px-4 py-3 text-sm leading-7 text-[#9a3412]">
-                          {message.content}
-                        </div>
-                      ) : message.role === 'user' ? (
-                        <div className="max-w-[80%] rounded-[1.4rem] rounded-br-sm bg-[#101828] px-4 py-3 text-sm leading-7 text-white">
-                          <p className="whitespace-pre-wrap">{message.content}</p>
-                        </div>
-                      ) : (
-                        /* Assistant bubble with hover copy */
-                        <div className="group relative max-w-[85%]">
-                          <div className="rounded-[1.4rem] rounded-bl-sm border border-[var(--line)] bg-white px-4 py-3 text-sm leading-7 text-[var(--text)] shadow-sm">
-                            {renderContent(message.content)}
+                  {chatLog.map(message => {
+                    if (message.role === 'user') {
+                      const failed = message.status === 'failed'
+                      return (
+                        <motion.div
+                          key={message.id}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.2, ease: 'easeOut' }}
+                          className="flex justify-end"
+                        >
+                          <div className="flex max-w-[80%] flex-col items-end gap-1.5">
+                            <div className={`rounded-[1.4rem] rounded-br-sm px-4 py-3 text-sm leading-7 text-white ${failed ? 'bg-[#9a1a1a]' : 'bg-[#101828]'}`}>
+                              <p className="whitespace-pre-wrap">{message.content}</p>
+                            </div>
+                            {failed && (
+                              <button
+                                type="button"
+                                onClick={() => handleRetry(message)}
+                                disabled={loading}
+                                className="flex items-center gap-1 rounded-full border border-[var(--line)] bg-white px-2.5 py-1 text-[11px] font-medium text-[var(--muted)] transition-all hover:border-[rgba(15,23,42,0.2)] hover:text-[var(--text)] disabled:opacity-40"
+                              >
+                                <RefreshCw className="h-3 w-3" />
+                                {chatContent.retryLabel}
+                              </button>
+                            )}
                           </div>
-                          <button
-                            type="button"
-                            onClick={() => handleCopy(message)}
-                            aria-label="Copy message"
-                            className="absolute -bottom-2 -right-2 flex h-7 w-7 items-center justify-center rounded-full border border-[var(--line)] bg-white text-[var(--muted)] shadow-sm transition-all opacity-100 sm:opacity-0 sm:group-hover:opacity-100 hover:text-[var(--text)]"
-                          >
-                            {copiedId === message.id
-                              ? <Check className="h-3 w-3 text-emerald-500" />
-                              : <Copy className="h-3 w-3" />
-                            }
-                          </button>
-                        </div>
-                      )}
-                    </motion.div>
-                  ))}
+                        </motion.div>
+                      )
+                    }
 
-                  {loading && (
+                    // assistant
+                    const isStreaming = message.status === 'streaming'
+                    const isError = message.status === 'error'
+                    const showCopy = message.status === 'done' && message.content
+
+                    return (
+                      <motion.div
+                        key={message.id}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.2, ease: 'easeOut' }}
+                        className="flex justify-start"
+                      >
+                        <div className="group relative max-w-[85%]">
+                          <div className={`rounded-[1.4rem] rounded-bl-sm border px-4 py-3 text-sm leading-7 shadow-sm ${
+                            isError
+                              ? 'border-[#fed7aa] bg-[#fff7ed] text-[#9a3412]'
+                              : 'border-[var(--line)] bg-white text-[var(--text)]'
+                          }`}>
+                            {message.content
+                              ? renderContent(message.content)
+                              : isStreaming ? <TypingDots /> : null}
+                            {isError && message.errorMessage && (
+                              <p className={message.content ? 'mt-2 text-xs text-[#9a3412]/80' : ''}>
+                                {message.errorMessage}
+                              </p>
+                            )}
+                            {isStreaming && message.content && (
+                              <span className="ml-0.5 inline-block h-3 w-[2px] animate-pulse bg-[var(--accent-strong)] align-middle" />
+                            )}
+                          </div>
+                          {showCopy && (
+                            <button
+                              type="button"
+                              onClick={() => handleCopy(message)}
+                              aria-label="Copy message"
+                              className="absolute -bottom-2 -right-2 flex h-7 w-7 items-center justify-center rounded-full border border-[var(--line)] bg-white text-[var(--muted)] shadow-sm transition-all opacity-100 sm:opacity-0 sm:group-hover:opacity-100 hover:text-[var(--text)]"
+                            >
+                              {copiedId === message.id
+                                ? <Check className="h-3 w-3 text-emerald-500" />
+                                : <Copy className="h-3 w-3" />
+                              }
+                            </button>
+                          )}
+                        </div>
+                      </motion.div>
+                    )
+                  })}
+
+                  {lastAssistantStreaming && (
                     <motion.div
-                      key="typing"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 4 }}
-                      transition={{ duration: 0.2, ease: 'easeOut' }}
-                      className="flex justify-start"
-                    >
-                      <div className="rounded-[1.4rem] rounded-bl-sm border border-[var(--line)] bg-white px-4 py-3 shadow-sm">
-                        <TypingDots />
-                      </div>
-                    </motion.div>
+                      key="typing-fallback"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 0 }}
+                      exit={{ opacity: 0 }}
+                    />
                   )}
                 </AnimatePresence>
 
@@ -318,7 +402,6 @@ export default function Chat() {
             )}
           </div>
 
-          {/* Input bar */}
           <div className="border-t border-[var(--line)] bg-white/50 px-5 py-4">
             <div className="flex items-end gap-2.5">
               <textarea
@@ -331,24 +414,33 @@ export default function Chat() {
                 placeholder={chatContent.placeholder}
                 className="field-surface min-h-[48px] max-h-40 flex-1 resize-none px-4 py-3 text-sm text-[var(--text)] outline-none placeholder:text-[var(--muted)] focus:border-[rgba(15,118,110,0.4)] disabled:opacity-50"
               />
-              <button
-                type="button"
-                onClick={() => handleSendMessage()}
-                disabled={loading || !input.trim()}
-                aria-label={chatContent.sendLabel}
-                className="button-primary h-12 w-12 flex-shrink-0 rounded-[1.1rem] p-0 disabled:cursor-not-allowed disabled:opacity-40"
-              >
-                <Send className="h-4 w-4" />
-              </button>
+              {loading ? (
+                <button
+                  type="button"
+                  onClick={handleStop}
+                  aria-label={chatContent.stopLabel}
+                  title={chatContent.stopLabel}
+                  className="button-primary h-12 w-12 flex-shrink-0 rounded-[1.1rem] p-0"
+                >
+                  <Square className="h-3.5 w-3.5" fill="currentColor" />
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => handleSendMessage()}
+                  disabled={!input.trim()}
+                  aria-label={chatContent.sendLabel}
+                  className="button-primary h-12 w-12 flex-shrink-0 rounded-[1.1rem] p-0 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  <Send className="h-4 w-4" />
+                </button>
+              )}
             </div>
             <p className="mt-2 text-[11px] text-[var(--muted)]">{chatContent.footerHintPrimary}</p>
           </div>
         </section>
 
-        {/* ── Sidebar ── */}
         <aside className="order-2 space-y-5">
-
-          {/* About this chat */}
           <section className="surface-card p-6">
             <span className="eyebrow">
               <Sparkles className="h-3.5 w-3.5" />
@@ -362,7 +454,6 @@ export default function Chat() {
             </div>
           </section>
 
-          {/* Suggested questions */}
           <section className="surface-card p-6">
             <div className="flex items-start justify-between gap-4">
               <div>
@@ -390,7 +481,6 @@ export default function Chat() {
               ))}
             </div>
           </section>
-
         </aside>
       </div>
     </main>

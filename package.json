@@ -9,12 +9,11 @@
     "start": "next start",
     "lint": "eslint .",
     "test": "node --test",
-    "check": "npm run lint && npm run test && npm run build",
-    "upload:knowledge": "node scripts/upload-to-vector-store.mjs",
-    "upload:profile": "node scripts/upload-to-vector-store.mjs ./knowledge/00-summary.md ./knowledge/01-experience.md ./knowledge/02-projects.md ./knowledge/03-skills.md ./knowledge/04-interview-answers.md ./knowledge/05-contact.md",
-    "upload:profile:new": "node scripts/upload-to-vector-store.mjs --new-store ./knowledge/00-summary.md ./knowledge/01-experience.md ./knowledge/02-projects.md ./knowledge/03-skills.md ./knowledge/04-interview-answers.md ./knowledge/05-contact.md"
+    "check": "npm run lint && npm run test && npm run build"
   },
   "dependencies": {
+    "@upstash/ratelimit": "^2.0.8",
+    "@upstash/redis": "^1.38.0",
     "eslint-config-next": "^16.1.6",
     "framer-motion": "^12.9.2",
     "lucide-react": "^0.503.0",
