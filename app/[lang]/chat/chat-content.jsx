@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, Bot, Check, Copy, RotateCcw, Send, Sparkles } from 'lucide-react'
-import { sendChatMessage } from '../../../src/lib/chat-api'
+import { ArrowLeft, Bot, Check, Copy, RotateCcw, RefreshCw, Send, Sparkles, Square } from 'lucide-react'
+import { streamChatMessage } from '../../../src/lib/chat-api'
+import { tokenizeChatInlineText } from '../../../src/lib/chat-rendering'
 import { useLanguage } from '../../../src/hooks/useLanguage'
 import { usePortfolioContent } from '../../../src/hooks/usePortfolioContent'
 
@@ -17,8 +18,28 @@ function renderInline(text, keyPrefix) {
   let idx = 0
   let match
 
+  function pushLinkedText(value, key) {
+    tokenizeChatInlineText(value).forEach((token, tokenIndex) => {
+      if (token.type === 'link') {
+        result.push(
+          <a
+            key={`${key}-l${tokenIndex}`}
+            href={token.href}
+            target={token.href.startsWith('http') ? '_blank' : undefined}
+            rel={token.href.startsWith('http') ? 'noreferrer' : undefined}
+            className="minimal-chat-link"
+          >
+            {token.value}
+          </a>
+        )
+      } else {
+        result.push(token.value)
+      }
+    })
+  }
+
   while ((match = pattern.exec(text)) !== null) {
-    if (match.index > lastIndex) result.push(text.slice(lastIndex, match.index))
+    if (match.index > lastIndex) pushLinkedText(text.slice(lastIndex, match.index), `${keyPrefix}-t${idx}`)
     const t = match[0]
     const k = `${keyPrefix}-i${idx++}`
     if (t.startsWith('**')) {
@@ -35,7 +56,7 @@ function renderInline(text, keyPrefix) {
     lastIndex = match.index + t.length
   }
 
-  if (lastIndex < text.length) result.push(text.slice(lastIndex))
+  if (lastIndex < text.length) pushLinkedText(text.slice(lastIndex), `${keyPrefix}-t${idx}`)
   return result
 }
 
@@ -112,17 +133,14 @@ export default function Chat() {
   const chatContent = content.chat
   const suggestedQuestions = chatContent.suggestedQuestions || []
 
-  // Auto-scroll to latest message
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [chatLog, loading])
 
-  // Restore focus after response
   useEffect(() => {
     if (!loading) textareaRef.current?.focus()
   }, [loading])
 
-  // Auto-resize textarea
   useEffect(() => {
     const el = textareaRef.current
     if (!el) return
@@ -130,43 +148,95 @@ export default function Chat() {
     el.style.height = `${Math.min(el.scrollHeight, 160)}px`
   }, [input])
 
-  // Abort on unmount
   useEffect(() => () => { activeRequestRef.current?.abort() }, [])
 
-  async function handleSendMessage(messageOverride) {
-    const text = typeof messageOverride === 'string' ? messageOverride.trim() : input.trim()
+  const runChat = useCallback(async (text, { historyOverride, retryUserId } = {}) => {
     if (!text || loading) return
-
-    const history = chatLog
-      .filter(m => m.role === 'user' || m.role === 'assistant')
-      .map(m => ({ role: m.role, content: m.content }))
 
     const controller = new AbortController()
     const requestId = requestIdRef.current + 1
     requestIdRef.current = requestId
     activeRequestRef.current = controller
 
+    const userMsgId = retryUserId ?? `u${++messageIdRef.current}`
+    const assistantMsgId = `a${++messageIdRef.current}`
+
     setLoading(true)
-    setChatLog(prev => [...prev, { id: `u${++messageIdRef.current}`, role: 'user', content: text }])
-    setInput('')
+    setChatLog(prev => {
+      const base = retryUserId
+        // Drop any failed assistant message tied to the retried user message
+        ? prev.filter(m => !(m.role === 'assistant' && m.replyTo === retryUserId && m.status === 'error'))
+            .map(m => m.id === retryUserId ? { ...m, status: 'sent' } : m)
+        : [...prev, { id: userMsgId, role: 'user', content: text, status: 'sent' }]
+      return [...base, { id: assistantMsgId, role: 'assistant', content: '', status: 'streaming', replyTo: userMsgId }]
+    })
+    if (!retryUserId) setInput('')
+
+    const history = (historyOverride ?? chatLog)
+      .filter(m => (m.role === 'user' && m.status !== 'failed') || (m.role === 'assistant' && m.status === 'done'))
+      .map(m => ({ role: m.role, content: m.content }))
 
     try {
-      const result = await sendChatMessage(text, history, { signal: controller.signal })
+      await streamChatMessage(text, history, {
+        signal: controller.signal,
+        onDelta: (delta) => {
+          if (requestId !== requestIdRef.current) return
+          setChatLog(prev => prev.map(m =>
+            m.id === assistantMsgId ? { ...m, content: m.content + delta } : m
+          ))
+        },
+      })
+
       if (requestId !== requestIdRef.current) return
-      setChatLog(prev => [...prev, { id: `a${++messageIdRef.current}`, role: 'assistant', content: result.reply }])
+      setChatLog(prev => prev.map(m =>
+        m.id === assistantMsgId ? { ...m, status: 'done' } : m
+      ))
     } catch (error) {
-      if (error?.name === 'AbortError' || requestId !== requestIdRef.current) return
-      setChatLog(prev => [...prev, {
-        id: `e${++messageIdRef.current}`,
-        role: 'system',
-        content: error?.message || chatContent.unavailable,
-      }])
+      if (requestId !== requestIdRef.current) return
+      const aborted = error?.name === 'AbortError'
+      setChatLog(prev => prev.map(m => {
+        if (m.id === assistantMsgId) {
+          if (aborted && m.content) return { ...m, status: 'done' }
+          return {
+            ...m,
+            status: 'error',
+            content: m.content,
+            errorMessage: aborted ? null : (error?.message || chatContent.unavailable),
+          }
+        }
+        if (m.id === userMsgId) return { ...m, status: aborted ? 'sent' : 'failed' }
+        return m
+      }))
+      // Remove empty aborted assistant bubble entirely
+      if (aborted) {
+        setChatLog(prev => prev.filter(m => !(m.id === assistantMsgId && !m.content)))
+      }
     } finally {
       if (requestId === requestIdRef.current) {
         activeRequestRef.current = null
         setLoading(false)
       }
     }
+  }, [chatLog, loading, chatContent.unavailable])
+
+  function handleSendMessage(messageOverride) {
+    const text = typeof messageOverride === 'string' ? messageOverride.trim() : input.trim()
+    if (!text) return
+    runChat(text)
+  }
+
+  function handleStop() {
+    activeRequestRef.current?.abort()
+  }
+
+  function handleRetry(userMessage) {
+    if (loading) return
+    // Build history up to (but not including) the user message being retried.
+    const idx = chatLog.findIndex(m => m.id === userMessage.id)
+    const historyOverride = idx >= 0 ? chatLog.slice(0, idx) : chatLog
+    // Trim out the failed assistant reply tied to this user message.
+    setChatLog(prev => prev.filter(m => !(m.role === 'assistant' && m.replyTo === userMessage.id)))
+    runChat(userMessage.content, { historyOverride, retryUserId: userMessage.id })
   }
 
   function handleKeyDown(e) {
@@ -201,9 +271,8 @@ export default function Chat() {
       <div className="grid gap-6 xl:grid-cols-[1.12fr_0.88fr]">
 
         {/* ── Chat window ── */}
-        <section className="minimal-chat-card minimal-chat-window order-1 flex h-[72svh] min-h-[34rem] flex-col overflow-hidden xl:h-[calc(100svh-8rem)]">
+        <section className="minimal-chat-card minimal-chat-window order-1 flex min-h-[32rem] flex-col overflow-hidden md:h-[72svh] md:min-h-[34rem] xl:h-[calc(100svh-8rem)]">
 
-          {/* Header */}
           <div className="flex items-center justify-between border-b border-[var(--line)] px-5 py-3.5">
             <div className="flex items-center gap-3">
               <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-2xl bg-[var(--accent-soft)]">
@@ -229,12 +298,9 @@ export default function Chat() {
             </button>
           </div>
 
-          {/* Message list */}
-          <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5 scrollbar-hide">
+          <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5 scrollbar-hide" aria-live="polite">
             {chatLog.length === 0 && !loading ? (
-
-              /* Empty state */
-              <div className="flex h-full min-h-[26rem] flex-col items-center justify-center text-center">
+              <div className="flex h-full min-h-[22rem] flex-col items-center justify-center text-center md:min-h-[26rem]">
                 <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--accent-soft)]">
                   <Sparkles className="h-6 w-6 text-[var(--accent-strong)]" />
                 </div>
@@ -255,62 +321,86 @@ export default function Chat() {
                   ))}
                 </div>
               </div>
-
             ) : (
               <div className="space-y-4">
                 <AnimatePresence initial={false}>
-                  {chatLog.map(message => (
-                    <motion.div
-                      key={message.id}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.2, ease: 'easeOut' }}
-                      className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
-                    >
-                      {message.role === 'system' ? (
-                        <div className="minimal-chat-system-message">
-                          {message.content}
-                        </div>
-                      ) : message.role === 'user' ? (
-                        <div className="minimal-chat-user-message">
-                          <p className="whitespace-pre-wrap">{message.content}</p>
-                        </div>
-                      ) : (
-                        /* Assistant bubble with hover copy */
-                        <div className="group relative max-w-[85%]">
-                          <div className="minimal-chat-message">
-                            {renderContent(message.content)}
+                  {chatLog.map(message => {
+                    if (message.role === 'user') {
+                      const failed = message.status === 'failed'
+                      return (
+                        <motion.div
+                          key={message.id}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.2, ease: 'easeOut' }}
+                          className="flex justify-end"
+                        >
+                          <div className="flex flex-col items-end gap-1.5">
+                            <div className={`minimal-chat-user-message ${failed ? 'minimal-chat-user-message--failed' : ''}`}>
+                              <p className="whitespace-pre-wrap">{message.content}</p>
+                            </div>
+                            {failed && (
+                              <button
+                                type="button"
+                                onClick={() => handleRetry(message)}
+                                disabled={loading}
+                                className="minimal-chat-retry-button disabled:opacity-40"
+                              >
+                                <RefreshCw className="h-3 w-3" />
+                                {chatContent.retryLabel}
+                              </button>
+                            )}
                           </div>
-                          <button
-                            type="button"
-                            onClick={() => handleCopy(message)}
-                            aria-label="Copy message"
-                            className="minimal-chat-copy-button"
-                          >
-                            {copiedId === message.id
-                              ? <Check className="h-3 w-3 text-emerald-500" />
-                              : <Copy className="h-3 w-3" />
-                            }
-                          </button>
-                        </div>
-                      )}
-                    </motion.div>
-                  ))}
+                        </motion.div>
+                      )
+                    }
 
-                  {loading && (
-                    <motion.div
-                      key="typing"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 4 }}
-                      transition={{ duration: 0.2, ease: 'easeOut' }}
-                      className="flex justify-start"
-                    >
-                      <div className="minimal-chat-message">
-                        <TypingDots />
-                      </div>
-                    </motion.div>
-                  )}
+                    // assistant
+                    const isStreaming = message.status === 'streaming'
+                    const isError = message.status === 'error'
+                    const showCopy = message.status === 'done' && message.content
+
+                    return (
+                      <motion.div
+                        key={message.id}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.2, ease: 'easeOut' }}
+                        className="flex justify-start"
+                      >
+                        <div className="group relative max-w-[92%] md:max-w-[85%]">
+                          <div className={isError ? 'minimal-chat-system-message' : 'minimal-chat-message'}>
+                            {message.content
+                              ? renderContent(message.content)
+                              : isStreaming ? <TypingDots /> : null}
+                            {isError && message.errorMessage && (
+                              <p className={message.content ? 'mt-2 text-xs opacity-80' : ''}>
+                                {message.errorMessage}
+                              </p>
+                            )}
+                            {isStreaming && message.content && (
+                              <span className="ml-0.5 inline-block h-3 w-[2px] animate-pulse bg-[var(--accent-strong)] align-middle" />
+                            )}
+                          </div>
+                          {showCopy && (
+                            <button
+                              type="button"
+                              onClick={() => handleCopy(message)}
+                              aria-label={copiedId === message.id ? chatContent.copiedLabel : chatContent.copyLabel}
+                              title={copiedId === message.id ? chatContent.copiedLabel : chatContent.copyLabel}
+                              className="minimal-chat-copy-button"
+                            >
+                              {copiedId === message.id
+                                ? <Check className="h-3 w-3 text-emerald-500" />
+                                : <Copy className="h-3 w-3" />
+                              }
+                            </button>
+                          )}
+                        </div>
+                      </motion.div>
+                    )
+                  })}
+
                 </AnimatePresence>
 
                 <div ref={chatEndRef} />
@@ -331,25 +421,34 @@ export default function Chat() {
                 placeholder={chatContent.placeholder}
                 className="minimal-chat-input disabled:opacity-50"
               />
-              <button
-                type="button"
-                onClick={() => handleSendMessage()}
-                disabled={loading || !input.trim()}
-                aria-label={chatContent.sendLabel}
-                className="minimal-chat-send disabled:cursor-not-allowed disabled:opacity-40"
-              >
-                <Send className="h-4 w-4" />
-              </button>
+              {loading ? (
+                <button
+                  type="button"
+                  onClick={handleStop}
+                  aria-label={chatContent.stopLabel}
+                  title={chatContent.stopLabel}
+                  className="minimal-chat-send"
+                >
+                  <Square className="h-3.5 w-3.5" fill="currentColor" />
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => handleSendMessage()}
+                  disabled={!input.trim()}
+                  aria-label={chatContent.sendLabel}
+                  className="minimal-chat-send disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  <Send className="h-4 w-4" />
+                </button>
+              )}
             </div>
             <p className="mt-2 text-[11px] text-[var(--muted)]">{chatContent.footerHintPrimary}</p>
           </div>
         </section>
 
-        {/* ── Sidebar ── */}
-        <aside className="order-2 space-y-5">
-
-          {/* About this chat */}
-          <section className="minimal-chat-card p-6">
+        <aside className="minimal-chat-sidebar order-2 space-y-4 xl:space-y-5">
+          <section className="minimal-chat-card minimal-chat-context-card p-5 md:p-6">
             <span className="minimal-chat-eyebrow">
               <Sparkles className="h-3.5 w-3.5" />
               {chatContent.eyebrow}
@@ -362,8 +461,7 @@ export default function Chat() {
             </div>
           </section>
 
-          {/* Suggested questions */}
-          <section className="minimal-chat-card p-6">
+          <section className="minimal-chat-card minimal-chat-starters-card p-5 md:p-6">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <span className="minimal-chat-eyebrow">{chatContent.startersLabel}</span>
@@ -390,7 +488,6 @@ export default function Chat() {
               ))}
             </div>
           </section>
-
         </aside>
       </div>
     </main>

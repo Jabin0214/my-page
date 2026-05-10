@@ -111,7 +111,7 @@ textarea:focus-visible {
 
 .minimal-site-shell {
   min-height: 100vh;
-  overflow: hidden;
+  overflow-x: hidden;
   background: var(--minimal-bg);
   color: var(--minimal-text);
 }
@@ -803,6 +803,10 @@ textarea:focus-visible {
   min-height: 36rem;
 }
 
+.minimal-chat-sidebar {
+  align-self: start;
+}
+
 .minimal-chat-icon-button,
 .minimal-chat-copy-button,
 .minimal-chat-send,
@@ -866,6 +870,30 @@ textarea:focus-visible {
   line-height: 1.75;
 }
 
+.minimal-chat-user-message--failed {
+  background: #9a1a1a;
+  color: #fff;
+}
+
+.minimal-chat-retry-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  border: 1px solid var(--minimal-line);
+  border-radius: 999px;
+  background: var(--minimal-bg-soft);
+  padding: 0.25rem 0.625rem;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--minimal-muted);
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.minimal-chat-retry-button:hover {
+  color: var(--minimal-text);
+  border-color: var(--minimal-text);
+}
+
 .minimal-chat-message {
   border: 1px solid var(--minimal-line);
   border-radius: 1.4rem 1.4rem 1.4rem 0.25rem;
@@ -874,6 +902,18 @@ textarea:focus-visible {
   color: var(--minimal-text);
   font-size: 0.875rem;
   line-height: 1.75;
+}
+
+.minimal-chat-link {
+  color: var(--minimal-accent);
+  text-decoration: underline;
+  text-decoration-color: rgba(217, 255, 106, 0.42);
+  text-underline-offset: 0.18em;
+  overflow-wrap: anywhere;
+}
+
+.minimal-chat-link:hover {
+  text-decoration-color: var(--minimal-accent);
 }
 
 .minimal-chat-copy-button {
@@ -1150,13 +1190,50 @@ textarea:focus-visible {
 
   .minimal-chat-page {
     padding-top: 6.5rem;
+    padding-bottom: 2rem;
   }
 
   .minimal-chat-page > .grid {
     gap: 1rem;
   }
 
-  .minimal-chat-page aside {
+  .minimal-chat-window {
+    min-height: auto;
+  }
+
+  .minimal-chat-composer {
+    padding: 0.75rem;
+  }
+
+  .minimal-chat-input {
+    min-height: 5.75rem;
+    padding: 0.8rem 0.9rem;
+  }
+
+  .minimal-chat-send {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.8rem;
+  }
+
+  .minimal-chat-sidebar {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .minimal-chat-context-card {
     display: none;
+  }
+
+  .minimal-chat-starters-card .flex.items-start {
+    flex-direction: column;
+  }
+
+  .minimal-chat-back-link {
+    width: 100%;
+  }
+
+  .minimal-chat-question {
+    min-height: 4.75rem;
   }
 }

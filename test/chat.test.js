@@ -2,6 +2,7 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import {
   buildChatRequestBody,
+  buildSystemPrompt,
   CHAT_LIMITS,
   enforceChatRateLimit,
   getClientIdentifier,
@@ -41,15 +42,15 @@ test('enforceChatRateLimit blocks once the request budget is exhausted', () => {
   resetChatRateLimitStore()
 
   for (let attempt = 0; attempt < CHAT_LIMITS.rateLimitMaxRequests; attempt += 1) {
-    assert.equal(enforceChatRateLimit('127.0.0.1:test-agent').ok, true)
+    assert.equal(enforceChatRateLimit('203.0.113.1').ok, true)
   }
 
-  const blocked = enforceChatRateLimit('127.0.0.1:test-agent')
+  const blocked = enforceChatRateLimit('203.0.113.1')
   assert.equal(blocked.ok, false)
   assert.ok(blocked.retryAfterSeconds >= 1)
 })
 
-test('request helpers derive client identity and size limits from headers', () => {
+test('getClientIdentifier returns IP only and ignores user-agent', () => {
   const headers = new Headers({
     'content-length': String(CHAT_LIMITS.maxRequestBytes + 1),
     'x-forwarded-for': '203.0.113.10, 10.0.0.1',
@@ -57,19 +58,42 @@ test('request helpers derive client identity and size limits from headers', () =
   })
 
   assert.equal(isRequestTooLarge(headers), true)
-  assert.equal(getClientIdentifier(headers), '203.0.113.10:Playwright')
+  assert.equal(getClientIdentifier(headers), '203.0.113.10')
 })
 
-test('buildChatRequestBody keeps the system prompt and user payload intact', () => {
+test('buildChatRequestBody includes inlined system prompt and user payload', () => {
   const body = buildChatRequestBody({
     message: 'Tell me about Medimate.',
     history: [{ role: 'assistant', content: 'Previous answer.' }],
     chatModel: 'gpt-4o-mini',
-    vectorStoreId: 'vs_test',
+    systemPrompt: 'You are Jabin.',
   })
 
   assert.equal(body.model, 'gpt-4o-mini')
-  assert.equal(body.tools[0].vector_store_ids[0], 'vs_test')
-  assert.equal(body.input.at(-1).content, 'Tell me about Medimate.')
+  assert.equal(body.input[0].role, 'system')
+  assert.equal(body.input[0].content, 'You are Jabin.')
   assert.equal(body.input[1].content, 'Previous answer.')
+  assert.equal(body.input.at(-1).content, 'Tell me about Medimate.')
+  assert.equal(body.tools, undefined)
+  assert.equal(body.stream, undefined)
+})
+
+test('buildChatRequestBody enables stream flag when requested', () => {
+  const body = buildChatRequestBody({
+    message: 'Hi',
+    history: [],
+    chatModel: 'gpt-4o-mini',
+    systemPrompt: 'sys',
+    stream: true,
+  })
+
+  assert.equal(body.stream, true)
+})
+
+test('buildSystemPrompt embeds knowledge content', () => {
+  const prompt = buildSystemPrompt()
+  assert.ok(prompt.includes('Jabin Chen'))
+  assert.ok(prompt.includes('Knowledge'))
+  // At least one knowledge file got pulled in
+  assert.ok(prompt.includes('Schedora') || prompt.includes('Medimate'))
 })

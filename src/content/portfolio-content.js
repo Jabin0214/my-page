@@ -211,6 +211,10 @@ const portfolioContent = {
       thinking: 'Thinking...',
       unavailable: 'The assistant is temporarily unavailable. Please try again in a moment.',
       sendLabel: 'Send message',
+      copyLabel: 'Copy message',
+      copiedLabel: 'Copied',
+      stopLabel: 'Stop generating',
+      retryLabel: 'Retry',
       suggestedQuestions: [
         'Tell me about yourself.',
         'What are the strongest projects you would highlight in an interview?',
@@ -432,6 +436,10 @@ const portfolioContent = {
       thinking: '正在思考...',
       unavailable: '聊天服务暂时不可用，请稍后再试。',
       sendLabel: '发送消息',
+      copyLabel: '复制消息',
+      copiedLabel: '已复制',
+      stopLabel: '停止生成',
+      retryLabel: '重试',
       suggestedQuestions: [
         '可以先介绍一下你自己吗？',
         '如果是在面试里，你会重点讲哪几个项目？',
