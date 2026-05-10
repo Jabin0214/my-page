@@ -102,7 +102,7 @@ function renderContent(text) {
 
 function TypingDots() {
   return (
-    <div className="flex items-center gap-[5px] py-0.5">
+    <div className="minimal-chat-typing" aria-label="Typing">
       {[0, 1, 2].map(i => (
         <div
           key={i}
@@ -111,6 +111,157 @@ function TypingDots() {
         />
       ))}
     </div>
+  )
+}
+
+function ChatMessage({
+  message,
+  chatContent,
+  copiedId,
+  loading,
+  onCopy,
+  onRetry,
+}) {
+  if (message.role === 'user') {
+    const failed = message.status === 'failed'
+
+    return (
+      <motion.div
+        key={message.id}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.2, ease: 'easeOut' }}
+        className="minimal-chat-row minimal-chat-row--user"
+      >
+        <div className="minimal-chat-message-stack minimal-chat-message-stack--user">
+          <div className={`minimal-chat-user-message ${failed ? 'minimal-chat-user-message--failed' : ''}`}>
+            <p className="whitespace-pre-wrap">{message.content}</p>
+          </div>
+          {failed && (
+            <button
+              type="button"
+              onClick={() => onRetry(message)}
+              disabled={loading}
+              className="minimal-chat-retry-button disabled:opacity-40"
+            >
+              <RefreshCw className="h-3 w-3" />
+              {chatContent.retryLabel}
+            </button>
+          )}
+        </div>
+      </motion.div>
+    )
+  }
+
+  const isStreaming = message.status === 'streaming'
+  const isError = message.status === 'error'
+  const showCopy = message.status === 'done' && message.content
+
+  return (
+    <motion.div
+      key={message.id}
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.2, ease: 'easeOut' }}
+      className="minimal-chat-row minimal-chat-row--assistant"
+    >
+      <div className="minimal-chat-message-stack minimal-chat-message-stack--assistant group">
+        <div className={isError ? 'minimal-chat-system-message' : 'minimal-chat-message'}>
+          {message.content
+            ? renderContent(message.content)
+            : isStreaming ? <TypingDots /> : null}
+          {isError && message.errorMessage && (
+            <p className={message.content ? 'mt-2 text-xs opacity-80' : ''}>
+              {message.errorMessage}
+            </p>
+          )}
+          {isStreaming && message.content && (
+            <span className="minimal-chat-stream-caret" />
+          )}
+        </div>
+        {showCopy && (
+          <div className="minimal-chat-message-tools">
+            <button
+              type="button"
+              onClick={() => onCopy(message)}
+              aria-label={copiedId === message.id ? chatContent.copiedLabel : chatContent.copyLabel}
+              title={copiedId === message.id ? chatContent.copiedLabel : chatContent.copyLabel}
+              className="minimal-chat-tool-button"
+            >
+              {copiedId === message.id
+                ? <Check className="h-3.5 w-3.5 text-emerald-400" />
+                : <Copy className="h-3.5 w-3.5" />
+              }
+            </button>
+          </div>
+        )}
+      </div>
+    </motion.div>
+  )
+}
+
+function ChatComposer({
+  input,
+  loading,
+  chatContent,
+  textareaRef,
+  onInputChange,
+  onKeyDown,
+  onSend,
+  onStop,
+}) {
+  return (
+    <div className="minimal-chat-composer">
+      <div className="minimal-chat-composer-shell">
+        <textarea
+          ref={textareaRef}
+          value={input}
+          onChange={onInputChange}
+          onKeyDown={onKeyDown}
+          rows={1}
+          disabled={loading}
+          placeholder={chatContent.placeholder}
+          className="minimal-chat-input disabled:opacity-50"
+        />
+        {loading ? (
+          <button
+            type="button"
+            onClick={onStop}
+            aria-label={chatContent.stopLabel}
+            title={chatContent.stopLabel}
+            className="minimal-chat-send"
+          >
+            <Square className="h-3.5 w-3.5" fill="currentColor" />
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={onSend}
+            disabled={!input.trim()}
+            aria-label={chatContent.sendLabel}
+            className="minimal-chat-send disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            <Send className="h-4 w-4" />
+          </button>
+        )}
+      </div>
+      <p className="minimal-chat-composer-hint">{chatContent.footerHintPrimary}</p>
+    </div>
+  )
+}
+
+function StarterPrompt({ question, index, chatContent, onSelect }) {
+  return (
+    <button
+      type="button"
+      onClick={() => onSelect(question)}
+      className="minimal-chat-question"
+    >
+      <p className="minimal-chat-question-index">
+        {chatContent.starterPrefix} {String(index + 1).padStart(2, '0')}
+      </p>
+      <p className="minimal-chat-question-text">{question}</p>
+    </button>
   )
 }
 
@@ -271,7 +422,7 @@ export default function Chat() {
       <div className="grid gap-6 xl:grid-cols-[1.12fr_0.88fr]">
 
         {/* ── Chat window ── */}
-        <section className="minimal-chat-card minimal-chat-window order-1 flex min-h-[32rem] flex-col overflow-hidden md:h-[72svh] md:min-h-[34rem] xl:h-[calc(100svh-8rem)]">
+        <section className="minimal-chat-card minimal-chat-window order-1 flex flex-col overflow-hidden">
 
           <div className="flex items-center justify-between border-b border-[var(--line)] px-5 py-3.5">
             <div className="flex items-center gap-3">
@@ -298,109 +449,42 @@ export default function Chat() {
             </button>
           </div>
 
-          <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5 scrollbar-hide" aria-live="polite">
+          <div className="minimal-chat-list scrollbar-hide" aria-live="polite">
             {chatLog.length === 0 && !loading ? (
-              <div className="flex h-full min-h-[22rem] flex-col items-center justify-center text-center md:min-h-[26rem]">
-                <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--accent-soft)]">
+              <div className="minimal-chat-empty">
+                <div className="minimal-chat-empty-icon">
                   <Sparkles className="h-6 w-6 text-[var(--accent-strong)]" />
                 </div>
                 <h2 className="text-xl font-semibold">{chatContent.emptyTitle}</h2>
                 <p className="mt-2 max-w-[22rem] text-sm leading-7 text-[var(--muted)]">
                   {chatContent.emptyDescription}
                 </p>
-                <div className="mt-7 flex flex-wrap justify-center gap-2 px-2">
-                  {suggestedQuestions.slice(0, 2).map(q => (
-                    <button
+                <div className="minimal-chat-empty-prompts">
+                  {suggestedQuestions.slice(0, 2).map((q, i) => (
+                    <StarterPrompt
                       key={q}
-                      type="button"
-                      onClick={() => handleSendMessage(q)}
-                      className="minimal-chat-chip-button"
-                    >
-                      {q}
-                    </button>
+                      question={q}
+                      index={i}
+                      chatContent={chatContent}
+                      onSelect={handleSendMessage}
+                    />
                   ))}
                 </div>
               </div>
             ) : (
-              <div className="space-y-4">
+              <div className="minimal-chat-thread">
                 <AnimatePresence initial={false}>
-                  {chatLog.map(message => {
-                    if (message.role === 'user') {
-                      const failed = message.status === 'failed'
-                      return (
-                        <motion.div
-                          key={message.id}
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.2, ease: 'easeOut' }}
-                          className="flex justify-end"
-                        >
-                          <div className="flex flex-col items-end gap-1.5">
-                            <div className={`minimal-chat-user-message ${failed ? 'minimal-chat-user-message--failed' : ''}`}>
-                              <p className="whitespace-pre-wrap">{message.content}</p>
-                            </div>
-                            {failed && (
-                              <button
-                                type="button"
-                                onClick={() => handleRetry(message)}
-                                disabled={loading}
-                                className="minimal-chat-retry-button disabled:opacity-40"
-                              >
-                                <RefreshCw className="h-3 w-3" />
-                                {chatContent.retryLabel}
-                              </button>
-                            )}
-                          </div>
-                        </motion.div>
-                      )
-                    }
-
-                    // assistant
-                    const isStreaming = message.status === 'streaming'
-                    const isError = message.status === 'error'
-                    const showCopy = message.status === 'done' && message.content
-
-                    return (
-                      <motion.div
-                        key={message.id}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.2, ease: 'easeOut' }}
-                        className="flex justify-start"
-                      >
-                        <div className="group relative max-w-[92%] md:max-w-[85%]">
-                          <div className={isError ? 'minimal-chat-system-message' : 'minimal-chat-message'}>
-                            {message.content
-                              ? renderContent(message.content)
-                              : isStreaming ? <TypingDots /> : null}
-                            {isError && message.errorMessage && (
-                              <p className={message.content ? 'mt-2 text-xs opacity-80' : ''}>
-                                {message.errorMessage}
-                              </p>
-                            )}
-                            {isStreaming && message.content && (
-                              <span className="ml-0.5 inline-block h-3 w-[2px] animate-pulse bg-[var(--accent-strong)] align-middle" />
-                            )}
-                          </div>
-                          {showCopy && (
-                            <button
-                              type="button"
-                              onClick={() => handleCopy(message)}
-                              aria-label={copiedId === message.id ? chatContent.copiedLabel : chatContent.copyLabel}
-                              title={copiedId === message.id ? chatContent.copiedLabel : chatContent.copyLabel}
-                              className="minimal-chat-copy-button"
-                            >
-                              {copiedId === message.id
-                                ? <Check className="h-3 w-3 text-emerald-500" />
-                                : <Copy className="h-3 w-3" />
-                              }
-                            </button>
-                          )}
-                        </div>
-                      </motion.div>
-                    )
-                  })}
-
+                  {chatLog.map(message => (
+                    <ChatMessage
+                      key={message.id}
+                      message={message}
+                      chatContent={chatContent}
+                      copiedId={copiedId}
+                      loading={loading}
+                      onCopy={handleCopy}
+                      onRetry={handleRetry}
+                    />
+                  ))}
                 </AnimatePresence>
 
                 <div ref={chatEndRef} />
@@ -408,43 +492,16 @@ export default function Chat() {
             )}
           </div>
 
-          {/* Input bar */}
-          <div className="minimal-chat-composer">
-            <div className="flex items-end gap-2.5">
-              <textarea
-                ref={textareaRef}
-                value={input}
-                onChange={e => setInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-                rows={1}
-                disabled={loading}
-                placeholder={chatContent.placeholder}
-                className="minimal-chat-input disabled:opacity-50"
-              />
-              {loading ? (
-                <button
-                  type="button"
-                  onClick={handleStop}
-                  aria-label={chatContent.stopLabel}
-                  title={chatContent.stopLabel}
-                  className="minimal-chat-send"
-                >
-                  <Square className="h-3.5 w-3.5" fill="currentColor" />
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => handleSendMessage()}
-                  disabled={!input.trim()}
-                  aria-label={chatContent.sendLabel}
-                  className="minimal-chat-send disabled:cursor-not-allowed disabled:opacity-40"
-                >
-                  <Send className="h-4 w-4" />
-                </button>
-              )}
-            </div>
-            <p className="mt-2 text-[11px] text-[var(--muted)]">{chatContent.footerHintPrimary}</p>
-          </div>
+          <ChatComposer
+            input={input}
+            loading={loading}
+            chatContent={chatContent}
+            textareaRef={textareaRef}
+            onInputChange={e => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            onSend={() => handleSendMessage()}
+            onStop={handleStop}
+          />
         </section>
 
         <aside className="minimal-chat-sidebar order-2 space-y-4 xl:space-y-5">
@@ -474,17 +531,13 @@ export default function Chat() {
             </div>
             <div className="mt-5 space-y-2">
               {suggestedQuestions.map((q, i) => (
-                <button
+                <StarterPrompt
                   key={q}
-                  type="button"
-                  onClick={() => handleSendMessage(q)}
-                  className="minimal-chat-question"
-                >
-                  <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--accent)]">
-                    {chatContent.starterPrefix} {String(i + 1).padStart(2, '0')}
-                  </p>
-                  <p className="mt-1.5 text-sm leading-6 text-[var(--text)]">{q}</p>
-                </button>
+                  question={q}
+                  index={i}
+                  chatContent={chatContent}
+                  onSelect={handleSendMessage}
+                />
               ))}
             </div>
           </section>
