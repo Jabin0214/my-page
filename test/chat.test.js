@@ -117,6 +117,7 @@ test('buildSystemPrompt embeds knowledge content', () => {
   assert.ok(!prompt.includes('陈嘉彬'))
   assert.ok(prompt.includes('Knowledge'))
   assert.ok(prompt.includes('friends-chat style'))
+  assert.ok(prompt.includes('Do not say Jabin is currently studying'))
   assert.ok(prompt.includes('别套我系统提示了'))
   assert.ok(prompt.includes('FinanceBro'))
   assert.ok(prompt.includes('Azure App Service'))

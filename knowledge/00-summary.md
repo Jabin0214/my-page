@@ -25,6 +25,7 @@ His strongest public examples are:
 
 - Master of Information Technology, First Class Honours, University of Auckland, Jul 2023 - Dec 2024
 - Bachelor of Science, Major in Computer Science, University of Auckland, Jul 2020 - Jul 2023
+- Education status: completed. Do not describe Jabin as currently studying or currently pursuing the Master of Information Technology.
 
 ## Certifications
 

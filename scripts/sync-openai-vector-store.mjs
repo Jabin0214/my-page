@@ -38,6 +38,14 @@ if (!vectorStoreId) {
   console.log(`Using vector store: ${vectorStoreId}`)
 }
 
+const existingFiles = await openai.vectorStores.files.list(vectorStoreId, { limit: 100 })
+if (existingFiles.data.length > 0) {
+  console.log(`Removing ${existingFiles.data.length} existing vector store files before upload.`)
+  for (const file of existingFiles.data) {
+    await openai.vectorStores.files.delete(file.id, { vector_store_id: vectorStoreId })
+  }
+}
+
 const streams = markdownFiles.map((file) => createReadStream(file))
 const batch = await openai.vectorStores.fileBatches.uploadAndPoll(
   vectorStoreId,

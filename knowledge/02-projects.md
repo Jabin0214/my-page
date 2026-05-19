@@ -16,6 +16,7 @@
   - Google Calendar and Google Sheets integrations
   - Daily background synchronization service
   - AI inspection report polishing with DeepSeek API, producing professional New Zealand property inspection wording with Chinese review support
+  - This is an LLM/API workflow, not a custom machine-learning model
   - Portfolio-wide dashboard
   - Deployed to Azure App Service
 - Stack:
