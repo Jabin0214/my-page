@@ -3,7 +3,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, Bot, BrainCircuit, Check, Copy, Database, FileText, RotateCcw, RefreshCw, Search, Send, Sparkles, Square } from 'lucide-react'
+import { ArrowDown, ArrowLeft, Bot, BrainCircuit, Check, Copy, Database, FileText, RotateCcw, RefreshCw, Search, Send, Sparkles, Square } from 'lucide-react'
+
+const MAX_INPUT_LENGTH = 2000
+const CHAR_WARN_THRESHOLD = 1700
+const SCROLL_STICK_THRESHOLD = 80
 import { streamChatMessage } from '../../../src/lib/chat-api'
 import { tokenizeChatInlineText } from '../../../src/lib/chat-rendering'
 import { useLanguage } from '../../../src/hooks/useLanguage'
@@ -121,6 +125,8 @@ function ChatMessage({
   loading,
   onCopy,
   onRetry,
+  onRegenerate,
+  isLastAssistant,
 }) {
   if (message.role === 'user') {
     const failed = message.status === 'failed'
@@ -193,6 +199,18 @@ function ChatMessage({
                 : <Copy className="h-3.5 w-3.5" />
               }
             </button>
+            {isLastAssistant && onRegenerate && (
+              <button
+                type="button"
+                onClick={() => onRegenerate(message)}
+                disabled={loading}
+                aria-label={chatContent.regenerateLabel}
+                title={chatContent.regenerateLabel}
+                className="minimal-chat-tool-button disabled:opacity-30 disabled:pointer-events-none"
+              >
+                <RefreshCw className="h-3.5 w-3.5" />
+              </button>
+            )}
           </div>
         )}
       </div>
@@ -207,45 +225,79 @@ function ChatComposer({
   textareaRef,
   onInputChange,
   onKeyDown,
+  onCompositionStart,
+  onCompositionEnd,
   onSend,
   onStop,
 }) {
+  const length = input.length
+  const remaining = MAX_INPUT_LENGTH - length
+  const isOverLimit = remaining < 0
+  const showCounter = length >= CHAR_WARN_THRESHOLD
+  const canSend = input.trim().length > 0 && !isOverLimit && !loading
+
   return (
     <div className="minimal-chat-composer">
-      <div className="minimal-chat-composer-shell">
+      <div className={`minimal-chat-composer-shell ${isOverLimit ? 'minimal-chat-composer-shell--over' : ''}`}>
         <textarea
           ref={textareaRef}
           value={input}
           onChange={onInputChange}
           onKeyDown={onKeyDown}
+          onCompositionStart={onCompositionStart}
+          onCompositionEnd={onCompositionEnd}
           rows={1}
-          disabled={loading}
+          maxLength={MAX_INPUT_LENGTH + 200}
           placeholder={chatContent.placeholder}
-          className="minimal-chat-input disabled:opacity-50"
+          aria-label={chatContent.placeholder}
+          className="minimal-chat-input"
         />
-        {loading ? (
-          <button
-            type="button"
-            onClick={onStop}
-            aria-label={chatContent.stopLabel}
-            title={chatContent.stopLabel}
-            className="minimal-chat-send"
-          >
-            <Square className="h-3.5 w-3.5" fill="currentColor" />
-          </button>
-        ) : (
-          <button
-            type="button"
-            onClick={onSend}
-            disabled={!input.trim()}
-            aria-label={chatContent.sendLabel}
-            className="minimal-chat-send disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            <Send className="h-4 w-4" />
-          </button>
+        <div className="minimal-chat-composer-action">
+          <AnimatePresence mode="wait" initial={false}>
+            {loading ? (
+              <motion.button
+                key="stop"
+                type="button"
+                onClick={onStop}
+                aria-label={chatContent.stopLabel}
+                title={chatContent.stopLabel}
+                className="minimal-chat-send minimal-chat-send--stop"
+                initial={{ scale: 0.85, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.85, opacity: 0 }}
+                transition={{ duration: 0.12, ease: 'easeOut' }}
+              >
+                <Square className="h-3.5 w-3.5" fill="currentColor" />
+              </motion.button>
+            ) : (
+              <motion.button
+                key="send"
+                type="button"
+                onClick={onSend}
+                disabled={!canSend}
+                aria-label={chatContent.sendLabel}
+                title={chatContent.sendLabel}
+                className="minimal-chat-send disabled:cursor-not-allowed"
+                data-active={canSend ? 'true' : 'false'}
+                initial={{ scale: 0.85, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.85, opacity: 0 }}
+                transition={{ duration: 0.12, ease: 'easeOut' }}
+              >
+                <Send className="h-4 w-4" />
+              </motion.button>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+      <div className="minimal-chat-composer-footer">
+        <p className="minimal-chat-composer-hint">{chatContent.footerHintPrimary}</p>
+        {showCounter && (
+          <p className={`minimal-chat-char-count ${isOverLimit ? 'minimal-chat-char-count--over' : ''}`}>
+            {isOverLimit ? `-${-remaining}` : `${remaining}`} {chatContent.charsLeftLabel}
+          </p>
         )}
       </div>
-      <p className="minimal-chat-composer-hint">{chatContent.footerHintPrimary}</p>
     </div>
   )
 }
@@ -306,20 +358,42 @@ export default function Chat() {
   const [chatLog, setChatLog] = useState([])
   const [copiedId, setCopiedId] = useState(null)
 
+  const [isAtBottom, setIsAtBottom] = useState(true)
+
   const chatEndRef = useRef(null)
+  const chatListRef = useRef(null)
   const textareaRef = useRef(null)
   const activeRequestRef = useRef(null)
   const requestIdRef = useRef(0)
   const messageIdRef = useRef(0)
+  const isComposingRef = useRef(false)
 
   const content = usePortfolioContent()
   const { localizePath } = useLanguage()
   const chatContent = content.chat
   const suggestedQuestions = chatContent.suggestedQuestions || []
 
+  const scrollToBottom = useCallback((behavior = 'smooth') => {
+    const el = chatListRef.current
+    if (!el) return
+    el.scrollTo({ top: el.scrollHeight, behavior })
+  }, [])
+
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [chatLog, loading])
+    const el = chatListRef.current
+    if (!el) return
+    const handleScroll = () => {
+      const gap = el.scrollHeight - el.scrollTop - el.clientHeight
+      setIsAtBottom(gap < SCROLL_STICK_THRESHOLD)
+    }
+    el.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+    return () => el.removeEventListener('scroll', handleScroll)
+  }, [chatLog.length])
+
+  useEffect(() => {
+    if (isAtBottom) scrollToBottom('smooth')
+  }, [chatLog, loading, isAtBottom, scrollToBottom])
 
   useEffect(() => {
     if (!loading) textareaRef.current?.focus()
@@ -328,7 +402,7 @@ export default function Chat() {
   useEffect(() => {
     const el = textareaRef.current
     if (!el) return
-    el.style.height = '0px'
+    el.style.height = 'auto'
     el.style.height = `${Math.min(el.scrollHeight, 160)}px`
   }, [input])
 
@@ -406,6 +480,7 @@ export default function Chat() {
   function handleSendMessage(messageOverride) {
     const text = typeof messageOverride === 'string' ? messageOverride.trim() : input.trim()
     if (!text) return
+    if (text.length > MAX_INPUT_LENGTH) return
     runChat(text)
   }
 
@@ -415,18 +490,51 @@ export default function Chat() {
 
   function handleRetry(userMessage) {
     if (loading) return
-    // Build history up to (but not including) the user message being retried.
     const idx = chatLog.findIndex(m => m.id === userMessage.id)
     const historyOverride = idx >= 0 ? chatLog.slice(0, idx) : chatLog
-    // Trim out the failed assistant reply tied to this user message.
     setChatLog(prev => prev.filter(m => !(m.role === 'assistant' && m.replyTo === userMessage.id)))
     runChat(userMessage.content, { historyOverride, retryUserId: userMessage.id })
   }
 
+  function handleRegenerate(assistantMessage) {
+    if (loading) return
+    const userMessage = chatLog.find(m => m.id === assistantMessage.replyTo && m.role === 'user')
+    if (!userMessage) return
+    handleRetry(userMessage)
+  }
+
   function handleKeyDown(e) {
+    // Critical: don't send while IME is composing (Chinese/Japanese/Korean input)
     if (e.key === 'Enter' && !e.shiftKey) {
+      if (isComposingRef.current || e.nativeEvent?.isComposing || e.keyCode === 229) return
       e.preventDefault()
       handleSendMessage()
+      return
+    }
+    if (e.key === 'Escape') {
+      if (input) {
+        e.preventDefault()
+        setInput('')
+      } else {
+        textareaRef.current?.blur()
+      }
+      return
+    }
+    // Up arrow on empty input: edit last user message
+    if (e.key === 'ArrowUp' && !input && !loading) {
+      const lastUser = [...chatLog].reverse().find(m => m.role === 'user' && m.status !== 'failed')
+      if (lastUser) {
+        e.preventDefault()
+        setInput(lastUser.content)
+        requestAnimationFrame(() => {
+          const el = textareaRef.current
+          if (el) {
+            el.focus()
+            const len = el.value.length
+            el.setSelectionRange(len, len)
+          }
+        })
+      }
     }
   }
 
@@ -482,7 +590,8 @@ export default function Chat() {
             </button>
           </div>
 
-          <div className="minimal-chat-list scrollbar-hide" aria-live="polite">
+          <div className="minimal-chat-window-body">
+          <div ref={chatListRef} className="minimal-chat-list scrollbar-hide" aria-live="polite">
             {chatLog.length === 0 && !loading ? (
               <div className="minimal-chat-empty">
                 <div className="minimal-chat-empty-icon">
@@ -507,22 +616,49 @@ export default function Chat() {
             ) : (
               <div className="minimal-chat-thread">
                 <AnimatePresence initial={false}>
-                  {chatLog.map(message => (
-                    <ChatMessage
-                      key={message.id}
-                      message={message}
-                      chatContent={chatContent}
-                      copiedId={copiedId}
-                      loading={loading}
-                      onCopy={handleCopy}
-                      onRetry={handleRetry}
-                    />
-                  ))}
+                  {chatLog.map((message, i) => {
+                    const isLastAssistant = message.role === 'assistant'
+                      && message.status === 'done'
+                      && !chatLog.slice(i + 1).some(m => m.role === 'assistant')
+                    return (
+                      <ChatMessage
+                        key={message.id}
+                        message={message}
+                        chatContent={chatContent}
+                        copiedId={copiedId}
+                        loading={loading}
+                        onCopy={handleCopy}
+                        onRetry={handleRetry}
+                        onRegenerate={handleRegenerate}
+                        isLastAssistant={isLastAssistant}
+                      />
+                    )
+                  })}
                 </AnimatePresence>
 
                 <div ref={chatEndRef} />
               </div>
             )}
+          </div>
+
+          <AnimatePresence>
+            {!isAtBottom && chatLog.length > 0 && (
+              <motion.button
+                key="jump"
+                type="button"
+                onClick={() => scrollToBottom('smooth')}
+                aria-label={chatContent.jumpToBottomLabel}
+                title={chatContent.jumpToBottomLabel}
+                className="minimal-chat-jump-button"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 8 }}
+                transition={{ duration: 0.18, ease: 'easeOut' }}
+              >
+                <ArrowDown className="h-4 w-4" />
+              </motion.button>
+            )}
+          </AnimatePresence>
           </div>
 
           <ChatComposer
@@ -532,6 +668,8 @@ export default function Chat() {
             textareaRef={textareaRef}
             onInputChange={e => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
+            onCompositionStart={() => { isComposingRef.current = true }}
+            onCompositionEnd={() => { isComposingRef.current = false }}
             onSend={() => handleSendMessage()}
             onStop={handleStop}
           />

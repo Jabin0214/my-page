@@ -239,6 +239,10 @@ const portfolioContent = {
       copiedLabel: 'Copied',
       stopLabel: 'Stop generating',
       retryLabel: 'Retry',
+      regenerateLabel: 'Regenerate',
+      jumpToBottomLabel: 'Jump to latest',
+      charsLeftLabel: 'characters left',
+      editHintLabel: 'Press ↑ to edit your last message',
       suggestedQuestions: [
         'Tell me about yourself.',
         'What are the strongest projects you would highlight in an interview?',
@@ -488,6 +492,10 @@ const portfolioContent = {
       copiedLabel: '已复制',
       stopLabel: '停止生成',
       retryLabel: '重试',
+      regenerateLabel: '重新生成',
+      jumpToBottomLabel: '回到最新',
+      charsLeftLabel: '字剩余',
+      editHintLabel: '按 ↑ 可编辑上一条消息',
       suggestedQuestions: [
         '可以先介绍一下你自己吗？',
         '如果是在面试里，你会重点讲哪几个项目？',
