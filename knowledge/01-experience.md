@@ -2,7 +2,7 @@
 
 ## ST International Ltd
 
-- Role: Property Manager & Administrator
+- Role: Reporting Analyst / Property Operations
 - Period: Jan 2025 - Present
 - Context:
   - Full-time role in a very small business
@@ -12,7 +12,7 @@
   - Handled inspection scheduling, tenancy administration, lease documentation, and tenant communication
   - Coordinated maintenance and contractors
   - Used Microsoft 365 and Google Workspace for reporting and documentation
-  - Built Schedora independently to reduce manual scheduling work
+  - Built Schedora independently to reduce manual inspection scheduling, reporting, and communication work
 - Interview angle:
   - Shows ownership, process improvement, operational discipline, and the ability to turn real workflow pain into software
 
@@ -26,11 +26,10 @@
   - Led planning, coordination, code review, and delivery for a 4-person team
   - Built major frontend features across SwiftUI iOS and React web dashboard
   - Implemented camera capture, product comparison, cart and order flow, and admin analytics
-  - Designed an AI image-search workflow:
-    - Photo of medication packaging
-    - OpenAI used to identify the medicine name
-    - MySQL product lookup
-    - Redis caching
+  - Co-led the AI model selection for medication recognition:
+    - Compared OCR, custom CNN training, and zero-shot image-text matching
+    - Selected OpenAI CLIP because it could generalize across a 9,000+ medicine catalog without manually labelling every SKU
+    - Connected the recognition flow to the MySQL product catalog with Redis caching for repeat queries
   - Improved pharmacist workflow efficiency by 40 percent in UAT
   - Built Care Mode accessibility support for older adults and users with visual impairments
   - Worked with RabbitMQ, SSE real-time notifications, email alerts, Docker, AWS, Nginx, and GitHub Actions CI/CD

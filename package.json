@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "eslint .",
     "test": "node --test",
-    "check": "npm run lint && npm run test && npm run build"
+    "check": "npm run lint && npm run test && npm run build",
+    "sync:vector-store": "node scripts/sync-openai-vector-store.mjs"
   },
   "dependencies": {
     "@upstash/ratelimit": "^2.0.8",

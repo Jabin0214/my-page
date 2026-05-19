@@ -45,10 +45,20 @@
 ## AI and Integrations
 
 - OpenAI API
+- OpenAI CLIP
+- Anthropic Claude tool use
+- Prompt caching
+- Cost telemetry
+- Agent tool loops
+- xAI Grok API
 - DeepSeek API
 - Google Workspace API
+- IBKR Flex Query REST
+- ib_insync / IB Gateway
+- python-telegram-bot
 - NewsAPI
 - Spotify API
+- RabbitMQ
 
 ## Tooling
 

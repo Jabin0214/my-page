@@ -18,7 +18,7 @@ I have practical deployment experience with AWS and Azure, especially through Do
 
 ## What is your AI experience?
 
-My AI experience is applied rather than purely research-focused. In Medimate, I helped design and implement an AI image-search workflow that identified medication from packaging photos and improved pharmacist workflow efficiency by 40 percent in UAT. In MusicChat, I integrated OpenAI for AI-driven recommendations and conversation. I have also built AI-related personal systems around summarization, podcast generation, and retrieval-based assistants.
+My AI experience is applied rather than purely research-focused. FinanceBro is probably the clearest example: I built a Telegram-based AI assistant with Claude tool use, 9 custom tools, IBKR integrations, Grok real-time search, prompt caching, and cost telemetry. Medimate is another one, where I helped choose OpenAI CLIP for medication recognition across a 9,000+ medicine catalog. I like AI most when it is tied to a real workflow, not just a shiny API demo.
 
 ## Tell me about a time you led something
 
@@ -30,7 +30,7 @@ Medimate is a strong example because the work was tied to pharmacy operations ra
 
 ## Tell me about something you built from scratch
 
-Schedora is the best example. I built it after seeing how much time and friction existed in manual property inspection scheduling and communication. I designed the backend in ASP.NET Core, built the frontend in React, integrated Google Calendar and Sheets, and structured the platform around practical operational workflows. That project reflects how I like to work: start from a real pain point, then design the software around solving it cleanly.
+Schedora is the best example. I built it after seeing how much time and friction existed in manual property inspection scheduling and communication. I designed the backend in ASP.NET Core, built the frontend in React, integrated Google Calendar and Sheets, added AI report polishing with DeepSeek, and deployed it to Azure App Service. That project reflects how I like to work: start from a real pain point, then design the software around solving it cleanly.
 
 ## How do you approach unfamiliar problems?
 

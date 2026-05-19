@@ -88,9 +88,9 @@ export async function POST(request) {
     return jsonResponse({ error: validation.error }, { status: validation.status })
   }
 
-  let openAiApiKey, chatModel
+  let openAiApiKey, chatModel, vectorStoreIds, fileSearchMaxResults
   try {
-    ({ openAiApiKey, chatModel } = getChatEnv())
+    ({ openAiApiKey, chatModel, vectorStoreIds, fileSearchMaxResults } = getChatEnv())
   } catch (error) {
     console.error('[chat-route] env error:', error.message)
     return jsonResponse({ error: 'Chat service is not configured.' }, { status: 500 })
@@ -101,6 +101,8 @@ export async function POST(request) {
     message: validation.data.message,
     history: validation.data.history,
     chatModel,
+    vectorStoreIds,
+    fileSearchMaxResults,
     stream: true,
   })
 

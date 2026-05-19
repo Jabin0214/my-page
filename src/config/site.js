@@ -18,7 +18,7 @@ function normalizeSiteUrl(siteUrl) {
 
 export const SITE_CONFIG = {
   owner: 'Jabin Chen',
-  alternateNames: ['JabinChen', 'Jabin Chen Developer', 'Jabin Chen Portfolio'],
+  alternateNames: ['JabinChen', '陈茁彬', 'Jabin Chen Developer', 'Jabin Chen Portfolio'],
   siteUrl: normalizeSiteUrl(process.env.NEXT_PUBLIC_SITE_URL),
   jobTitle: 'Full Stack Developer',
   location: 'Auckland, New Zealand',

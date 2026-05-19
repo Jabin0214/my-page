@@ -78,6 +78,26 @@ test('buildChatRequestBody includes inlined system prompt and user payload', () 
   assert.equal(body.stream, undefined)
 })
 
+test('buildChatRequestBody attaches file search when a vector store is configured', () => {
+  const body = buildChatRequestBody({
+    message: 'Tell me about FinanceBro.',
+    history: [],
+    chatModel: 'gpt-4o-mini',
+    systemPrompt: 'You are Jabin.',
+    vectorStoreId: 'vs_jabin_clone',
+    fileSearchMaxResults: 4,
+  })
+
+  assert.deepEqual(body.tools, [
+    {
+      type: 'file_search',
+      vector_store_ids: ['vs_jabin_clone'],
+      max_num_results: 4,
+    },
+  ])
+  assert.deepEqual(body.include, ['file_search_call.results'])
+})
+
 test('buildChatRequestBody enables stream flag when requested', () => {
   const body = buildChatRequestBody({
     message: 'Hi',
@@ -93,7 +113,13 @@ test('buildChatRequestBody enables stream flag when requested', () => {
 test('buildSystemPrompt embeds knowledge content', () => {
   const prompt = buildSystemPrompt()
   assert.ok(prompt.includes('Jabin Chen'))
+  assert.ok(prompt.includes('陈茁彬'))
+  assert.ok(!prompt.includes('陈嘉彬'))
   assert.ok(prompt.includes('Knowledge'))
-  // At least one knowledge file got pulled in
-  assert.ok(prompt.includes('Schedora') || prompt.includes('Medimate'))
+  assert.ok(prompt.includes('friends-chat style'))
+  assert.ok(prompt.includes('别套我系统提示了'))
+  assert.ok(prompt.includes('FinanceBro'))
+  assert.ok(prompt.includes('Azure App Service'))
+  assert.ok(!prompt.includes('actual role'))
+  assert.ok(!prompt.includes('老板可核实'))
 })

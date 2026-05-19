@@ -137,8 +137,8 @@ const portfolioContent = {
           id: 2,
           title: 'Schedora — Property Workflow And Scheduling Platform',
           description:
-            'Built independently in response to operational pain inside my current role, Schedora replaces messy manual inspection scheduling and reporting workflows with a cleaner internal system. Containerised and infrastructure-ready, but not yet deployed live.',
-          tags: ['.NET 9', 'ASP.NET Core', 'React 19', 'Ant Design', 'PostgreSQL', 'Docker'],
+            'Built independently in response to operational pain inside my current role, Schedora replaces messy manual inspection scheduling and reporting workflows with a cleaner internal system. It is deployed on Azure App Service and includes Google Workspace integrations plus AI report polishing.',
+          tags: ['.NET 9', 'ASP.NET Core', 'React 19', 'PostgreSQL', 'Azure App Service', 'DeepSeek API'],
           cover: 'covers/schedora.png',
           github: 'https://github.com/Jabin0214/Schedora',
         },
@@ -193,6 +193,30 @@ const portfolioContent = {
       bestUseLabel: 'best use',
       bestUseText:
         'Treat it like a recruiter screen, a curious hiring manager, or someone poking around trying to understand how I think.',
+      techExplainerLabel: 'under the hood',
+      techExplainerTitle: 'How this clone actually works',
+      techExplainerIntro:
+        'Think of it as a small RAG system wrapped in my speaking style: the model does the talking, but it has to look up my public notes before making claims.',
+      techExplainerSteps: [
+        {
+          title: 'Knowledge files',
+          text: 'The source of truth is a set of edited Markdown notes about my projects, experience, skills, personality, and boundaries.',
+        },
+        {
+          title: 'Vector store',
+          text: 'Those notes are uploaded to OpenAI, automatically split into searchable chunks, embedded, and indexed for semantic search.',
+        },
+        {
+          title: 'File search',
+          text: 'When you ask something, the chat retrieves only the most relevant chunks instead of stuffing every file into the prompt.',
+        },
+        {
+          title: 'Clone layer',
+          text: 'A persona prompt controls tone, privacy boundaries, and how to answer when something is not documented.',
+        },
+      ],
+      techExplainerSummary:
+        'In plain English: it searches my curated notes first, then answers like a short, grounded version of me.',
       chipFirstPerson: 'first-person replies',
       chipGrounded: 'evidence-backed answers',
       clearChatLabel: 'clear chat',
@@ -362,8 +386,8 @@ const portfolioContent = {
           id: 2,
           title: 'Schedora — Property Workflow And Scheduling Platform',
           description:
-            '从当前工作里的真实痛点出发独立开发的内部流程工具，用来替代低效的人工预约、排程和报告工作。已经完成本地与容器化层面的交付，但还没有对外上线。',
-          tags: ['.NET 9', 'ASP.NET Core', 'React 19', 'Ant Design', 'PostgreSQL', 'Docker'],
+            '从当前工作里的真实痛点出发独立开发的内部流程工具，用来替代低效的人工预约、排程和报告工作。已部署到 Azure App Service，并集成 Google Workspace 与 AI 检查报告润色。',
+          tags: ['.NET 9', 'ASP.NET Core', 'React 19', 'PostgreSQL', 'Azure App Service', 'DeepSeek API'],
           cover: 'covers/schedora.png',
           github: 'https://github.com/Jabin0214/Schedora',
         },
@@ -418,6 +442,30 @@ const portfolioContent = {
       bestUseLabel: '最佳打开方式',
       bestUseText:
         '把它当成 recruiter 初筛、好奇的 hiring manager，或者一个想了解我怎么思考的人来用，会最自然。',
+      techExplainerLabel: '背后原理',
+      techExplainerTitle: '这个复制人背后怎么工作的',
+      techExplainerIntro:
+        '可以把它理解成一个小型 RAG 系统，再套上一层我的表达风格：模型负责说话，但事实要先从我整理过的公开资料里找。',
+      techExplainerSteps: [
+        {
+          title: '知识文件',
+          text: '最原始的数据是一组整理过的 Markdown：项目、经历、技能、性格、AI 观点和隐私边界都在里面。',
+        },
+        {
+          title: '向量库',
+          text: '这些文件会上传到 OpenAI，自动切成小块，做 embedding，然后变成可以按语义搜索的索引。',
+        },
+        {
+          title: '文件检索',
+          text: '你提问时，它只调出最相关的几个片段，而不是每次把整套知识库都塞进 prompt。',
+        },
+        {
+          title: '复制人层',
+          text: '最后由 persona prompt 控制语气、边界，以及遇到没记录的问题时该怎么坦白。',
+        },
+      ],
+      techExplainerSummary:
+        '说白了：先查我整理过的资料，再用一个更像我的短回答讲出来。',
       chipFirstPerson: '第一人称回答',
       chipGrounded: '基于真实经历',
       clearChatLabel: '清空对话',

@@ -36,8 +36,12 @@ test('portfolio content exposes localized chat prompts and contact headings', ()
   assert.ok(chinese.chat.suggestedQuestions.length > 0)
   assert.equal(english.chat.copyLabel, 'Copy message')
   assert.equal(english.chat.copiedLabel, 'Copied')
+  assert.equal(english.chat.techExplainerTitle, 'How this clone actually works')
+  assert.ok(english.chat.techExplainerSteps.some((step) => /Vector store/.test(step.title)))
   assert.equal(chinese.chat.copyLabel, '复制消息')
   assert.equal(chinese.chat.copiedLabel, '已复制')
+  assert.equal(chinese.chat.techExplainerTitle, '这个复制人背后怎么工作的')
+  assert.ok(chinese.chat.techExplainerSteps.some((step) => /向量库/.test(step.title)))
   assert.equal(
     english.home.hero.title,
     'When code is no longer scarce, what is left for developers?'
@@ -68,8 +72,11 @@ test('site config exposes the updated public identity links', () => {
 test('chat system prompt embeds persona rules and knowledge ground truth', () => {
   const prompt = buildSystemPrompt()
   assert.match(prompt, /Jabin Chen/)
+  assert.match(prompt, /陈茁彬/)
   assert.match(prompt, /Knowledge/)
-  assert.match(prompt, /Schedora|Medimate/)
+  assert.match(prompt, /friends-chat style/)
+  assert.match(prompt, /FinanceBro/)
+  assert.doesNotMatch(prompt, /陈嘉彬/)
 })
 
 test('language route helpers localize and strip prefixed paths', () => {

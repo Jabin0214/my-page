@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, Bot, Check, Copy, RotateCcw, RefreshCw, Send, Sparkles, Square } from 'lucide-react'
+import { ArrowLeft, Bot, BrainCircuit, Check, Copy, Database, FileText, RotateCcw, RefreshCw, Search, Send, Sparkles, Square } from 'lucide-react'
 import { streamChatMessage } from '../../../src/lib/chat-api'
 import { tokenizeChatInlineText } from '../../../src/lib/chat-rendering'
 import { useLanguage } from '../../../src/hooks/useLanguage'
@@ -265,6 +265,39 @@ function StarterPrompt({ question, index, chatContent, onSelect }) {
   )
 }
 
+const TECH_STEP_ICONS = [FileText, Database, Search, BrainCircuit]
+
+function TechExplainer({ chatContent }) {
+  const steps = chatContent.techExplainerSteps || []
+
+  return (
+    <section className="minimal-chat-card minimal-chat-tech-card p-5 md:p-6">
+      <span className="minimal-chat-eyebrow">{chatContent.techExplainerLabel}</span>
+      <h2 className="mt-4 text-xl font-semibold">{chatContent.techExplainerTitle}</h2>
+      <p className="mt-3 text-sm leading-7 text-[var(--muted)]">{chatContent.techExplainerIntro}</p>
+
+      <div className="minimal-chat-tech-flow">
+        {steps.map((step, index) => {
+          const Icon = TECH_STEP_ICONS[index] || FileText
+          return (
+            <div className="minimal-chat-tech-step" key={step.title}>
+              <div className="minimal-chat-tech-icon" aria-hidden="true">
+                <Icon className="h-3.5 w-3.5" />
+              </div>
+              <div>
+                <p className="minimal-chat-tech-title">{step.title}</p>
+                <p className="minimal-chat-tech-text">{step.text}</p>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+
+      <p className="minimal-chat-tech-summary">{chatContent.techExplainerSummary}</p>
+    </section>
+  )
+}
+
 // ── Main component ────────────────────────────────────────────────────────────
 
 export default function Chat() {
@@ -517,6 +550,8 @@ export default function Chat() {
               <span className="minimal-chat-pill">{chatContent.chipGrounded}</span>
             </div>
           </section>
+
+          <TechExplainer chatContent={chatContent} />
 
           <section className="minimal-chat-card minimal-chat-starters-card p-5 md:p-6">
             <div className="flex items-start justify-between gap-4">

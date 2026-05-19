@@ -4,7 +4,7 @@ A production-oriented portfolio built with Next.js App Router, designed to feel 
 
 ## Why this project is strong
 
-- It is more than a static portfolio. The site includes a grounded AI chat experience powered by OpenAI `file_search` and a hosted vector store.
+- It is more than a static portfolio. The site includes a grounded AI clone chat experience powered by OpenAI Responses API, optional `file_search`, and a hosted vector store.
 - The content system is standardized around a single bilingual source of truth, which reduces drift and makes future updates safer.
 - SEO is treated as a first-class concern: localized metadata, canonical URLs, alternate language URLs, Open Graph, Twitter cards, `robots.txt`, and `sitemap.xml` are all configured.
 - The chat path is hardened with request validation, request-size limits, best-effort rate limiting, timeout control, and abortable client requests.
@@ -18,7 +18,7 @@ A production-oriented portfolio built with Next.js App Router, designed to feel 
 
 - Home, Projects, Contact, and AI Chat pages built on the App Router
 - Route-level bilingual URLs for English and Chinese with cookie-backed preference redirects
-- OpenAI Responses API integration with vector-store-backed retrieval
+- OpenAI Responses API integration with vector-store-backed retrieval when `OPENAI_VECTOR_STORE_ID` is configured
 - Static SEO routes for `robots.txt`, `sitemap.xml`, and `manifest.webmanifest`
 - Resume download, project showcase cards, and portfolio-specific structured data
 
@@ -48,7 +48,7 @@ src/components/          Shared UI and page components
 src/content/             Bilingual portfolio content
 src/config/              Site-level configuration
 src/lib/                 Chat validation, metadata, and language helpers
-knowledge/               Files uploaded to the OpenAI vector store
+knowledge/               Public AI clone knowledge cards
 scripts/                 Local tooling such as vector store uploads
 test/                    Node-based regression tests
 ```
@@ -83,6 +83,12 @@ NEXT_PUBLIC_SITE_URL=https://your-domain.com
 OPENAI_API_KEY=...
 OPENAI_CHAT_MODEL=gpt-4o-mini
 
+# Optional — hosted RAG through OpenAI file_search.
+# Run `npm run sync:vector-store` after setting OPENAI_API_KEY, then copy the
+# printed vector store id here.
+OPENAI_VECTOR_STORE_ID=vs_...
+OPENAI_FILE_SEARCH_MAX_RESULTS=5
+
 # Optional — distributed rate limit on Vercel / multi-instance deployments.
 # Without these, the chat route uses an in-memory bucket that does not
 # survive across serverless instances.
@@ -92,7 +98,15 @@ UPSTASH_REDIS_REST_TOKEN=...
 
 ## AI knowledge base workflow
 
-The chat assistant inlines the Markdown files in `knowledge/` directly into the system prompt at request time. To update what the assistant knows, edit those files and redeploy — no upload step required. The corpus is small enough that OpenAI's automatic prompt caching keeps repeated requests cheap.
+The public clone knowledge lives in `knowledge/*.md`. These files are intentionally sanitized for public answers: no phone number, birthday, internal CV strategy, private application paths, or interview-only caveats.
+
+For local development, the chat can still inline these Markdown files into the system prompt. For production RAG, upload them to an OpenAI vector store:
+
+```bash
+OPENAI_API_KEY=... npm run sync:vector-store
+```
+
+Then set the printed `OPENAI_VECTOR_STORE_ID` in Vercel. When that variable is present, the chat request attaches the Responses API `file_search` tool with the configured vector store. If it is missing, the app falls back to the local inlined knowledge path so development keeps working.
 
 ## Rate limiting
 
